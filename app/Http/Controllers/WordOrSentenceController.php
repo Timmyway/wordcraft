@@ -102,14 +102,13 @@ class WordOrSentenceController extends Controller
         $wordOrSentence->update([
             'word_or_sentence' => $wordOrSentenceInput,
             'about' => $about,
-            'synonyms' => $synonyms,
-            'antonyms' => $antonyms,
             'image_path' => $imagePath,
             'image_url' => $imageUrl,
         ]);
 
         // Return response
-        return response()->json($wordOrSentence, 200);
+        return redirect()->route('word.list')
+            ->with('success', 'The new word was added.');
     }
 
     public function destroy(WordOrSentence $wordOrSentence)

@@ -27,6 +27,11 @@ const { toHtml } = useMarkdownParser();
         >
             <tw-collapse :title="`${word.id} - ${word.word_or_sentence}`" :is-open="false">
                 <template #preheader>
+                    <Link
+                        class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
+                        :href="route('word.detail', { word: word.id, mode: 'edit' })">
+                            <i class="fas fa-edit"></i>
+                    </Link>
                     <button
                         @click.prevent="audioStore.readText(word.word_or_sentence)"
                         class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
@@ -45,14 +50,6 @@ const { toHtml } = useMarkdownParser();
                 <template #content>
                     <div class="flex flex-col px-2 py-1 gap-4 items-center justify-center">
                         <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
-                    </div>
-                    <div class="flex flex-col px-2 py-1 justify-center items-center gap-4">
-                        <Link
-                            class="btn btn-xs text-base bg-yellow-400"
-                            :href="route('word.detail', { word: word.id, mode: 'edit' })">
-                            <i class="fas fa-light-bulb"></i>
-                            <span>Edit</span>
-                        </Link>
                     </div>
                 </template>
             </tw-collapse>
