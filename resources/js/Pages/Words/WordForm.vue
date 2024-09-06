@@ -3,7 +3,7 @@ import Layout from '@/Layouts/Layout.vue';
 import { useForm } from '@inertiajs/vue3';
 import TwTextInput from '@/Components/form/TwTextInput.vue';
 import { useNotifStore } from '@/store/notificationStore';
-import { WordOrSentence } from '@/types/words';
+import { WordOrSentence } from '@/types/words/word.types';
 
 interface Props {
     mode?: 'edit',
@@ -16,7 +16,7 @@ const notifStore = useNotifStore();
 
 // Initialize form data
 const form = useForm({
-    id: props?.mode === 'edit' ? props.prompt?.id : null,
+    id: props?.mode === 'edit' ? props.word?.id : null,
     word_or_sentence: props.word?.word_or_sentence || '',
 });
 
@@ -24,7 +24,7 @@ const form = useForm({
 const handleSubmit = () => {
     if (props?.mode === 'edit') {
         // Edit mode: Send a PUT or PATCH request to update the existing prompt
-        form.put(route('word.update', props.prompt?.id), {
+        form.put(route('word.update', props.word?.id), {
             onSuccess: () => {
                 console.log('Word or sentence updated successfully!');
             }
