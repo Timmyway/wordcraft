@@ -2,13 +2,11 @@
 import Layout from '@/Layouts/Layout.vue';
 import { InertiaPageProps } from '@/types/inertia';
 import { usePage } from '@inertiajs/vue3';
-import { computed, onMounted, watch } from 'vue';
-import TwNotification from '@/Components/ui/TwNotification.vue';
+import { onMounted } from 'vue';
 import { useNotifStore } from '@/store/notificationStore';
-import { WordOrSentence } from '@/types/words/word';
-import { PaginatedWords } from '@/types/pagination';
+import { PaginatedWords } from '@/types/pagination.types';
 import TwPagination from '@/Components/ui/TwPagination.vue'
-import useMarkdownParser from '@/composable/useMarkdownParser';
+import TwWordGallery from '@/Components/library/TwWordGallery.vue';
 
 const props = defineProps<{
     words: PaginatedWords
@@ -26,11 +24,9 @@ onMounted(() => {
         ])
     }
 });
-
-const { toHtml } = useMarkdownParser();
 </script>
 <template>
-<Layout>
+<Layout no-style>
     <section class="p-4">
         <div class="mb-4 flex gap-4 items-center lg:mb-6">
             <div class="flex items-center gap-4">
@@ -50,32 +46,8 @@ const { toHtml } = useMarkdownParser();
                 </Link>
             </div>
         </div>
-        <div class="min-w-xs mx-auto overflow-y-auto px-4 py-8 lg:max-w-[80%]">
-            <div
-                class="flex flex-wrap py-2 my-2 border-b border-b-slate-200"
-            >
-                <div
-                    v-for="(word, i) in words.data" :key="`poster-${words.id}` ?? `poster-${i}`"
-                    class="tw-markdown-content max-w-xs max-h-96 bg-orange-200 rounded-sm scrollbar-thin shadow-lg"
-                >
-                    <div class="sticky top-0 bg-white flex gap-4 items-center justify-center">
-                        <p class="font-black">{{ word.id }} - {{ word.word_or_sentence }}</p>
-                    </div>
-                    <div class="flex flex-col px-2 py-1 gap-4 items-center justify-center">
-                        <p class="px-2 text-sm" v-html="toHtml(word.about)"></p>
-                        <p class="px-2 text-sm">{{ word.synonyms }}</p>
-                        <p class="px-2 text-sm">{{ word.antonyms }}</p>
-                    </div>
-                    <div class="flex flex-col px-2 py-1 justify-center items-center gap-4">
-                        <Link
-                            class="btn btn-xs text-base bg-yellow-400"
-                            :href="route('word.detail', { word: word.id, mode: 'edit' })">
-                            <i class="fas fa-light-bulb"></i>
-                            <span>Edit</span>
-                        </Link>
-                    </div>
-                </div>
-            </div>
+        <div class="min-w-xs mx-auto px-4 py-8 lg:max-w-[80%]">
+            <tw-word-gallery :words="words"></tw-word-gallery>
 
             <tw-pagination class="justify-center" :links="words.links"></tw-pagination>
         </div>

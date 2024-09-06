@@ -35,19 +35,30 @@ export function useTextToSpeech(lang = 'en') {
         return foundVoices.length > 0 ? foundVoices[0] : voices.value[0] || null;
     });
 
+    const cleanMarkdownText = (text: string): string => {
+        return text
+            .replace(/[*_~`>#+=\-|]/g, '') // Removes most Markdown symbols
+            .replace(/\[.*?\]\(.*?\)/g, '') // Removes Markdown links
+            .replace(/!\[.*?\]\(.*?\)/g, '') // Removes Markdown images
+            .replace(/<\/?[^>]+(>|$)/g, ''); // Removes any HTML tags
+    };
+
     const speak = () => {
-        if (!speechSynthesis || !selectedVoice.value || !textToSpeak.value) return;
-        isReading.value = true;
+        if (!speechSynthesis || !selectedVoice.value || !textToSpeak.value) {
+            console.log('-- 665 -> Abord prematuraly...');
+            return;
+        };
+        speechSynthesis.value.cancel();
+        const cleanedText = cleanMarkdownText(textToSpeak.value);
+
         console.log(`-- 667 -> Going to speak in "${voiceLanguage.value }"`);
         console.log(`-- 668 -> Read text: "${ textToSpeak.value?.slice(0, 51) }"`);
 
-        const utterance = new SpeechSynthesisUtterance(textToSpeak.value);
+        const utterance = new SpeechSynthesisUtterance(cleanedText);
         utterance.voice = selectedVoice.value;
         utterance.pitch = speechOptions.value.pitch;
         utterance.rate = speechOptions.value.rate;
         utterance.volume = speechOptions.value.volume;
-
-        isReading.value = true;
 
         // Handle the end of the speech
         utterance.onend = () => {
@@ -59,9 +70,14 @@ export function useTextToSpeech(lang = 'en') {
             isReading.value = false;
         };
 
-        speechSynthesis.value.speak(utterance);
-        console.log('-------------> After speaking...')
-        isReading.value = false;
+        try {
+            isReading.value = true;
+            speechSynthesis.value.speak(utterance);
+        } catch (err) {
+            isReading.value = false;
+        } finally {
+            isReading.value = false;
+        }
     };
 
     onMounted(() => {
