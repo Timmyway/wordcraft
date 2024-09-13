@@ -6,14 +6,14 @@ import Layout from '../Layouts/Layout.vue';
 <template>
 <Layout>
     <section>
-        <div class="bg-orange-300 bg-no-repeat bg-cover relative bg-blend-multiply"
+        <div class="bg-orange-300 bg-no-repeat bg-contain bg-right relative bg-blend-multiply"
             style="background-image: url('images/pages/login/background.WebP');"
         >
                 <tw-author-credit>
                     <!-- Image by natanaelginting on Freepik -->
                 </tw-author-credit>
             <div class="min-h-dvh">
-                <div class="max-w-4xl rounded-b-lg mx-auto px-12 py-6 text-center bg-white/80">
+                <div class="max-w-2xl rounded-b-lg mx-auto px-12 py-6 text-center bg-white/80">
                     <h1 class="text-3xl font-black uppercase lg:text-6xl">WORDCRAFT: Master Your Words</h1>
                     <p class="py-6 text-lg max-w-xl mx-auto text-gray-800 xl:text-xl leading-8">
                         Welcome to WordCraft, the ultimate destination for mastering the art of words.
