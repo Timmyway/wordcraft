@@ -6,9 +6,4 @@ var Api = axios.create({
     headers: { Accept: 'application/json' }
 });
 
-var InfinideaApi = axios.create({
-    baseURL: baseApiUrl,
-    headers: { Accept: 'application/json' }
-});
-
-export { Api, InfinideaApi };
+export { Api };

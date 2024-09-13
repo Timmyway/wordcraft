@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 import TwTextInput from '@/Components/form/TwTextInput.vue';
 import { useNotifStore } from '@/store/notificationStore';
 import { WordOrSentence } from '@/types/words/word.types';
+import { ref } from 'vue';
 
 interface Props {
     mode?: 'edit',
@@ -13,6 +14,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const notifStore = useNotifStore();
+const isProcessing = ref<boolean>(false);
 
 // Initialize form data
 const form = useForm({
@@ -22,11 +24,16 @@ const form = useForm({
 
 // Function to handle form submission
 const handleSubmit = () => {
+    isProcessing.value = true;
     if (props?.mode === 'edit') {
         // Edit mode: Send a PUT or PATCH request to update the existing prompt
         form.put(route('word.update', props.word?.id), {
             onSuccess: () => {
                 console.log('Word or sentence updated successfully!');
+                isProcessing.value = false;
+            },
+            onError: () => {
+                isProcessing.value = false;
             }
         });
     } else {
@@ -34,6 +41,10 @@ const handleSubmit = () => {
         form.post(route('word.store'), {
             onSuccess: () => {
                 console.log('Word or sentence added successfully!');
+                isProcessing.value = false;
+            },
+            onError: () => {
+                isProcessing.value = false;
             }
         });
     }
@@ -69,7 +80,12 @@ const handleSubmit = () => {
                 </div>
 
                 <div class="flex my-4 gap-4">
-                <button type="submit" class="btn bg-primary text-light flex items-center gap-4" tabindex="6">
+                <button
+                    type="submit"
+                    class="btn bg-primary text-light flex items-center gap-4"
+                    tabindex="6"
+                    :disabled="isProcessing"
+                >
                     <i class="fa fa-plus"></i>
                     <span>{{ (mode && mode === 'edit') ? 'Update' : 'Add' }} word or sentence</span>
                 </button>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AiHelper;
 use App\Helpers\AiPromptsHelper;
+use App\Models\Tag;
 use App\Models\WordOrSentence;
 use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
@@ -22,12 +23,14 @@ class WordOrSentenceController extends Controller
     {
         $itemsPerPage = 100;
 
-        $words = WordOrSentence::with(['user'])
+        $words = WordOrSentence::with(['user', 'tags'])
             ->orderBy('id', 'desc')
             ->paginate($itemsPerPage);
+        $tags = Tag::all();
 
         return Inertia::render('Words/WordList', [
-            'words' => $words
+            'words' => $words,
+            'tags' => $tags
         ]);
     }
 

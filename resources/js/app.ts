@@ -42,7 +42,11 @@ createInertiaApp({
         app.use(pinia);
         app.use(plugin);
         app.use(ZiggyVue);
-        app.use(PrimeVue);
+        app.use(PrimeVue, {
+            theme: {
+                preset: Aura
+            }
+        });
 
         app.component('Link', Link);
         app.component('Paginator', Paginator);

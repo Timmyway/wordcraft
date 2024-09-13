@@ -54,6 +54,3 @@ onMounted(() => {
     </section>
 </Layout>
 </template>
-
-<style lang="scss">
-</style>

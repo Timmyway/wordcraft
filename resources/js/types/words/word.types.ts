@@ -1,3 +1,5 @@
+import { TagModel } from "../models/tag.types";
+
 interface User {
     id: number;
     name: string;
@@ -13,7 +15,5 @@ export interface WordOrSentence {
     created_at: string; // Assuming you have timestamps in your model
     updated_at: string; // Assuming you have timestamps in your model
     user: User;
+    tags: TagModel[]
 }
-
-
-
