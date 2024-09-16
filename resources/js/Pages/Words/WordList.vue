@@ -58,17 +58,19 @@ onMounted(() => {
                 </Link>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center flex-wrap gap-4 border border-solid border-gray-300 px-4 py-1 rounded">
+                <span class="font-bold">Filter options</span>
                 <!-- Search by Name -->
                 <input
                     type="text"
                     class="border rounded p-2 w-full"
-                    placeholder="Search by name"
+                    placeholder="Filter by name"
                     v-model="filterStore.filters.search"
                 >
                 <tw-multi-select
                     action-text="Filter"
                     :options="tags"
+                    placeholder="Filter by tags"
                     v-model="filterStore.filters.tags"
                 ></tw-multi-select>
 

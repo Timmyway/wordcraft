@@ -14,7 +14,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    placeholder: '',
+    placeholder: 'Click here to select items',
     optionLabel: 'name',
     actionText: 'go',
     bgColor: '#333',
