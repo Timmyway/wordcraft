@@ -1,7 +1,7 @@
 <template>
-<div class="flex items-center gap-2">
+<div class="flex items-center gap-2" :class="{ 'border border-solid border-gray-200 px-2 py-1 rounded': withBorder }">
     <label :class="labelClass">
-        {{ label }} {{ modelValue }}
+        {{ label }}
     </label>
     <input
         v-bind="$attrs"
@@ -22,10 +22,12 @@ interface Props {
     modelValue: any,
     labelClass?: string;
     inputClass?: string;
+    withBorder?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
     label: '',
-    labelClass: 'font-bold text-gray-700'
+    labelClass: 'font-bold text-gray-700',
+    withBorder: true
 });
 
 const isChecked = ref();

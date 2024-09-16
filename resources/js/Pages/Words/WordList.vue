@@ -26,7 +26,7 @@ onMounted(() => {
 });
 </script>
 <template>
-<Layout no-style>
+<Layout>
     <section class="p-4">
         <div class="mb-4 flex gap-4 items-center lg:mb-6">
             <div class="flex items-center gap-4">
@@ -35,18 +35,19 @@ onMounted(() => {
                     :href="route('dashboard')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
-                <h1 class="font-black lg:text-lg">Words</h1>
+                <h1 class="font-black lg:text-lg">Your words</h1>
             </div>
-            <div class="flex items-center gap-4 mb-4">
+            <div class="flex items-center gap-4">
                 <Link
-                    class="btn btn-xs text-base bg-yellow-400"
-                    :href="route('word.add')">
-                    <i class="fas fa-arrow-left"></i>
+                    class="btn btn-xs text-base bg-yellow-400 space-x-2"
+                    :href="route('word.add')"
+                >
+                    <i class="fas fa-plus-circle"></i>
                     <span>Add</span>
                 </Link>
             </div>
         </div>
-        <div class="min-w-xs mx-auto px-4 py-8 lg:max-w-[80%]">
+        <div class="min-w-xs mx-auto px-4 py-8 lg:max-w-[90%]">
             <tw-word-gallery :words="words"></tw-word-gallery>
 
             <tw-pagination class="justify-center" :links="words.links"></tw-pagination>

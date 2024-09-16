@@ -28,14 +28,14 @@ const setTooltip = (str: string): string => {
 </script>
 
 <template>
-<div v-bind="$attrs">
+<div v-bind="$attrs" v-if="counter && items?.length > 0">
     <div
-        v-if="counter && items?.length > 0"
-        class="pb-1 text-sm flex items-center gap-2"
+        class="text-xs flex items-center gap-2 mb-2"
     >
         <span>{{ items?.length }} items</span>
         <slot name="head"></slot>
     </div>
+    <div class="h-[1px] bg-gray-200 rounded-full my-2"></div>
     <div class="flex flex-wrap gap-2 box-border overflow-y-auto overflow-x-none" :style="{ maxHeight }">
         <div
             v-for="item in items"

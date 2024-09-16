@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
 const isExpanded = ref(props.isOpen);
 
 const toggleCollapse = () => {
+    console.log('========> Toogle collapse')
     isExpanded.value = !isExpanded.value;
 };
 </script>
@@ -22,7 +23,7 @@ const toggleCollapse = () => {
         <div class="tw-collapse__preheader">
             <slot name="preheader"></slot>
         </div>
-        <div class="tw-collapse__header" @click="toggleCollapse">
+        <div class="tw-collapse__header" @click.prevent="toggleCollapse">
             <h3>{{ title }}</h3>
             <button class="tw-collapse__toggle-btn">
                 <i :class="isExpanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>

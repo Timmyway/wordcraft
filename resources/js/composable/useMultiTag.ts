@@ -2,7 +2,6 @@ import tagApi from "@/api/tagApi";
 import { ref } from "vue";
 import { TagModel } from '@/types/models/tag.types';
 import { useDebounceFn } from "@vueuse/core";
-import { delay } from "lodash";
 
 interface TagState {
     isVisible: boolean,
@@ -105,12 +104,12 @@ export default function useMultiTag() {
         }
     };
 
-    const clearTags = (wordId: number) => {
-        const tag = tags.value[getTagName(wordId)];
-        if (tag) {
-            tag.selectedTags = [];  // Reset selected tags to an empty array
-        }
-    };
+    // const clearTags = (wordId: number) => {
+    //     const tag = tags.value[getTagName(wordId)];
+    //     if (tag) {
+    //         tag.selectedTags = [];  // Reset selected tags to an empty array
+    //     }
+    // };
 
     return { tags, tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName }
 }

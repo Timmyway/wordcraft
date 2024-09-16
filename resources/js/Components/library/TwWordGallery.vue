@@ -7,7 +7,7 @@ import TwMultiTag from '@/Components/words/TwMultiTag.vue';
 import TwCheckbox from '../form/TwCheckbox.vue';
 import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
-import { router } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3';
 
 interface Props {
     words: PaginatedWords;
@@ -28,60 +28,67 @@ const { getTagName } = tagStore;
 const { toHtml } = useMarkdownParser();
 
 const removeTag = (wordId: number, tagsId: number[] = []) => {
-    console.log('===========> TID: ', tagsId)
     const ok = confirm('Confirm that you do want remove the tag from this word.');
     if (ok) {
         tagStore.removeTag(wordId, tagsId);
-        router.get('words', { preserveScroll: false })
+        router.get('words', { preserveScroll: true })
     }
 }
 </script>
 
 <template>
-    <div class="tw-word-gallery bg-gray-200 gap-1 py-2 my-2 border-b border-b-slate-200">
+    <div class="tw-word-gallery gap-1 py-2 my-2 border-b border-b-slate-200">
         <div
-            v-for="(word, i) in words.data" :key="`poster-${word.id}` ?? `poster-${i}`"
+            v-for="(word, i) in words.data"
+            :key="`poster-${word.id}` ?? `poster-${i}`"
             :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
         >
-            <tw-collapse :title="`${word.id} - ${word.word_or_sentence}`" :is-open="false">
+            <tw-collapse :title="word.word_or_sentence" :is-open="false">
                 <template #preheader>
                     <div class="space-y-2 w-full">
                         <div class="flex gap-2 items-center">
-                            <Link
-                                class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
-                                :href="route('word.detail', { word: word.id, mode: 'edit' })">
-                                    <i class="fas fa-edit"></i>
-                            </Link>
-                            <button
-                                @click.prevent="audioStore.readText(word.word_or_sentence)"
-                                class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
-                                :disabled="audioStore.isReading"
-                            >
-                                <i class="fas fa-bullhorn text-xs"></i>
-                            </button>
-                            <button
-                                @click.prevent="audioStore.readText(word.about ?? '')"
-                                class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
-                                :disabled="audioStore.isReading"
-                            >
-                                <i class="fas fa-bullhorn text-pink-700 text-xs"></i>
-                            </button>
+                            <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
+                                <Link
+                                    class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
+                                    :href="route('word.detail', { word: word.id, mode: 'edit' })">
+                                        <i class="fas fa-edit"></i>
+                                </Link>
+                                <button
+                                    @click.prevent="audioStore.readText(word.word_or_sentence)"
+                                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                                    :disabled="audioStore.isReading"
+                                >
+                                    <i class="fas fa-bullhorn text-xs"></i>
+                                </button>
+                                <button
+                                    @click.prevent="audioStore.readText(word.about ?? '')"
+                                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                                    :disabled="audioStore.isReading"
+                                >
+                                    <i class="fas fa-bullhorn text-pink-700 text-xs"></i>
+                                </button>
+                            </div>
                             <template v-if="tagStore.tags[getTagName(word.id)]">
-                                <tw-checkbox label="Tags" v-model="tagStore.tags[getTagName(word.id)].isVisible"></tw-checkbox>
+                                <tw-checkbox
+                                    label="Tags"
+                                    v-model="tagStore.tags[getTagName(word.id)].isVisible"
+                                ></tw-checkbox>
                             </template>
                         </div>
                         <div>
                             <tw-chips
                                 :items="word.tags"
+                                class="border border-solid border-gray-200 px-1 py-1 rounded"
                                 bg-color="#defa44"
                                 counter
                             >
                                 <template #head>
                                     <button
-                                        class="btn shadow-none btn-icon w-4 h-4 p-2"
+                                        class="btn bg-red-300 flex items-center gap-1 shadow-none py-0 px-2 rounded-lg"
                                         @click.prevent="removeTag(word.id)"
                                     >
-                                        <i class="fas fa-times text-red-500"></i>
+                                        <span class="text-xs">clear</span>
+                                        <i class="fas fa-times text-red-500 text-xs"></i>
                                     </button>
                                 </template>
                                 <template #text="{ chipsItem }">
