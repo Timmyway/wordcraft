@@ -58,7 +58,7 @@ const handleSubmit = () => {
             <div class="flex items-center gap-4">
                 <Link
                     class="btn btn-xs text-base bg-orange-300"
-                    :href="route('word.list')">
+                    :href="route('word.index')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
                 <h1 class="font-black lg:text-lg">
@@ -89,7 +89,7 @@ const handleSubmit = () => {
                     <i class="fa fa-plus"></i>
                     <span>{{ (mode && mode === 'edit') ? 'Update' : 'Add' }} word or sentence</span>
                 </button>
-                <Link class="btn btn-link" :href="$route('word.list')">
+                <Link class="btn btn-link" :href="$route('word.index')">
                     <i class="fas fa-arrow-left mr-1"></i>
                     <span>Cancel</span>
                 </Link>

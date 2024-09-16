@@ -4,10 +4,12 @@ import { ref } from 'vue';
 interface Props {
     isOpen?: boolean;
     title: string;
+    titleClass?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     isOpen: false,
+    titleClass: ''
 });
 
 const isExpanded = ref(props.isOpen);
@@ -24,7 +26,7 @@ const toggleCollapse = () => {
             <slot name="preheader"></slot>
         </div>
         <div class="tw-collapse__header" @click.prevent="toggleCollapse">
-            <h3>{{ title }}</h3>
+            <h3 :class="[titleClass]">{{ title }}</h3>
             <button class="tw-collapse__toggle-btn">
                 <i :class="isExpanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
             </button>
@@ -68,7 +70,7 @@ const toggleCollapse = () => {
         cursor: pointer;
         h3 {
             margin: 0;
-            font-size: 1rem;
+            font-size: 1.5rem;
         }
     }
 

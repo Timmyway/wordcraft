@@ -30,16 +30,14 @@ Route::middleware('auth')->group(function () {
     Route::get('storage/private/images/uploads/thumbnails/{filename}', [GalleryController::class, 'thumbnailImage'])->name('private.thumbnail');
 
     Route::prefix('words')->name('word.')->group(function () {
-        Route::get('', [WordOrSentenceController::class, 'list'])->name('list');
+        Route::get('', [WordOrSentenceController::class, 'indexPage'])->name('index');
+        Route::post('/filter', [WordOrSentenceController::class, 'indexPage'])->name('filter');
         Route::get('/add', [WordOrSentenceController::class, 'addPage'])->name('add');
         Route::get('/{word?}/{mode?}', [WordOrSentenceController::class, 'formPage'])->name('detail');
         Route::post('', [WordOrSentenceController::class, 'store'])->name('store');
         Route::put('/{word}', [WordOrSentenceController::class, 'update'])->name('update');
     });
-    Route::prefix('help')->name('help.')->group(function () {
-        Route::get('prompts', [HelpController::class, 'index'])->name('prompts');
-        Route::get('prompts/{doc}', [HelpController::class, 'detail'])->name('prompts.detail');
-    });
+    Route::get('help', [HelpController::class, 'index'])->name('help');
 });
 
 require __DIR__.'/auth.php';

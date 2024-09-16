@@ -19,20 +19,45 @@ class WordOrSentenceController extends Controller
         $this->imageUploadService = $imageUploadService;
     }
 
-    public function list()
+    public function indexPage(Request $request)
     {
         $itemsPerPage = 100;
 
-        $words = WordOrSentence::with(['user', 'tags'])
-            ->orderBy('id', 'desc')
-            ->paginate($itemsPerPage);
-        $tags = Tag::all();
+        // Get filter parameters from the request
+        $search = $request->post('search'); // For filtering by name
+        $tagIds = $request->post('tags', []); // For filtering by tag
 
+        // Build the query
+        $query = WordOrSentence::with(['user', 'tags'])
+            ->orderBy('id', 'desc');
+
+        // Apply filters if present
+        if ($search) {
+            $query->where('word_or_sentence', 'like', "%$search%");
+        }
+
+        // Apply tag filtering if tag IDs are present
+        if (!empty($tagIds)) {
+            $query->whereHas('tags', function ($q) use ($tagIds) {
+                $q->whereIn('tags.id', $tagIds);
+            }, '=', count($tagIds)); // Ensure all selected tags are present
+        }
+
+        // Paginate results
+        $words = $query->paginate($itemsPerPage);
+        $tags = Tag::select('id', 'name')
+            ->orderBy('id', 'desc')
+            ->take(500)
+            ->get();
+
+        // Pass filter parameters to the view
         return Inertia::render('Words/WordList', [
             'words' => $words,
-            'tags' => $tags
+            'tags' => $tags,
         ]);
     }
+
+
 
     public function store(Request $request)
     {
@@ -68,7 +93,7 @@ class WordOrSentenceController extends Controller
         $new_word->save();
 
         // Return response
-        return redirect()->route('word.list')
+        return redirect()->route('word.index')
             ->with('success', 'The new word was added.');
     }
 
@@ -110,7 +135,7 @@ class WordOrSentenceController extends Controller
         ]);
 
         // Return response
-        return redirect()->route('word.list')
+        return redirect()->route('word.index')
             ->with('success', 'The new word was added.');
     }
 

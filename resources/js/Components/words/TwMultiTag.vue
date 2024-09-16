@@ -3,12 +3,15 @@ import { useTagStore } from '@/store/tagStore';
 import MultiSelect from 'primevue/multiselect';
 import { computed } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { useFilterStore } from '@/store/filterStore';
 
 const props = withDefaults(defineProps<{ wordId: number }>(), {
 
 });
 
 const tagStore = useTagStore();
+const filterStore = useFilterStore();
+
 const { getTagName } = tagStore;
 
 const tagName = getTagName(props.wordId);
@@ -19,7 +22,11 @@ const tag = computed(() => {
 
 const addTag = (wId: number) => {
     tagStore.addTag(wId);
-    router.get('words', { preserveScroll: true })
+    if (filterStore.filters.search || filterStore.filters.tags.length > 0) {
+        filterStore.applyFilters();
+    } else {
+        router.get(route('word.index'), { preserveScroll: true });
+    }
 }
 </script>
 

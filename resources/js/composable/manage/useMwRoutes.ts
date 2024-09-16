@@ -17,15 +17,15 @@ export default function useMwRoutes() {
             private: false
         },
         {
-            label: 'Vocatool',
+            label: 'Dashboard',
             icon: 'fa fa-user',
-            urls: [route('dashboard'), route('word.list')],
+            urls: [route('dashboard'), route('word.index')],
             private: true
         },
         {
             label: 'Help',
             icon: 'fa fa-question-circle',
-            urls: [route('help.prompts')],
+            urls: [route('help')],
             private: true
         },
     ]);

@@ -21,7 +21,7 @@ import Layout from '../Layouts/Layout.vue';
                         <br><br>
                         Elevate your vocabulary and uncover new ways to express your thoughts effortlessly!
                     </p>
-                    <Link :href="route('word.list')"
+                    <Link :href="route('word.index')"
                         class="call-to-action-button mt-8 py-4 px-3 flex items-center justify-center text-xl font-black border-primary border-4 rounded-full lg:text-3xl lg:py-8 lg:px-6 transition-all duration-100"
                         style="text-decoration: none;"
                     >
