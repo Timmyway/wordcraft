@@ -29,7 +29,10 @@ const setTooltip = (str: string): string => {
 
 <template>
 <div v-bind="$attrs">
-    <div v-if="counter && items?.length > 0" class="pb-1 text-sm flex items-center gap-2">
+    <div
+        v-if="counter && items?.length > 0"
+        class="pb-1 text-sm flex items-center gap-2"
+    >
         <span>{{ items?.length }} items</span>
         <slot name="head"></slot>
     </div>

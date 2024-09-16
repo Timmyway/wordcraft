@@ -71,17 +71,18 @@ export default function useMultiTag() {
     };
 
     // Remove tags from a word or sentence
-    const removeTag = async (wordId: number, tagsId: TagModel[] = []) => {
+    const removeTag = async (wordId: number, tagsId: number[] | null = []) => {
         console.log('=============> Remove: ', tagsId)
         const tag = tags.value[getTagName(wordId)];
         let tagToRemove;
-        if (tagsId?.length > 0) {
+        if (tagsId && tagsId?.length > 0) {
             tagToRemove = [...tagsId];
         } else {
-            tagToRemove = tag.selectedTags.map(t => t.id)
+            tagToRemove = tag.selectedTags.map((t) => t.id)
+            console.log('==========> Else', tagToRemove);
         }
 
-        console.log('=====> Tag; ', tag)
+        console.log('=====> Tag to remove; ', tagToRemove)
         const payload = {
             'wordId': wordId,
             'tagsId': tagToRemove

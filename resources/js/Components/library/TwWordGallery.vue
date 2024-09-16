@@ -7,6 +7,7 @@ import TwMultiTag from '@/Components/words/TwMultiTag.vue';
 import TwCheckbox from '../form/TwCheckbox.vue';
 import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
+import { router } from '@inertiajs/vue3'
 
 interface Props {
     words: PaginatedWords;
@@ -26,11 +27,12 @@ const { getTagName } = tagStore;
 
 const { toHtml } = useMarkdownParser();
 
-const removeTag = (wordId: number, tagsId = []) => {
+const removeTag = (wordId: number, tagsId: number[] = []) => {
     console.log('===========> TID: ', tagsId)
     const ok = confirm('Confirm that you do want remove the tag from this word.');
     if (ok) {
         tagStore.removeTag(wordId, tagsId);
+        router.get('words', { preserveScroll: false })
     }
 }
 </script>
@@ -69,38 +71,40 @@ const removeTag = (wordId: number, tagsId = []) => {
                             </template>
                         </div>
                         <div>
+                            <tw-chips
+                                :items="word.tags"
+                                bg-color="#defa44"
+                                counter
+                            >
+                                <template #head>
+                                    <button
+                                        class="btn shadow-none btn-icon w-4 h-4 p-2"
+                                        @click.prevent="removeTag(word.id)"
+                                    >
+                                        <i class="fas fa-times text-red-500"></i>
+                                    </button>
+                                </template>
+                                <template #text="{ chipsItem }">
+                                    {{ chipsItem.name }}
+                                </template>
+                                <template #action-before="{ chipsItem }">
+                                    <button
+                                        class="btn shadow-none btn-icon w-4 h-4 p-2"
+                                        @click.prevent="removeTag(word.id, [chipsItem.id])"
+                                    >
+                                        <i class="fas fa-times text-red-500"></i>
+                                    </button>
+                                </template>
+                            </tw-chips>
+                        </div>
+                        <div>
                             <tw-multi-tag :wordId="word.id"></tw-multi-tag>
                         </div>
                     </div>
                 </template>
                 <template #content>
                     <div class="flex items-center overflow-x-auto scrollbar-thin">
-                        <tw-chips
-                            :items="word.tags"
-                            bg-color="#defa44"
-                            counter
-                        >
-                            <template #action>
-                                <button
-                                    class="btn shadow-none btn-icon w-4 h-4 p-2"
-                                    @click.prevent="removeTag(word.id)"
-                                >
-                                    <i class="fas fa-times text-red-500"></i>
-                                </button>
-                            </template>
-                            <template #text="{ chipsItem }">
-                                {{ chipsItem.name }}
-                            </template>
-                            <template #action-before="{ chipsItem }">
-                                {{ chipsItem.id }}
-                                <button
-                                    class="btn shadow-none btn-icon w-4 h-4 p-2"
-                                    @click.prevent="removeTag(word.id, chipsItem.id)"
-                                >
-                                    <i class="fas fa-times text-red-500"></i>
-                                </button>
-                            </template>
-                        </tw-chips>
+
                     </div>
                     <div class="flex flex-col px-2 py-1 gap-4 items-center justify-center">
                         <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
