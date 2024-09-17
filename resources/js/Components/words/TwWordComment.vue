@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-<div class="tw-comments border px-2">
+<div v-if="comments.length > 0" class="tw-comments border px-2">
     <h5 class="my-1">Comments:</h5>
     <div class="tw-comments__comment-container flex flex-col gap-3">
         <div v-for="comment in comments" :key="comment.id">

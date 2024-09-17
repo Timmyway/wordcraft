@@ -29,7 +29,7 @@ const { items, isActive } = useMwRoutes();
         <header class="w-full">
             <Menubar :model="items" class="w-full px-2 lg:px-4">
                 <template #start>
-                    <img src="../../images/logo.png" alt="Wordcraft" class="w-8 lg:w-24">
+                    <img src="../../images/logo.svg" alt="Wordcraft" class="w-8 lg:w-24">
                 </template>
                 <template #item="{ item }">
                     <Link

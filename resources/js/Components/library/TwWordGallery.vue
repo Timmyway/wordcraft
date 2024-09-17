@@ -60,6 +60,7 @@ const goToCommentSection = () => {
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
                 :is-open="{ content: false, comment: false }"
+                :view-section="{ content: true, comment: word.comments.length > 0 }"
             >
                 <template #preheader>
                     <div class="space-y-2 w-full">

@@ -14,12 +14,13 @@ import Layout from '../Layouts/Layout.vue';
                 </tw-author-credit>
             <div class="min-h-dvh">
                 <div class="max-w-2xl rounded-b-lg mx-auto px-12 py-6 text-center bg-white/80">
-                    <h1 class="text-3xl font-black uppercase lg:text-6xl">WORDCRAFT: Master Your Words</h1>
+                    <h1 class="text-3xl font-black uppercase lg:text-6xl">WORDCRAFT: english words and sentences</h1>
                     <p class="py-6 text-lg max-w-xl mx-auto text-gray-800 xl:text-xl leading-8">
-                        Welcome to WordCraft, the ultimate destination for mastering the art of words.
-                        Powered by advanced AI, explore definitions, synonyms, antonyms, and much more.
+                        Welcome to WordCraft, where words form the foundation of language.
+                        Powered by advanced AI, WordCraft helps you discover new words and expressions,
+                        explore definitions, synonyms, and antonyms, and even add your own.
                         <br><br>
-                        Elevate your vocabulary and uncover new ways to express your thoughts effortlessly!
+                        Elevate your vocabulary and enhance your ability to express ideas with ease and creativity!
                     </p>
                     <Link :href="route('word.index')"
                         class="call-to-action-button mt-8 py-4 px-3 flex items-center justify-center text-xl font-black border-primary border-4 rounded-full lg:text-3xl lg:py-8 lg:px-6 transition-all duration-100"
