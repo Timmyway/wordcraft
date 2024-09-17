@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{word?}/{mode?}', [WordOrSentenceController::class, 'formPage'])->name('detail');
         Route::post('', [WordOrSentenceController::class, 'store'])->name('store');
         Route::put('/{wordOrSentence}', [WordOrSentenceController::class, 'update'])->name('update');
+        Route::post('/words/{word}/comment', [WordOrSentenceController::class, 'addComment'])->name('comment.add');
     });
     Route::get('help', [HelpController::class, 'index'])->name('help');
 });

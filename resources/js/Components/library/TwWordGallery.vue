@@ -8,6 +8,7 @@ import TwCheckbox from '../form/TwCheckbox.vue';
 import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
 import { router } from '@inertiajs/vue3';
+import TwWordComment from '@/Components/words/TwWordComment.vue';
 
 interface Props {
     words: PaginatedWords;
@@ -34,6 +35,10 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
         router.get('words', { preserveScroll: true })
     }
 }
+
+const goToCommentSection = () => {
+
+}
 </script>
 
 <template>
@@ -51,9 +56,18 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
             :key="`poster-${word.id}` ?? `poster-${i}`"
             :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
         >
-            <tw-collapse :title="word.word_or_sentence" :is-open="false">
+            <tw-collapse
+                :sections="['content', 'comment']"
+                :title="word.word_or_sentence"
+                :is-open="{ content: false }"
+            >
                 <template #preheader>
                     <div class="space-y-2 w-full">
+                        <div class="max-w-48 truncate">
+                            <span class="text-[0.8rem] text-gray-700 py-1">
+                                Added by {{ word.user.name }}
+                            </span>
+                        </div>
                         <div class="flex gap-2 items-center">
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
                                 <Link
@@ -79,8 +93,15 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                             <template v-if="tagStore.tags[getTagName(word.id)]">
                                 <tw-checkbox
                                     label="Tags"
+                                    has-border
                                     v-model="tagStore.tags[getTagName(word.id)].isVisible"
                                 ></tw-checkbox>
+                                <button
+                                    @click.prevent="goToCommentSection"
+                                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                                >
+                                    <i class="fas fa-comments text-xs"></i>
+                                </button>
                             </template>
                         </div>
                         <div>
@@ -118,11 +139,13 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                     </div>
                 </template>
                 <template #content>
-                    <div class="flex items-center overflow-x-auto scrollbar-thin">
-
-                    </div>
-                    <div class="flex flex-col px-2 py-1 gap-4 items-center justify-center">
+                    <div class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center">
                         <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
+                    </div>
+                </template>
+                <template #comment>
+                    <div class="bg-indigo-100">
+                        <tw-word-comment :comments="word.comments"></tw-word-comment>
                     </div>
                 </template>
             </tw-collapse>

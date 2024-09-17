@@ -4,7 +4,11 @@ import { useForm } from '@inertiajs/vue3';
 import TwTextInput from '@/Components/form/TwTextInput.vue';
 import { useNotifStore } from '@/store/notificationStore';
 import { WordOrSentence } from '@/types/words/word.types';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import TwCheckbox from '@/Components/form/TwCheckbox.vue';
+import TwTextarea from '@/Components/form/TwTextarea.vue';
+import { CommentModel } from '@/types/models/models.types';
+import { CommentForm } from '@/types/models/form.types';
 
 interface Props {
     mode?: 'edit',
@@ -21,6 +25,9 @@ const form = useForm({
     id: props?.mode === 'edit' ? props.word?.id : null,
     word_or_sentence: props.word?.word_or_sentence || '',
     regenerate: false,
+    comments: props?.mode === 'edit' ? props.word?.comments?.map((c: CommentModel): CommentForm => {
+        return { id: c.id, comment: c.comment }
+    }): [],
 });
 
 // Function to handle form submission
@@ -50,6 +57,34 @@ const handleSubmit = () => {
         });
     }
 };
+
+// const commentsCount = computed(() => {
+//     const ids = form.comments?.map((c: any) => c.id) || [0];
+//     return ids.length > 0 ? Math.max(...ids) : 0;
+// });
+
+const moreComment = () => {
+    const newComment: CommentForm = {
+        comment: ''
+    };
+
+    if (form.comments) {
+        form.comments.push(newComment);
+    }
+}
+
+const lessComment = () => {
+    if (form.comments && form.comments.length > 0) {
+        form.comments.pop();
+    }
+}
+
+const removeByIndex = (index: number) => {
+    if (form.comments && index >= 0 && index < form.comments.length) {
+        // Remove the comment at the specified index
+        form.comments.splice(index, 1);
+    }
+}
 </script>
 
 <template>
@@ -79,9 +114,40 @@ const handleSubmit = () => {
                         tabindex="1"
                     ></tw-text-input>
                 </div>
+                <div class="max-h-72 overflow-y-auto scrollbar-thin bg-gray-300" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;">
+                    <div class="sticky top-0 z-30 shadow-lg bg-white py-2 pl-4 flex items-center gap-5">
+                        <button class="btn btn-xs btn-icon w-6 h-6 bg-gray-900 text-white" @click.prevent="moreComment">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                        <button class="btn btn-xs btn-icon w-6 h-6 bg-gray-900 text-white" @click.prevent="lessComment">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-4 mt-2 p-2">
+                        <div
+                            v-for="(comment, index) in form?.comments" :key="`comment-${form?.id ?? index}`"
+                            class="relative bg-white py-2 px-2 rounded"
+                        >
+                            <button class="absolute top-1 right-1 btn btn-xs btn-icon w-6 h-6 text-pink-600 shadow-none" @click.prevent="removeByIndex(index)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <tw-textarea
+                                v-if="form.comments"
+                                :label="`Comments ${comment.id}`"
+                                class="h-32"
+                                placeholder="Please comment here..."
+                                v-model="form.comments[index].comment"
+                                :value="form.comments[index].comment"
+                            ></tw-textarea>
+                        </div>
+                    </div>
+                </div>
                 <div v-if="(mode && mode === 'edit')" class="p-1 mb-2 flex items-center gap-2">
-                    <label>Regenerate</label>
-                    <input type="checkbox" v-model="form.regenerate">
+                    <tw-checkbox
+                        label="Regenerate"
+                        tooltip-text="Regenerate all the informations about this word."
+                        v-model="form.regenerate"
+                    ></tw-checkbox>
                 </div>
 
                 <div class="flex my-4 gap-4">

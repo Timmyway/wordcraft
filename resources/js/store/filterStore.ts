@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { router } from "@inertiajs/vue3";
-import { TagModel } from "@/types/models/tag.types";
-
+import { TagModel } from "@/types/models/models.types";
 
 export const useFilterStore = defineStore('filter', () => {
     const filters = ref<{ search: string, tags: TagModel[] }>({

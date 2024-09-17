@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AiHelper;
 use App\Helpers\AiPromptsHelper;
+use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\WordOrSentence;
 use App\Services\ImageUploadService;
@@ -28,7 +29,7 @@ class WordOrSentenceController extends Controller
         $tagIds = $request->post('tags', []); // For filtering by tag
 
         // Build the query
-        $query = WordOrSentence::with(['user', 'tags'])
+        $query = WordOrSentence::with(['user', 'tags', 'comments.user'])
             ->orderBy('id', 'desc');
 
         // Apply filters if present
@@ -104,6 +105,9 @@ class WordOrSentenceController extends Controller
             'word_or_sentence' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif,svg|max:2048',
             'regenerate' => 'nullable|boolean',
+            'comments' => 'nullable|array',
+            'comments.*.id' => 'nullable',
+            'comments.*.comment' => 'nullable|string|max:1000',
         ]);
 
         // Get user input
@@ -140,6 +144,20 @@ class WordOrSentenceController extends Controller
         }
         $wordOrSentence->update($updatePayload);
 
+        // Update or create comments
+        if ($request->has('comments')) {
+            // Detach all existing comments for this word or sentence
+            $wordOrSentence->comments()->delete();
+
+            foreach ($request->input('comments') as $commentData) {
+                Comment::create([
+                    'comment' => $commentData['comment'],
+                    'word_or_sentence_id' => $wordOrSentence->id,
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        }
+
         // Return response
         return redirect()->route('word.index')
             ->with('success', 'The new word was added.');
@@ -170,7 +188,23 @@ class WordOrSentenceController extends Controller
     {
         return Inertia::render('Words/WordForm', [
             'word' => $word,
+            'comments' => $word->comments,
             'mode' => $mode
         ]);
+    }
+
+    public function addComment(Request $request, WordOrSentence $wordOrSentence)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        Comment::create([
+            'comment' => $request->comment,
+            'word_or_sentence_id' => $wordOrSentence->id,
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Comment added successfully!');
     }
 }

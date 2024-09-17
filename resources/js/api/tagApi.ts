@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Api } from "./Api";
-import { TagModel } from "@/types/models/tag.types";
+import { TagModel } from "@/types/models/models.types";
 
 export default {
     async searchTags(payload: { search: string }): Promise<AxiosResponse<TagModel[]>> {

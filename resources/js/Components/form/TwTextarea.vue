@@ -1,25 +1,21 @@
 <template>
-<div class="flex items-center gap-2" :class="{ 'border border-solid border-gray-200 px-2 py-1 rounded': hasBorder }">
+<div class="tw-textarea flex flex-col gap-2" :class="{ 'border border-solid border-gray-200 px-2 py-1 rounded': hasBorder }">
     <label
         :class="labelClass"
         v-tooltip.top="tooltipText"
     >
         {{ label }}
     </label>
-    <input
+    <textarea
+        class="tw-textarea__textarea"
         v-bind="$attrs"
-        type="checkbox"
         :class="inputClass"
-        :checked="modelValue"
-        @change="updateValue"
-    >
+        @input="updateValue"
+    ></textarea>
 </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
-
 interface Props {
     label?: string,
     modelValue: any,
@@ -35,17 +31,21 @@ const props = withDefaults(defineProps<Props>(), {
     tooltipText: ''
 });
 
-const isChecked = ref();
-
 const emit = defineEmits(['update:modelValue']);
 
 const updateValue = (e: any) => {
     // Get the checked status of the checkbox
-    const isChecked = (e.target as HTMLInputElement).checked;
-    console.log('--------> Update: ', isChecked)
-    emit('update:modelValue', isChecked);
+    const content = (e.target as HTMLInputElement).value;
+    emit('update:modelValue', content);
 }
 </script>
 
-<style>
+<style lang="scss">
+.tw-textarea {
+    &__textarea {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        width: 100%;
+    }
+}
 </style>

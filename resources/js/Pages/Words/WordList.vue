@@ -8,7 +8,7 @@ import { PaginatedWords } from '@/types/pagination.types';
 import TwPagination from '@/Components/ui/TwPagination.vue'
 import TwWordGallery from '@/Components/library/TwWordGallery.vue';
 import { useFilterStore } from '@/store/filterStore';
-import { TagModel } from '@/types/models/tag.types';
+import { TagModel } from '@/types/models/models.types';
 import TwMultiSelect from '@/Components/ui/TwMultiSelect.vue';
 
 const props = defineProps<{

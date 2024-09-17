@@ -2,22 +2,35 @@
 import { ref } from 'vue';
 
 interface Props {
-    isOpen?: boolean;
+    isOpen?: { [key: string]: boolean };
     title: string;
     titleSize?: string;
+    sections?: string[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    isOpen: false,
-    titleSize: '1.3rem'
+    isOpen: { content: false },
+    titleSize: '1.3rem',
+    sections: () => ['content'],
 });
 
-const isExpanded = ref(props.isOpen);
+const isExpanded = ref<{ [key:string]: boolean }>(props.isOpen);
 
-const toggleCollapse = () => {
-    console.log('========> Toogle collapse')
-    isExpanded.value = !isExpanded.value;
+const toggleCollapse = (section: string) => {
+    // If the section is already expanded, collapse it
+    if (isExpanded.value[section]) {
+        isExpanded.value[section] = false; // Collapse the current section
+    } else {
+        // Collapse all sections first
+        for (const key in isExpanded.value) {
+            isExpanded.value[key] = false; // Set all to false
+        }
+
+        // Expand the selected section
+        isExpanded.value[section] = true; // Set the current section to true
+    }
 };
+
 </script>
 
 <template>
@@ -25,26 +38,36 @@ const toggleCollapse = () => {
         <div class="tw-collapse__preheader">
             <slot name="preheader"></slot>
         </div>
-        <div class="tw-collapse__header" @click.prevent="toggleCollapse">
+        <div class="tw-collapse__header">
             <div class="flex flex-col items-center">
-                <h3 :style="{ fontSize: titleSize }">{{ title }}</h3>
-            </div>
-            <div class="pt-2">
-                <button class="tw-collapse__toggle-btn">
-                    <i :class="isExpanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
-                </button>
+                <h3
+                    class="cursor-pointer"
+                    :style="{ fontSize: titleSize }"
+                    @click.prevent="toggleCollapse(sections[0])"
+                >{{ title }}</h3>
             </div>
         </div>
-        <transition
+
+        <TransitionGroup
             name="slide"
             appear
             appear-active-class="slide-in"
             leave-active-class="slide-out"
         >
-            <div v-if="isExpanded" class="tw-collapse__content">
-                <slot name="content"></slot>
+            <div class="flex gap-2 justify-around">
+                <div v-for="section in sections">
+                    <div class="flex flex-col justify-center items-center py-2">
+                        <span :class="[isExpanded[section] ? 'tw-collapse__section--active text-blue-600' : 'tw-collapse__section--inactive text-gray-400']">{{ section }}</span>
+                        <button class="tw-collapse__toggle-btn" @click.prevent="toggleCollapse(section)">
+                            <i :class="isExpanded[section] ? 'fas fa-chevron-down text-blue-600' : 'fas fa-chevron-right text-gray-400'"></i>
+                        </button>
+                    </div>
+                    <div v-if="isExpanded[section]" class="tw-collapse__content">
+                        <slot :name="section"></slot>
+                    </div>
+                </div>
             </div>
-        </transition>
+        </TransitionGroup>
     </div>
 </template>
 
@@ -72,13 +95,17 @@ const toggleCollapse = () => {
         align-items: center;
         gap: 10px;
         padding: 10px;
-        cursor: pointer;
         h3 {
             margin: 0;
             font-size: 1.5rem;
         }
     }
-
+    &__section {
+        &--active {
+            font-weight: bold;
+        }
+        &--inactive {}
+    }
     &__toggle-btn {
         background: none;
         border: none;
@@ -95,12 +122,11 @@ const toggleCollapse = () => {
     }
 
     &__content {
-        padding: 10px 15px;
         background-color: white;
         position: absolute;
         top: 100%; left: 0;
         z-index: 30;
-        max-height: 480px;
+        max-height: 360px;
         overflow-y: auto; scrollbar-width: thin;
         width: 100%;
         border-radius: 0 0 4px 6px;

@@ -2,7 +2,7 @@
 <label class="font-bold">
     {{ label }} {{ counter ? `(${modelValue?.length})` : '' }}
 </label>
-<div class="flex items-center">
+<div class="flex items-center mt-2">
     <input
         v-bind="$attrs"
         :placeholder="placeholder ? placeholder : label"

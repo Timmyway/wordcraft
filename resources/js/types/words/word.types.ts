@@ -1,4 +1,4 @@
-import { TagModel } from "../models/tag.types";
+import { TagModel, CommentModel } from "../models/models.types";
 
 interface User {
     id: number;
@@ -15,5 +15,6 @@ export interface WordOrSentence {
     created_at: string; // Assuming you have timestamps in your model
     updated_at: string; // Assuming you have timestamps in your model
     user: User;
-    tags: TagModel[]
+    tags: TagModel[],
+    comments: CommentModel[]
 }

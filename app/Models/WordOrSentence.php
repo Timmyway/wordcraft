@@ -27,4 +27,9 @@ class WordOrSentence extends Model
     {
         return $this->belongsToMany(Tag::class, 'tag_word_or_sentence');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -1,6 +1,6 @@
 import tagApi from "@/api/tagApi";
 import { ref } from "vue";
-import { TagModel } from '@/types/models/tag.types';
+import { TagModel } from '@/types/models/models.types';
 import { useDebounceFn } from "@vueuse/core";
 
 interface TagState {
