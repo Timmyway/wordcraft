@@ -96,12 +96,6 @@ const goToCommentSection = () => {
                                     has-border
                                     v-model="tagStore.tags[getTagName(word.id)].isVisible"
                                 ></tw-checkbox>
-                                <button
-                                    @click.prevent="goToCommentSection"
-                                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
-                                >
-                                    <i class="fas fa-comments text-xs"></i>
-                                </button>
                             </template>
                         </div>
                         <div>
@@ -169,5 +163,6 @@ const goToCommentSection = () => {
     border-radius: 5px;
     scrollbar-width: thin;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    margin-top: 0;
 }
 </style>

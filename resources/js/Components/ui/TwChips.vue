@@ -4,6 +4,7 @@ interface Props {
     items: { [key: string]: any }[];
     customClass?: string;
     bgColor?: string;
+    hasBorder?: boolean;
     maxHeight?: string;
     counter?: boolean;
     square?: boolean;
@@ -16,7 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
     maxHeight: '96px',
     counter: false,
     square: false,
-    maxLength: 15
+    maxLength: 15,
+    hasBorder: true
 });
 
 const setTooltip = (str: string): string => {
@@ -36,10 +38,11 @@ const setTooltip = (str: string): string => {
         <slot name="head"></slot>
     </div>
     <div class="h-[1px] bg-gray-200 rounded-full my-2"></div>
-    <div class="flex flex-wrap gap-2 box-border overflow-y-auto overflow-x-none" :style="{ maxHeight }">
+    <div class="flex flex-wrap gap-2 box-border overflow-y-auto overflow-x-none scrollbar-thin" :style="{ maxHeight }">
         <div
             v-for="item in items"
             class="w-fit flex items-center gap-2 px-2 py-1 shadow-sm"
+            :class="hasBorder ? 'border border-solid border-gray-300 rounded' : ''"
             :style="{ backgroundColor: bgColor }"
         >
             <slot name="action-before" :chipsItem="item"></slot>
