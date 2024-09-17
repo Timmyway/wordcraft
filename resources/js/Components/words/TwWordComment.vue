@@ -15,17 +15,17 @@ const props = withDefaults(defineProps<{
     <h5 class="my-1">Comments:</h5>
     <div class="tw-comments__comment-container flex flex-col gap-3">
         <div v-for="comment in comments" :key="comment.id">
-            <div
-                class="tw-comments__comment mb-2"
-                :style="{ backgroundColor: commentBgColor }"
-            >
-                <strong></strong> {{ comment.comment }}
-            </div>
             <div class="tw-comments__comment__author flex items-center py-2 px-1 gap-2">
                 <div class="rounded-full shadow">
                     <i class="fas fa-comment-dots"></i>
                 </div>
                 <span>{{ comment.user.name }}</span>
+            </div>
+            <div
+                class="tw-comments__comment mb-2"
+                :style="{ backgroundColor: commentBgColor }"
+            >
+                <strong></strong> {{ comment.comment }}
             </div>
         </div>
     </div>
@@ -48,13 +48,13 @@ const props = withDefaults(defineProps<{
         &::before {
             content: '';
             position: absolute;
-            bottom: -10px;  // Position below the comment bubble
+            top: -10px;  // Position below the comment bubble
             left: 20px;     // Adjust positioning of the tail
             width: 0;
             height: 0;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-top: 10px solid #CCD; // Same color as the bubble background
+            border-bottom: 10px solid #AAA; // Same color as the bubble background
         }
     }
 }
