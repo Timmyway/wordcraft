@@ -13,14 +13,9 @@ class WordOrSentence extends Model
 
     protected $fillable = [
         'word_or_sentence',
-        'definition',
-        'example',
-        'synonyms',
-        'antonyms',
+        'about',
         'image_path',
         'image_url',
-        'pronunciation',
-        'type_id'
     ];
 
     public function user()

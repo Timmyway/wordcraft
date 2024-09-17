@@ -28,27 +28,29 @@ const props = withDefaults(defineProps<Props>(), {
     </div>
 </div>
 </template>
-  
+
 <style lang="scss">
 /* Pagination */
-.tw-pagination--disabled {    
+.tw-pagination--disabled {
     color: #aaa;
 }
 
 .tw-pagination-container {
-    flex-wrap: wrap;    
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
     display: flex;
 }
 .tw-pagination {
-    padding: 5px 5px;
+    padding: 2px 5px;
     font-size: 1rem;
+    display: flex;
+    align-items: center;
+    opacity: .9;
     &:hover {
-        font-weight: bold;
+        opacity: 1;
     }
     &:focus {
-        border: 2px solid #29335C;
         color: #29335C;
     }
 }

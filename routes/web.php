@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/add', [WordOrSentenceController::class, 'addPage'])->name('add');
         Route::get('/{word?}/{mode?}', [WordOrSentenceController::class, 'formPage'])->name('detail');
         Route::post('', [WordOrSentenceController::class, 'store'])->name('store');
-        Route::put('/{word}', [WordOrSentenceController::class, 'update'])->name('update');
+        Route::put('/{wordOrSentence}', [WordOrSentenceController::class, 'update'])->name('update');
     });
     Route::get('help', [HelpController::class, 'index'])->name('help');
 });

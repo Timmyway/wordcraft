@@ -20,6 +20,7 @@ const isProcessing = ref<boolean>(false);
 const form = useForm({
     id: props?.mode === 'edit' ? props.word?.id : null,
     word_or_sentence: props.word?.word_or_sentence || '',
+    regenerate: false,
 });
 
 // Function to handle form submission
@@ -68,7 +69,7 @@ const handleSubmit = () => {
         </div>
         <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md">
             <form class="space-y-4 lg:space-y-8" @submit.prevent="handleSubmit">
-                <div class="p-1 mb-2 col-span-8">
+                <div class="p-1 mb-2">
                     <tw-text-input
                         label="Word or sentence"
                         class="tw-form-control"
@@ -77,6 +78,10 @@ const handleSubmit = () => {
                         required
                         tabindex="1"
                     ></tw-text-input>
+                </div>
+                <div v-if="(mode && mode === 'edit')" class="p-1 mb-2 flex items-center gap-2">
+                    <label>Regenerate</label>
+                    <input type="checkbox" v-model="form.regenerate">
                 </div>
 
                 <div class="flex my-4 gap-4">

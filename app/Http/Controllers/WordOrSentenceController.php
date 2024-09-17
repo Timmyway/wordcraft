@@ -103,13 +103,16 @@ class WordOrSentenceController extends Controller
         $request->validate([
             'word_or_sentence' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif,svg|max:2048',
+            'regenerate' => 'nullable|boolean',
         ]);
 
         // Get user input
         $wordOrSentenceInput = $request->input('word_or_sentence');
 
-        // Call AI for updated information
-        $about = AiHelper::askToAi(AiPromptsHelper::generateAboutPrompt($wordOrSentenceInput));
+        if ($request->input('regenerate')) {
+            // Call AI for updated information
+            $about = AiHelper::askToAi(AiPromptsHelper::generateAboutPrompt($wordOrSentenceInput));
+        }
 
         // Check for new image and upload if provided
         $imagePath = $wordOrSentence->image_path;
@@ -127,12 +130,15 @@ class WordOrSentenceController extends Controller
         }
 
         // Update the WordOrSentence model
-        $wordOrSentence->update([
+        $updatePayload = [
             'word_or_sentence' => $wordOrSentenceInput,
-            'about' => $about,
             'image_path' => $imagePath,
             'image_url' => $imageUrl,
-        ]);
+        ];
+        if (isset($about) && $about) {
+            $updatePayload['about'] = $about;
+        }
+        $wordOrSentence->update($updatePayload);
 
         // Return response
         return redirect()->route('word.index')

@@ -38,6 +38,14 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
 
 <template>
     <div class="tw-word-gallery gap-1 py-2 my-2 border-b border-b-slate-200">
+        <div v-if="words.data?.length <= 0" class="flex items-center gap-2">
+            <span>No word or sentence found...</span>
+            <Link
+                class="btn btn-xs text-base underline shadow-none"
+                :href="route('word.index')">
+                <span>Return back to word list</span>
+            </Link>
+        </div>
         <div
             v-for="(word, i) in words.data"
             :key="`poster-${word.id}` ?? `poster-${i}`"

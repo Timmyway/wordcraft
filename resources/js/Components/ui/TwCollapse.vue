@@ -4,12 +4,12 @@ import { ref } from 'vue';
 interface Props {
     isOpen?: boolean;
     title: string;
-    titleClass?: string;
+    titleSize?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     isOpen: false,
-    titleClass: ''
+    titleSize: '1.3rem'
 });
 
 const isExpanded = ref(props.isOpen);
@@ -26,10 +26,14 @@ const toggleCollapse = () => {
             <slot name="preheader"></slot>
         </div>
         <div class="tw-collapse__header" @click.prevent="toggleCollapse">
-            <h3 :class="[titleClass]">{{ title }}</h3>
-            <button class="tw-collapse__toggle-btn">
-                <i :class="isExpanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
-            </button>
+            <div class="flex flex-col items-center">
+                <h3 :style="{ fontSize: titleSize }">{{ title }}</h3>
+            </div>
+            <div class="pt-2">
+                <button class="tw-collapse__toggle-btn">
+                    <i :class="isExpanded ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                </button>
+            </div>
         </div>
         <transition
             name="slide"
@@ -63,6 +67,7 @@ const toggleCollapse = () => {
     &__header {
         background-color: #f5f5f5;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
         gap: 10px;
@@ -80,7 +85,7 @@ const toggleCollapse = () => {
         cursor: pointer;
         display: flex;
         align-items: center;
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: #888;
         transition: color 0.2s;
 
