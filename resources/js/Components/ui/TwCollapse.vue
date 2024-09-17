@@ -2,14 +2,13 @@
 import { ref } from 'vue';
 
 interface Props {
-    isOpen?: { [key: string]: boolean };
+    isOpen: { [key: string]: boolean };
     title: string;
     titleSize?: string;
     sections?: string[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    isOpen: { content: false },
     titleSize: '1.3rem',
     sections: () => ['content'],
 });
@@ -48,26 +47,19 @@ const toggleCollapse = (section: string) => {
             </div>
         </div>
 
-        <TransitionGroup
-            name="slide"
-            appear
-            appear-active-class="slide-in"
-            leave-active-class="slide-out"
-        >
-            <div class="flex gap-2 justify-around">
-                <div v-for="section in sections">
-                    <div class="flex flex-col justify-center items-center py-2">
-                        <span :class="[isExpanded[section] ? 'tw-collapse__section--active text-blue-600' : 'tw-collapse__section--inactive text-gray-400']">{{ section }}</span>
-                        <button class="tw-collapse__toggle-btn" @click.prevent="toggleCollapse(section)">
-                            <i :class="isExpanded[section] ? 'fas fa-chevron-down text-blue-600' : 'fas fa-chevron-right text-gray-400'"></i>
-                        </button>
-                    </div>
-                    <div v-if="isExpanded[section]" class="tw-collapse__content">
-                        <slot :name="section"></slot>
-                    </div>
+        <div class="flex gap-2 justify-around">
+            <div v-for="(section, index) in sections" :key="`${section}-${index}`">
+                <div class="flex flex-col justify-center items-center py-2">
+                    <span :class="[isExpanded[section] ? 'tw-collapse__section--active text-blue-600' : 'tw-collapse__section--inactive text-gray-400']">{{ section }}</span>
+                    <button class="tw-collapse__toggle-btn" @click.prevent="toggleCollapse(section)">
+                        <i :class="isExpanded[section] ? 'fas fa-chevron-down text-blue-600' : 'fas fa-chevron-right text-gray-400'"></i>
+                    </button>
+                </div>
+                <div v-if="isExpanded[section]" class="tw-collapse__content">
+                    <slot :name="section"></slot>
                 </div>
             </div>
-        </TransitionGroup>
+        </div>
     </div>
 </template>
 

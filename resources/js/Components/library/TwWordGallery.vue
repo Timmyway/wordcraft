@@ -59,7 +59,7 @@ const goToCommentSection = () => {
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :is-open="{ content: false }"
+                :is-open="{ content: false, comment: false }"
             >
                 <template #preheader>
                     <div class="space-y-2 w-full">
