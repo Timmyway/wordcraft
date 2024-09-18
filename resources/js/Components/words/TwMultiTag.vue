@@ -7,7 +7,7 @@ import { useFilterStore } from '@/store/filterStore';
 
 interface Props {
     wordId: number;
-    selectionLimit: number | null;
+    selectionLimit?: number | null;
 }
 const props = withDefaults(defineProps<Props>(), {
     selectionLimit: null,

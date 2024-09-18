@@ -33,7 +33,7 @@ const handleSubmit = () => {
         // Edit mode: Send a PUT or PATCH request to update the existing prompt
         form.put(route('tag.update', props.tag?.id), {
             onSuccess: () => {
-                console.log('Word or sentence updated successfully!');
+                console.log('Tag updated successfully!');
                 isProcessing.value = false;
             },
             onError: () => {
@@ -72,11 +72,11 @@ const handleSubmit = () => {
             <div class="flex items-center gap-4">
                 <Link
                     class="btn btn-xs text-base bg-orange-300"
-                    :href="route('word.index')">
+                    :href="route('tag.index')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
                 <h1 class="font-black lg:text-lg">
-                    {{ (mode && mode === 'edit') ? 'Update' : 'Add' }} word
+                    {{ (mode && mode === 'edit') ? 'Update' : 'Add' }} tag
                 </h1>
             </div>
         </div>

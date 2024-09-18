@@ -17,15 +17,21 @@ export default function useMwRoutes() {
             private: false
         },
         {
-            label: 'Dashboard',
-            icon: 'fa fa-user',
-            urls: [route('dashboard'), route('word.index')],
+            label: 'Words',
+            icon: 'fa fa-alphabet',
+            urls: [route('word.index'), route('word.add')],
             private: true
         },
         {
             label: 'Tags',
             icon: 'fa fa-tags',
-            urls: [route('dashboard'), route('tag.index')],
+            urls: [route('tag.index'), route('tag.add'), route('tag.detail'), route('tag.filter')],
+            private: true
+        },
+        {
+            label: 'Dashboard',
+            icon: 'fa fa-user',
+            urls: [route('dashboard')],
             private: true
         },
         {

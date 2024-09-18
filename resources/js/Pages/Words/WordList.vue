@@ -78,7 +78,7 @@ onMounted(() => {
                 <button
                     v-show="filterStore.hasFilter"
                     class="btn btn-xs text-base bg-yellow-400 space-x-2"
-                    @click.prevent="filterStore.applyFilters"
+                    @click.prevent="filterStore.applyFilters()"
                 >
                     <span>Filter</span>
                 </button>
