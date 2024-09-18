@@ -9,12 +9,12 @@ export const useFilterStore = defineStore('filter', () => {
         tags: [],
     });
 
-    const applyFilters = () => {
+    const applyFilters = (routeName = 'word.filter') => {
         const payload = {
             search: filters.value.search,
             tags: filters.value.tags.map(tag => tag.id),
         }
-        router.post(route('word.filter'), payload, { preserveState: true, preserveScroll: true });
+        router.post(route(routeName), payload, { preserveState: true, preserveScroll: true });
     }
 
     const hasFilter = computed(() => {

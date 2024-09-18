@@ -1,3 +1,4 @@
+import { TagModel } from "./models/models.types";
 import { WordOrSentence } from "./words/word.types";
 
 export interface PaginatedResponse<T> {
@@ -16,3 +17,4 @@ interface PaginationLink {
 }
 
 export type PaginatedWords = PaginatedResponse<WordOrSentence>;
+export type PaginatedTags = PaginatedResponse<TagModel>;

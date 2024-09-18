@@ -76,6 +76,7 @@ const { items, isActive } = useMwRoutes();
         </header>
 
         <main class="w-full">
+            <ConfirmDialog></ConfirmDialog>
             <slot></slot>
         </main>
 

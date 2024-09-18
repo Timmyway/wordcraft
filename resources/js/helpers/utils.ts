@@ -1,8 +1,7 @@
-import { WallConfig } from '@/types/konva.config';
-import { v4 as uuidv4 } from 'uuid';
 import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
 
-function safeJsonParse(jsonString: string | WallConfig): any {
+function safeJsonParse(jsonString: string): any {
     if (typeof jsonString === 'string') {
         try {
             return JSON.parse(jsonString);
@@ -12,10 +11,6 @@ function safeJsonParse(jsonString: string | WallConfig): any {
         }
     }
     return null;
-}
-
-function getUuid() {
-    return uuidv4();
 }
 
 function getNanoid() {
@@ -95,4 +90,40 @@ function truncateString(str: string, n: number = 50) {
     return str.slice(0, n) + '...';
 }
 
-export { safeJsonParse, getUuid, getNanoid, imageToBase64, base64ToImage, loadImageFromURL, pickRandomElement, nanoid, truncateString }
+function toUserFriendlyDate(dateString: string,
+    f = { datetime: 'D MMMM YYYY [à] HH:mm', date: 'D MMMM YYYY' }
+) {
+    if (!dateString) {
+        return dateString;
+    }
+
+    // Check if the date string contains a time component
+    const hasTime = dateString.includes('T');
+
+    // Choose the format based on whether there is a time component
+    const formatString = hasTime ? f.datetime : f.date;
+
+    const formattedDate = dayjs(dateString).format(formatString);
+    return formattedDate;
+}
+
+function truncateWord(str: string, maxLength = 15): string {
+    if (typeof str !== 'string') {
+        console.error('Input must be a string');
+        return str;
+    }
+    if (typeof maxLength !== 'number' || maxLength <= 0) {
+        console.error('maxLength must be a positive number');
+        return str;
+    }
+
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + '...';
+    } else {
+        return str;
+    }
+}
+
+export { safeJsonParse, getUuid, getNanoid, imageToBase64, base64ToImage, loadImageFromURL,
+    pickRandomElement, nanoid, truncateString, toUserFriendlyDate, truncateWord,
+}

@@ -16,7 +16,15 @@ import Layout from '@/Layouts/Layout.vue';
                                 class="btn btn-xs text-base bg-yellow-400"
                                 :href="route('word.index')">
                                 <i class="fas fa-light-bulb"></i>
-                                <span>Word list</span>
+                                <span>Words and sentences</span>
+                            </Link>
+                        </div>
+                        <div class="py-4">
+                            <Link
+                                class="btn btn-xs text-base bg-yellow-400"
+                                :href="route('tag.index')">
+                                <i class="fas fa-light-bulb"></i>
+                                <span>Tags</span>
                             </Link>
                         </div>
                     </div>

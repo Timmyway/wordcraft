@@ -23,6 +23,12 @@ export default function useMwRoutes() {
             private: true
         },
         {
+            label: 'Tags',
+            icon: 'fa fa-tags',
+            urls: [route('dashboard'), route('tag.index')],
+            private: true
+        },
+        {
             label: 'Help',
             icon: 'fa fa-question-circle',
             urls: [route('help')],

@@ -5,8 +5,10 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MindwallController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromptController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThematicController;
 use App\Http\Controllers\WordOrSentenceController;
+use App\Models\Tag;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,6 +39,16 @@ Route::middleware('auth')->group(function () {
         Route::post('', [WordOrSentenceController::class, 'store'])->name('store');
         Route::put('/{wordOrSentence}', [WordOrSentenceController::class, 'update'])->name('update');
         Route::post('/words/{word}/comment', [WordOrSentenceController::class, 'addComment'])->name('comment.add');
+    });
+    Route::prefix('tags')->name('tag.')->group(function () {
+        Route::get('', [TagController::class, 'indexPage'])->name('index');
+        Route::get('/add', [TagController::class, 'addPage'])->name('add');
+        Route::get('/{tag?}/{mode?}', [TagController::class, 'formPage'])->name('detail');
+        Route::post('', [TagController::class, 'store'])->name('store');
+        Route::get('/filter', [TagController::class, 'indexPage'])->name('filter');
+        Route::put('/{tag}', [TagController::class, 'update'])->name('update');
+        Route::post('/filter', [TagController::class, 'indexPage'])->name('filter.apply');
+        Route::delete('{tag}', [TagController::class, 'destroy'])->name('destroy');
     });
     Route::get('help', [HelpController::class, 'index'])->name('help');
 });

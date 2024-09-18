@@ -5,8 +5,12 @@ import { computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { useFilterStore } from '@/store/filterStore';
 
-const props = withDefaults(defineProps<{ wordId: number }>(), {
-
+interface Props {
+    wordId: number;
+    selectionLimit: number | null;
+}
+const props = withDefaults(defineProps<Props>(), {
+    selectionLimit: null,
 });
 
 const tagStore = useTagStore();
@@ -28,31 +32,46 @@ const addTag = (wId: number) => {
         router.get(route('word.index'), { preserveScroll: true });
     }
 }
+
+const addNewTag = (e: any) => {
+    console.log('=====> Add new tag: ', e.value)
+}
 </script>
 
 <template>
 <div v-show="tag.isVisible" class="flex items-center gap-2">
-    <div class="grid grid-cols-1 items-center gap-2 w-full lg:grid-cols-12">
-        <div class="w-full lg:col-span-10">
-            <MultiSelect
-                v-model="tag.selectedTags"
-                :options="tagStore.tagSuggestions"
-                display="chip"
-                optionLabel="name"
-                filter
-                @filter="tagStore.searchTags($event, wordId)"
-                placeholder="Select tags"
-                :maxSelectedLabels="5"
-                class="w-full"
-            />
+    <div class="items-center gap-2 w-full">
+        <div class="flex items-center gap-1 py-1 overflow-x-auto scrollbar-thin">
+            <div
+                v-for="t in tag.selectedTags"
+                class="bg-black px-2 py-0 text-white text-xs rounded-lg"
+            >{{ t.name }}</div>
         </div>
-        <div>
-            <button
-                class="btn btn--xs btn-icon w-8 h-8 lg:col-span-2"
-                @click.prevent="addTag(wordId)"
-            >
-                <i class="fas fa-plus"></i>
-            </button>
+
+        <div class="grid grid-cols-1 place-items-center lg:grid-cols-12">
+            <div class="w-full lg:col-span-10">
+                <MultiSelect
+                    v-model="tag.selectedTags"
+                    :options="tagStore.tagSuggestions"
+                    optionLabel="name"
+                    filter
+                    @filter="tagStore.searchTags($event, wordId)"
+                    @keydown.enter="addNewTag"
+                    placeholder="Select tags"
+                    :maxSelectedLabels="5"
+                    :selectionLimit="selectionLimit"
+                    class="w-full"
+                />
+            </div>
+            <div class="lg:col-span-2 place-items-center">
+                <button
+                    v-show="tag.selectedTags.length > 0"
+                    class="btn btn--xs btn-icon w-8 h-8 lg:col-span-2"
+                    @click.prevent="addTag(wordId)"
+                >
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>
