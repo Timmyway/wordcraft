@@ -47,8 +47,8 @@ class WordOrSentenceController extends Controller
         // Paginate results
         $words = $query->paginate($itemsPerPage);
         $tags = Tag::select('id', 'name')
-            ->orderBy('id', 'desc')
-            ->take(500)
+            ->orderBy('name', 'asc')
+            ->take(100)
             ->get();
 
         // Pass filter parameters to the view

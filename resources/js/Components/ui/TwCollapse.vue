@@ -35,17 +35,18 @@ const toggleCollapse = (section: string) => {
 
 <template>
     <div class="tw-collapse">
+        <div class="flex py-1 px-2">
+            <h3
+                class="cursor-pointer"
+                :style="{ fontSize: titleSize }"
+                @click.prevent="toggleCollapse(sections[0])"
+            >{{ title }}</h3>
+        </div>
         <div class="tw-collapse__preheader">
             <slot name="preheader"></slot>
         </div>
         <div class="tw-collapse__header">
-            <div class="flex flex-col items-center">
-                <h3
-                    class="cursor-pointer"
-                    :style="{ fontSize: titleSize }"
-                    @click.prevent="toggleCollapse(sections[0])"
-                >{{ title }}</h3>
-            </div>
+            <slot name="header"></slot>
         </div>
 
         <div class="flex gap-2 justify-around">
@@ -79,7 +80,7 @@ const toggleCollapse = (section: string) => {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 5px 10px;
+        padding: 2px 5px;
         overflow-x: auto;
     }
     &__header {
@@ -89,7 +90,7 @@ const toggleCollapse = (section: string) => {
         justify-content: space-between;
         align-items: center;
         gap: 10px;
-        padding: 10px;
+        padding: 5px;
         h3 {
             margin: 0;
             font-size: 1.5rem;

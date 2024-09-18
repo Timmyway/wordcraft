@@ -35,14 +35,10 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
         router.get('words', { preserveScroll: true })
     }
 }
-
-const goToCommentSection = () => {
-
-}
 </script>
 
 <template>
-    <div class="tw-word-gallery gap-1 py-2 my-2 border-b border-b-slate-200">
+    <div class="tw-word-gallery gap-1 py-2 my-2">
         <div v-if="words.data?.length <= 0" class="flex items-center gap-2">
             <span>No word or sentence found...</span>
             <Link
@@ -65,7 +61,7 @@ const goToCommentSection = () => {
                 <template #preheader>
                     <div class="space-y-2 w-full">
                         <div class="max-w-48 truncate">
-                            <span class="text-[0.8rem] text-gray-700 py-1">
+                            <span class="text-[0.7rem] text-gray-700 py-1">
                                 Added by {{ word.user.name }}
                             </span>
                         </div>
@@ -151,7 +147,7 @@ const goToCommentSection = () => {
 .tw-word-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    gap: 4px;
     padding: 20px;
 }
 

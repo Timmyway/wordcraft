@@ -11,14 +11,8 @@ interface MwRoute {
 export default function useMwRoutes() {
     const items = ref<MwRoute[]>([
         {
-            label: 'Home',
-            icon: 'fa fa-home',
-            urls: [route('home')],
-            private: false
-        },
-        {
             label: 'Words',
-            icon: 'fa fa-alphabet',
+            icon: 'fa fa-book-open',
             urls: [route('word.index'), route('word.add')],
             private: true
         },

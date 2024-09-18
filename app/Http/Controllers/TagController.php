@@ -144,7 +144,8 @@ class TagController extends Controller
         ]);
 
         $tags = Tag::where('name', 'like', "%{$search}%")
-            ->limit(10)
+            ->orderBy('name', 'asc')
+            ->limit(25)
             ->get();
         return response()->json($tags);
     }

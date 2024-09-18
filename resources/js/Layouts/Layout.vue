@@ -29,12 +29,14 @@ const { items, isActive } = useMwRoutes();
         <header class="w-full">
             <Menubar :model="items" class="w-full px-2 lg:px-4">
                 <template #start>
-                    <img src="../../images/logo.svg" alt="Wordcraft" class="w-8 lg:w-24">
+                    <Link :href="route('home')">
+                        <img src="../../images/logo.svg" alt="Wordcraft" class="w-8 lg:w-24">
+                    </Link>
                 </template>
                 <template #item="{ item }">
                     <Link
                         v-if="(!item.private) || (item.private && $page.props.auth.user)"
-                        class="flex items-center gap-2 ml-6 font-bold"
+                        class="flex items-center gap-2 font-bold mx-2"
                         :class="{'item--active': isActive(item?.urls ?? '')}"
                         v-ripple
                         :href="item.urls[0] ?? ''"
@@ -104,8 +106,8 @@ const { items, isActive } = useMwRoutes();
 
 <style>
 .item--active {
-    color: #ffd166;
-    background: -webkit-linear-gradient(#ffd166, #af7f10);
+    color: #7180B9;
+    background: -webkit-linear-gradient(#2E294E, #D81E5B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
