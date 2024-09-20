@@ -66,6 +66,8 @@ class WordOrSentenceController extends Controller
         $request->validate([
             'word_or_sentence' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:webp,jpeg,png,jpg,gif,svg|max:2048',
+            'tags' => 'nullable|array', // Add validation for tags
+            'tags.*' => 'exists:tags,id', // Ensure each tag ID exists
         ]);
 
         // Get user input
@@ -93,6 +95,11 @@ class WordOrSentenceController extends Controller
         $new_word->user()->associate(auth()->user());
         $new_word->save();
 
+        // Attach tags if provided
+        if ($request->has('tags')) {
+            $new_word->tags()->attach($request->input('tags'));
+        }
+
         // Return response
         return redirect()->route('word.index')
             ->with('success', 'The new word was added.');
@@ -108,11 +115,14 @@ class WordOrSentenceController extends Controller
             'comments' => 'nullable|array',
             'comments.*.id' => 'nullable',
             'comments.*.comment' => 'nullable|string|max:1000',
+            'tags' => 'nullable|array', // Validate tags input
+            'tags.*' => 'exists:tags,id', // Ensure each tag exists in the tags table
         ]);
 
         // Get user input
         $wordOrSentenceInput = $request->input('word_or_sentence');
 
+        $about = null;
         if ($request->input('regenerate')) {
             // Call AI for updated information
             $about = AiHelper::askToAi(AiPromptsHelper::generateAboutPrompt($wordOrSentenceInput));
@@ -139,10 +149,15 @@ class WordOrSentenceController extends Controller
             'image_path' => $imagePath,
             'image_url' => $imageUrl,
         ];
-        if (isset($about) && $about) {
+        if ($about) {
             $updatePayload['about'] = $about;
         }
         $wordOrSentence->update($updatePayload);
+
+        // Sync tags
+        if ($request->has('tags')) {
+            $wordOrSentence->tags()->sync($request->input('tags'));
+        }
 
         // Update or create comments
         if ($request->has('comments')) {
@@ -179,17 +194,35 @@ class WordOrSentenceController extends Controller
 
     public function addPage(WordOrSentence $wordOrSentence)
     {
+        $tags = Tag::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->take(100)
+            ->get();
+
         return Inertia::render('Words/WordForm', [
-            'mode' => 'add'
+            'mode' => 'add',
+            'tags' => $tags
         ]);
     }
 
     public function formPage(WordOrSentence $word = null, string $mode = null)
     {
+        $tags = Tag::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->take(100)
+            ->get();
+
+        // Format wordTags to match the tags structure
+        $wordTags = $word ? $word->tags->map(function ($tag) {
+            return ['id' => $tag->id, 'name' => $tag->name];
+        })->toArray() : [];
+
         return Inertia::render('Words/WordForm', [
             'word' => $word,
-            'comments' => $word->comments,
-            'mode' => $mode
+            'wordTags' => $wordTags,
+            'comments' => $word ? $word->comments : [],
+            'mode' => $mode,
+            'tags' => $tags,
         ]);
     }
 

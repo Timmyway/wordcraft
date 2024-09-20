@@ -4,7 +4,8 @@ import MultiSelect from 'primevue/multiselect';
 interface Props {
     options: any[],
     placeholder?: string;
-    optionLabel?: string;
+    optionLabel?: string | Function;
+    optionValue?: string | Function | null;
     modelValue: any[];
     actionText?: string;
     bgColor?: string;
@@ -16,6 +17,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     placeholder: 'Click here to select items',
     optionLabel: 'name',
+    optionValue: null,
     actionText: 'go',
     bgColor: '#333',
     textColor: '#FFF',
@@ -40,6 +42,7 @@ const action = (e: any) => {
         :options="options"
         display="chip"
         :optionLabel
+        :optionValue
         filter
         :placeholder
         :maxSelectedLabels="5"

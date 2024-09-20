@@ -7,12 +7,23 @@ import { WordOrSentence } from '@/types/words/word.types';
 import { computed, ref } from 'vue';
 import TwCheckbox from '@/Components/form/TwCheckbox.vue';
 import TwTextarea from '@/Components/form/TwTextarea.vue';
-import { CommentModel } from '@/types/models/models.types';
+import { CommentModel, TagModel } from '@/types/models/models.types';
 import { CommentForm } from '@/types/models/form.types';
+import TwMultiSelect from '@/Components/ui/TwMultiSelect.vue';
 
 interface Props {
     mode?: 'edit',
 	word?: WordOrSentence; // Optional since it's not needed in 'add' mode
+    tags: TagModel[],
+    wordTags: TagModel[]
+}
+
+interface WordInertiaForm {
+    id: number | null; // Allow null
+    word_or_sentence: string;
+    regenerate: boolean;
+    tags: number[] | TagModel[]; // Store selected tag IDs
+    comments: CommentForm[]; // Ensure this is always an array
 }
 
 const props = defineProps<Props>();
@@ -21,18 +32,21 @@ const notifStore = useNotifStore();
 const isProcessing = ref<boolean>(false);
 
 // Initialize form data
-const form = useForm({
-    id: props?.mode === 'edit' ? props.word?.id : null,
+const form = useForm<WordInertiaForm>({
+    id: props?.mode === 'edit' ? props.word?.id ?? null : null,
     word_or_sentence: props.word?.word_or_sentence || '',
     regenerate: false,
-    comments: props?.mode === 'edit' ? props.word?.comments?.map((c: CommentModel): CommentForm => {
-        return { id: c.id, comment: c.comment }
-    }): [],
+    tags: props?.mode === 'edit' ? props.wordTags : [], // Store selected tag IDs
+    comments: props.mode === 'edit' ? props.word?.comments?.map((c: CommentModel): CommentForm => {
+        return { id: c.id, comment: c.comment };
+    }) ?? [] : [], // Provide a fallback to an empty array
 });
 
 // Function to handle form submission
 const handleSubmit = () => {
     isProcessing.value = true;
+    // We need to send only the tag's Ids
+    form.tags = (form.tags as TagModel[]).map(t => t.id);
     if (props?.mode === 'edit') {
         // Edit mode: Send a PUT or PATCH request to update the existing prompt
         form.put(route('word.update', props.word?.id), {
@@ -113,6 +127,15 @@ const removeByIndex = (index: number) => {
                         required
                         tabindex="1"
                     ></tw-text-input>
+                </div>
+                <div>
+                    <tw-multi-select
+                        class="flex-1"
+                        action-text="Filter"
+                        :options="tags"
+                        placeholder="You may select many tags"
+                        v-model="form.tags"
+                    ></tw-multi-select>
                 </div>
                 <div class="max-h-72 overflow-y-auto scrollbar-thin bg-gray-300" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;">
                     <div class="sticky top-0 z-30 shadow-lg bg-white py-2 pl-4 flex items-center gap-5">
