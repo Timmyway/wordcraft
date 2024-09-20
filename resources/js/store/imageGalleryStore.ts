@@ -1,12 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useFileDialog } from "@vueuse/core";
-import { useCanvasOperationsStore } from "./canvasOperationsStore";
 
 export const useImageGalleryStore = defineStore('imageGallery', () => {
     const isGalleryVisible = ref<boolean>(false);
     const isBankGalleryVisible = ref<boolean>(false);
-    const canvasOperations = useCanvasOperationsStore();
 
     const { files, open, reset, onChange } = useFileDialog({
         accept: 'image/*', // Set to accept only image files
@@ -45,7 +43,7 @@ export const useImageGalleryStore = defineStore('imageGallery', () => {
     onChange((files) => {
         if (files && files.length > 0) {
             const selectedImage = files[0];
-            canvasOperations.addImageToWall(selectedImage);
+            // Do something with selected image
         }
     })
 

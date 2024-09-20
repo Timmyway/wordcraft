@@ -124,6 +124,6 @@ function truncateWord(str: string, maxLength = 15): string {
     }
 }
 
-export { safeJsonParse, getUuid, getNanoid, imageToBase64, base64ToImage, loadImageFromURL,
+export { safeJsonParse, getNanoid, imageToBase64, base64ToImage, loadImageFromURL,
     pickRandomElement, nanoid, truncateString, toUserFriendlyDate, truncateWord,
 }
