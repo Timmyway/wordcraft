@@ -183,7 +183,7 @@ const removeByIndex = (index: number) => {
                     <i class="fa fa-plus"></i>
                     <span>{{ (mode && mode === 'edit') ? 'Update' : 'Add' }} word or sentence</span>
                 </button>
-                <Link class="btn btn-link" :href="$route('word.index')">
+                <Link class="btn btn-link" :href="route('word.index')">
                     <i class="fas fa-arrow-left mr-1"></i>
                     <span>Cancel</span>
                 </Link>
