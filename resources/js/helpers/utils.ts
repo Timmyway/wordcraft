@@ -124,6 +124,26 @@ function truncateWord(str: string, maxLength = 15): string {
     }
 }
 
+function openGoogleSearch(keyword: string, searchType = 'image') {
+    let url;
+
+    if (searchType === 'image') {
+        // Construct URL for Google Images search
+        url = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(keyword)}`;
+    } else if (searchType === 'web') {
+        // Construct URL for regular Google search
+        url = `https://www.google.com/search?q=${encodeURIComponent(keyword)}`;
+    } else {
+        // Handle other potential search types (if needed)
+        console.warn('Unknown search type. Defaulting to web search.');
+        url = `https://www.google.com/search?q=${encodeURIComponent(keyword)}`;
+    }
+
+    // Open the constructed URL in a new tab
+    window.open(url, '_blank');
+}
+
 export { safeJsonParse, getNanoid, imageToBase64, base64ToImage, loadImageFromURL,
     pickRandomElement, nanoid, truncateString, toUserFriendlyDate, truncateWord,
+    openGoogleSearch,
 }

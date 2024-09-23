@@ -9,6 +9,7 @@ import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
 import { router } from '@inertiajs/vue3';
 import TwWordComment from '@/Components/words/TwWordComment.vue';
+import { openGoogleSearch } from '@/helpers/utils';
 
 interface Props {
     words: PaginatedWords;
@@ -85,6 +86,12 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                                     :disabled="audioStore.isReading"
                                 >
                                     <i class="fas fa-bullhorn text-pink-700 text-xs"></i>
+                                </button>
+                                <button
+                                    @click.prevent="openGoogleSearch(word.word_or_sentence)"
+                                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                                >
+                                    <i class="fas fa-image text-xs"></i>
                                 </button>
                             </div>
                             <template v-if="tagStore.tags[getTagName(word.id)]">
