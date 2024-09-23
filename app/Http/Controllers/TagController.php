@@ -13,6 +13,10 @@ class TagController extends Controller
 {
     public function indexPage(Request $request)
     {
+        // if ($request->user()->cannot('viewAny')) {
+        //     abort(403);
+        // }
+
         $itemsPerPage = 100;
 
         // Get filter parameters from the request
@@ -35,15 +39,21 @@ class TagController extends Controller
         ]);
     }
 
-    public function addPage()
+    public function addPage(Request $request)
     {
+        if ($request->user()->cannot('create')) {
+            abort(403);
+        }
         return Inertia::render('Tags/TagForm', [
             'mode' => 'add'
         ]);
     }
 
-    public function formPage(Tag $tag = null, string $mode = null)
+    public function formPage(Request $request, Tag $tag = null, string $mode = null)
     {
+        if ($request->user()->cannot(['create', 'update'])) {
+            abort(403);
+        }
         return Inertia::render('Tags/TagForm', [
             'tag' => $tag,
             'mode' => $mode
@@ -52,6 +62,9 @@ class TagController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->user()->cannot(['create'])) {
+            abort(403);
+        }
         // Validate incoming request
         $validated = $request->validate([
             'tags' => ['required', 'array'],
@@ -94,6 +107,9 @@ class TagController extends Controller
 
     public function update(Request $request, Tag $tag)
     {
+        if ($request->user()->cannot(['update'])) {
+            abort(403);
+        }
         // Validate incoming request
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:50'], // Ensure a valid tag name
@@ -117,8 +133,11 @@ class TagController extends Controller
             ->with('updatedTag', $tag);
     }
 
-    public function destroy(Tag $tag)
+    public function destroy(Request $request, Tag $tag)
     {
+        if ($request->user()->cannot(['delete'])) {
+            abort(403);
+        }
         // Use a transaction to ensure atomicity
         DB::transaction(function () use ($tag) {
             // Detach the tag from its associated words/sentences
@@ -155,6 +174,9 @@ class TagController extends Controller
      */
     public function addToWord(Request $request): JsonResponse
     {
+        if ($request->user()->cannot(['update'])) {
+            abort(403);
+        }
         // Validate the request data
         $data = $request->validate([
             'wordId' => 'required|integer|exists:word_or_sentences,id',
@@ -179,6 +201,9 @@ class TagController extends Controller
      */
     public function removeFromWord(Request $request): JsonResponse
     {
+        if ($request->user()->cannot(['update'])) {
+            abort(403);
+        }
         // Validate the request data
         $data = $request->validate([
             'wordId' => 'required|integer|exists:word_or_sentences,id',

@@ -94,7 +94,7 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                                     <i class="fas fa-image text-xs"></i>
                                 </button>
                             </div>
-                            <template v-if="tagStore.tags[getTagName(word.id)]">
+                            <template v-if="word.user.is_admin && tagStore.tags[getTagName(word.id)]">
                                 <tw-checkbox
                                     label="Tags"
                                     has-border
@@ -111,6 +111,7 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                             >
                                 <template #head>
                                     <button
+                                        v-if="word.user.is_admin"
                                         class="btn bg-red-300 flex items-center gap-1 shadow-none py-0 px-2 rounded-lg"
                                         @click.prevent="removeTag(word.id)"
                                     >
