@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\WordOrSentence;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -33,6 +34,11 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'permissions' => [
+                    'word' => [
+                        'update' => $request->user()->can('update', WordOrSentence::class),
+                    ],
+                ],
             ],
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),

@@ -174,9 +174,6 @@ class TagController extends Controller
      */
     public function addToWord(Request $request): JsonResponse
     {
-        if ($request->user()->cannot('update', Tag::class)) {
-            abort(403);
-        }
         // Validate the request data
         $data = $request->validate([
             'wordId' => 'required|integer|exists:word_or_sentences,id',
@@ -186,6 +183,11 @@ class TagController extends Controller
 
         // Find the word
         $word = WordOrSentence::findOrFail($data['wordId']);
+
+        // Authorize the action using the TagPolicy
+        if ($request->user()->cannot('addTagToWord', $word)) {
+            abort(403, 'Unauthorized to modify this word.');
+        }
 
         // Attach the tags to the word (many-to-many relationship)
         $word->tags()->syncWithoutDetaching($data['tagsId']);
@@ -201,9 +203,6 @@ class TagController extends Controller
      */
     public function removeFromWord(Request $request): JsonResponse
     {
-        if ($request->user()->cannot('update', Tag::class)) {
-            abort(403);
-        }
         // Validate the request data
         $data = $request->validate([
             'wordId' => 'required|integer|exists:word_or_sentences,id',
@@ -213,6 +212,11 @@ class TagController extends Controller
 
         // Find the word
         $word = WordOrSentence::findOrFail($data['wordId']);
+
+        // Authorize the action using the TagPolicy
+        if ($request->user()->cannot('removeTagFromWord', $word)) {
+            abort(403, 'Unauthorized to modify this word.');
+        }
 
         // Detach the tags from the word
         $word->tags()->detach($data['tagsId']);

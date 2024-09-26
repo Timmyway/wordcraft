@@ -7,7 +7,7 @@ import TwMultiTag from '@/Components/words/TwMultiTag.vue';
 import TwCheckbox from '../form/TwCheckbox.vue';
 import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
 
@@ -19,6 +19,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     bgColor: 'bg-white'
 });
+
+const page = usePage();
 
 const audioStore = useAudioStore();
 const tagStore = useTagStore();
@@ -68,6 +70,7 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                         </div>
                         <div class="flex gap-2 items-center">
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
+                                Test permission:{{ page.props.auth.permissions.word.update }}
                                 <Link
                                     class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
                                     :href="route('word.detail', { word: word.id, mode: 'edit' })">

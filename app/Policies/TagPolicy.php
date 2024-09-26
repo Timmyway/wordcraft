@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\WordOrSentence;
 
 class TagPolicy
 {
@@ -55,5 +56,27 @@ class TagPolicy
     {
         // Allow only admins to delete tags
         return $user->is_admin;
+    }
+
+    /**
+     * Add a tag to the user's word.
+     */
+    public function addTagToWord(User $user, WordOrSentence $word): bool
+    {
+        // Check if the user owns the word or is an admin
+        if ($user->id === $word->user_id || $user->is_admin) {
+            return true;
+        }
+    }
+
+    /**
+     * Remove a tag from the user's word.
+     */
+    function removeTagFromWord(User $user, WordOrSentence $word): bool
+    {
+        // Check if the user owns the word or is an admin
+        if ($user->id === $word->user_id || $user->is_admin) {
+            return true; // Successfully removed
+        }
     }
 }

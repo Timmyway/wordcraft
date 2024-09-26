@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\WordOrSentence;
 use App\Services\ImageUploadService;
+use Doctrine\Inflector\Rules\Word;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -58,8 +59,6 @@ class WordOrSentenceController extends Controller
         ]);
     }
 
-
-
     public function store(Request $request)
     {
         // Validate incoming request
@@ -107,6 +106,9 @@ class WordOrSentenceController extends Controller
 
     public function update(Request $request, WordOrSentence $wordOrSentence)
     {
+        if ($request->user()->cannot('update', $wordOrSentence)) {
+            abort(403);
+        }
         // Validate the incoming request
         $request->validate([
             'word_or_sentence' => 'required|string|max:255',
@@ -178,8 +180,11 @@ class WordOrSentenceController extends Controller
             ->with('success', 'The new word was added.');
     }
 
-    public function destroy(WordOrSentence $wordOrSentence)
+    public function destroy(Request $request, WordOrSentence $wordOrSentence)
     {
+        if ($request->user()->cannot('update', $wordOrSentence)) {
+            abort(403);
+        }
         // Optionally delete the associated image if it exists
         if ($wordOrSentence->image_path) {
             $this->imageUploadService->delete($wordOrSentence->image_path);
@@ -205,8 +210,11 @@ class WordOrSentenceController extends Controller
         ]);
     }
 
-    public function formPage(WordOrSentence $word = null, string $mode = null)
+    public function formPage(Request $request, WordOrSentence $word = null, string $mode = null)
     {
+        if ($request->user()->cannot('modify', $word)) {
+            abort(403);
+        }
         $tags = Tag::select('id', 'name')
             ->orderBy('name', 'asc')
             ->take(100)
@@ -228,6 +236,9 @@ class WordOrSentenceController extends Controller
 
     public function addComment(Request $request, WordOrSentence $wordOrSentence)
     {
+        if ($request->user()->cannot('update', $wordOrSentence)) {
+            abort(403);
+        }
         $request->validate([
             'comment' => 'required|string|max:1000',
         ]);
