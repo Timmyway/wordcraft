@@ -57,7 +57,7 @@ const canTagWord = (wordUserId: number) => {
             <span>No word or sentence found...</span>
             <Link
                 class="btn btn-xs underline shadow-none text-xl"
-                :href="route('word.index', { shuffle: wordStore.setting.shuffle })">
+                :href="route('word.index', { shuffle: wordStore.setting.listMode })">
                 <span>Return back to word list</span>
             </Link>
         </div>
