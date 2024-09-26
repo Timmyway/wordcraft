@@ -65,9 +65,10 @@ onMounted(() => {
                     class="border rounded p-2 max-w-xs"
                     placeholder="Filter by word"
                     v-model="filterStore.filters.search"
+                    @keyup.enter="filterStore.applyFilters()"
                 >
                 <tw-multi-select
-                    class="flex-1"
+                    class="flex-1 w-fit"
                     action-text="Filter"
                     :options="tags"
                     placeholder="You may select many tags"

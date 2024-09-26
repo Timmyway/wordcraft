@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Tag;
 use App\Models\WordOrSentence;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -36,7 +37,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'permissions' => [
                     'word' => [
-                        'update' => $request->user()->can('update', WordOrSentence::class),
+                        'update' => $request->user()?->can('update', WordOrSentence::class),
                     ],
                 ],
             ],

@@ -10,8 +10,13 @@ import TwDatatable from '@/Components/ui/TwDatatable.vue';
 import useFilterAndSort from '@/composable/useFilterAndSort';
 import useDeleteConfirm from '@/composable/useDeleteConfirm';
 
+interface Permission {
+    tagModify: boolean;
+}
+
 const props = defineProps<{
     tags: PaginatedTags,
+    can: Permission
 }>();
 
 const page = usePage<InertiaPageProps>();
@@ -64,6 +69,7 @@ const onBlur = () => {
                     </h1>
                 </Link>
                 <Link
+                    v-if="can.tagModify"
                     class="btn btn-xs text-base bg-yellow-400 space-x-2"
                     :href="route('tag.add')"
                 >
@@ -104,10 +110,11 @@ const onBlur = () => {
             >
                 <template #action="defaultProps">
                     <div class="flex items-center justify-around gap-4">
-                        <Link class="btn btn-icon btn-xs w-8 h-8 shadow-none" :href="route('tag.detail', { tag: defaultProps.item.id, mode: 'edit' })">
+                        <Link v-if="can.tagModify" class="btn btn-icon btn-xs w-8 h-8 shadow-none" :href="route('tag.detail', { tag: defaultProps.item.id, mode: 'edit' })">
                             <i class="fas fa-edit"></i>
                         </Link>
                         <button
+                            v-if="can.tagModify"
                             class="btn btn-xs btn-icon text-xs w-8 h-8 shadow-none"
                             @click="deleteTag(defaultProps.item.id)"
                         >

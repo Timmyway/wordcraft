@@ -38,14 +38,20 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
         router.get('words', { preserveScroll: true })
     }
 }
+
+const canTagWord = (wordUserId: number) => {
+    // wordUserId should be the ID of word creator.
+    const loggedInUser = page.props.auth.user
+    return (loggedInUser.id === wordUserId) || loggedInUser.is_admin;
+}
 </script>
 
 <template>
     <div class="tw-word-gallery gap-1 py-2 my-2">
-        <div v-if="words.data?.length <= 0" class="flex items-center gap-2">
+        <div v-if="words.data?.length <= 0" class="flex items-center gap-2 text-white text-2xl">
             <span>No word or sentence found...</span>
             <Link
-                class="btn btn-xs text-base underline shadow-none"
+                class="btn btn-xs underline shadow-none text-xl"
                 :href="route('word.index')">
                 <span>Return back to word list</span>
             </Link>
@@ -70,7 +76,6 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                         </div>
                         <div class="flex gap-2 items-center">
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
-                                Test permission:{{ page.props.auth.permissions.word.update }}
                                 <Link
                                     class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
                                     :href="route('word.detail', { word: word.id, mode: 'edit' })">
@@ -97,7 +102,7 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                                     <i class="fas fa-image text-xs"></i>
                                 </button>
                             </div>
-                            <template v-if="word.user.is_admin && tagStore.tags[getTagName(word.id)]">
+                            <template v-if="canTagWord(word.user.id) && tagStore.tags[getTagName(word.id)]">
                                 <tw-checkbox
                                     label="Tags"
                                     has-border
@@ -110,11 +115,12 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                                 :items="word.tags"
                                 class="border border-solid border-gray-200 px-1 py-1 rounded"
                                 bg-color="#defa44"
+                                max-height="60px"
                                 counter
                             >
                                 <template #head>
                                     <button
-                                        v-if="word.user.is_admin"
+                                        v-if="canTagWord(word.user.id)"
                                         class="btn bg-red-300 flex items-center gap-1 shadow-none py-0 px-2 rounded-lg"
                                         @click.prevent="removeTag(word.id)"
                                     >
@@ -127,6 +133,7 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
                                 </template>
                                 <template #action-before="{ chipsItem }">
                                     <button
+                                        v-if="canTagWord(word.user.id)"
                                         class="btn shadow-none btn-icon w-4 h-4 p-2"
                                         @click.prevent="removeTag(word.id, [chipsItem.id])"
                                     >

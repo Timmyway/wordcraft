@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\WordOrSentence;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -36,6 +37,9 @@ class TagController extends Controller
         // Pass filter parameters to the view
         return Inertia::render('Tags/TagList', [
             'tags' => $tags,
+            'can' => [
+                'tagModify' => $request->user()->can('modify', Tag::class),
+            ]
         ]);
     }
 
