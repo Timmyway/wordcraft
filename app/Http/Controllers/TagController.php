@@ -41,7 +41,7 @@ class TagController extends Controller
 
     public function addPage(Request $request)
     {
-        if ($request->user()->cannot('create')) {
+        if ($request->user()->cannot('modify', Tag::class)) {
             abort(403);
         }
         return Inertia::render('Tags/TagForm', [
@@ -51,7 +51,7 @@ class TagController extends Controller
 
     public function formPage(Request $request, Tag $tag = null, string $mode = null)
     {
-        if ($request->user()->cannot(['create', 'update'])) {
+        if ($request->user()->cannot(['create', 'update'], $tag)) {
             abort(403);
         }
         return Inertia::render('Tags/TagForm', [
@@ -62,7 +62,7 @@ class TagController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->user()->cannot(['create'])) {
+        if ($request->user()->cannot(['create'], Tag::class)) {
             abort(403);
         }
         // Validate incoming request
@@ -107,7 +107,7 @@ class TagController extends Controller
 
     public function update(Request $request, Tag $tag)
     {
-        if ($request->user()->cannot(['update'])) {
+        if ($request->user()->cannot('update', $tag)) {
             abort(403);
         }
         // Validate incoming request
@@ -135,7 +135,7 @@ class TagController extends Controller
 
     public function destroy(Request $request, Tag $tag)
     {
-        if ($request->user()->cannot(['delete'])) {
+        if ($request->user()->cannot('delete', $tag)) {
             abort(403);
         }
         // Use a transaction to ensure atomicity
@@ -174,7 +174,7 @@ class TagController extends Controller
      */
     public function addToWord(Request $request): JsonResponse
     {
-        if ($request->user()->cannot(['update'])) {
+        if ($request->user()->cannot('update', Tag::class)) {
             abort(403);
         }
         // Validate the request data
@@ -201,7 +201,7 @@ class TagController extends Controller
      */
     public function removeFromWord(Request $request): JsonResponse
     {
-        if ($request->user()->cannot(['update'])) {
+        if ($request->user()->cannot('update', Tag::class)) {
             abort(403);
         }
         // Validate the request data

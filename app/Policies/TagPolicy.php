@@ -24,6 +24,12 @@ class TagPolicy
         return $user->is_admin;
     }
 
+    public function modify(User $user): bool
+    {
+        // Allow admins to view all tags
+        return $user->is_admin;
+    }
+
     /**
      * Determine whether the user can create tags.
      */
@@ -36,7 +42,7 @@ class TagPolicy
     /**
      * Determine whether the user can update the tag.
      */
-    public function update(User $user, Tag $tag): bool
+    public function update(User $user): bool
     {
         // Allow only admins to update tags
         return $user->is_admin;
@@ -45,7 +51,7 @@ class TagPolicy
     /**
      * Determine whether the user can delete the tag.
      */
-    public function delete(User $user, Tag $tag): bool
+    public function delete(User $user): bool
     {
         // Allow only admins to delete tags
         return $user->is_admin;
