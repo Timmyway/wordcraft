@@ -29,10 +29,10 @@ class WordOrSentenceController extends Controller
         // Get filter parameters from the request
         $search = $request->post('search'); // For filtering by name
         $tagIds = $request->post('tags', []); // For filtering by tag
+        $listMode = $request->input('listMode', 'normal'); // New parameter to check if words should be shuffled
 
         // Build the query
-        $query = WordOrSentence::with(['user', 'tags', 'comments.user'])
-            ->orderBy('id', 'desc');
+        $query = WordOrSentence::with(['user', 'tags', 'comments.user']);
 
         // Apply filters if present
         if ($search) {
@@ -44,6 +44,13 @@ class WordOrSentenceController extends Controller
             $query->whereHas('tags', function ($q) use ($tagIds) {
                 $q->whereIn('tags.id', $tagIds);
             }, '=', count($tagIds)); // Ensure all selected tags are present
+        }
+
+        // Shuffle words if requested
+        if ($listMode === 'shuffle') {
+            $query->inRandomOrder();
+        } else {
+            $query->orderBy('id', 'desc');
         }
 
         // Paginate results

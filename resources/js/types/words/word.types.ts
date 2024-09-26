@@ -19,3 +19,5 @@ export interface WordOrSentence {
     tags: TagModel[],
     comments: CommentModel[]
 }
+
+export type ListMode = 'normal' | 'shuffle';

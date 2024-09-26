@@ -1,3 +1,5 @@
+import { ListMode } from "./words/word.types";
+
 export interface User {
     id: number;
     name: string;
@@ -17,4 +19,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
         permissions: Permissions; // Adding permissions to the auth structure
     };
+    listMode?: ListMode;
 };

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Layout from '@/Layouts/Layout.vue';
 import { InertiaPageProps } from '@/types/inertia';
-import { usePage } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
+import { computed, onBeforeUnmount, onMounted } from 'vue';
 import { useNotifStore } from '@/store/notificationStore';
 import { PaginatedWords } from '@/types/pagination.types';
 import TwPagination from '@/Components/ui/TwPagination.vue'
@@ -10,6 +10,9 @@ import TwWordGallery from '@/Components/library/TwWordGallery.vue';
 import { useFilterStore } from '@/store/filterStore';
 import { TagModel } from '@/types/models/models.types';
 import TwMultiSelect from '@/Components/ui/TwMultiSelect.vue';
+import { useWordStore } from '@/store/wordStore';
+import TwMultiStateSwitch from '@/Components/form/TwMultiStateSwitch.vue';
+import { ListMode } from '@/types/words/word.types';
 
 const props = defineProps<{
     words: PaginatedWords,
@@ -19,8 +22,14 @@ const props = defineProps<{
 const page = usePage<InertiaPageProps>();
 
 const notifStore = useNotifStore();
-
 const filterStore = useFilterStore();
+const wordStore = useWordStore();
+
+const listMode = computed<ListMode>((): ListMode => {
+    // Access the query param using this.$page.props
+    return page.props.listMode ?? 'normal';  // Fallback to 'default' if listMode is not present
+});
+
 // Success message comes from Inertia shared mechanism.
 // const successMessage = computed(() => page.props.flash.success);
 onMounted(() => {
@@ -29,7 +38,13 @@ onMounted(() => {
             { message: page.props.flash.success ?? '' },
         ])
     }
+    // wordStore.setting.listMode = listMode.value;
 });
+
+const refresh = () => {
+    router.get(route('word.index', { listMode: wordStore.setting.listMode }));
+}
+
 </script>
 <template>
 <Layout>
@@ -46,9 +61,14 @@ onMounted(() => {
                 </Link>
             </div>
             <div class="flex items-center gap-4 justify-center">
-                <Link :href="route('word.index')">
+                <Link :href="route('word.index', { listMode: wordStore.setting.listMode })">
                     <i class="fas fa-home text-sm text-white"></i>
                 </Link>
+                <tw-multi-state-switch
+                    :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
+                    v-model="wordStore.setting.listMode"
+                    @switch="refresh"
+                ></tw-multi-state-switch>
                 <Link
                     class="btn btn-xs text-base py-1 bg-yellow-400 space-x-2"
                     :href="route('word.add')"

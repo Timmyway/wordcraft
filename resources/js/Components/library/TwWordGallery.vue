@@ -10,6 +10,8 @@ import TwChips from '../ui/TwChips.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
+import { ref } from 'vue';
+import { useWordStore } from '@/store/wordStore';
 
 interface Props {
     words: PaginatedWords;
@@ -24,9 +26,12 @@ const page = usePage();
 
 const audioStore = useAudioStore();
 const tagStore = useTagStore();
+const wordStore = useWordStore();
+
 props.words.data.forEach(w => {
     tagStore.initTagState(w.id, w.tags);
 });
+
 const { getTagName } = tagStore;
 
 const { toHtml } = useMarkdownParser();
@@ -52,7 +57,7 @@ const canTagWord = (wordUserId: number) => {
             <span>No word or sentence found...</span>
             <Link
                 class="btn btn-xs underline shadow-none text-xl"
-                :href="route('word.index')">
+                :href="route('word.index', { shuffle: wordStore.setting.shuffle })">
                 <span>Return back to word list</span>
             </Link>
         </div>
