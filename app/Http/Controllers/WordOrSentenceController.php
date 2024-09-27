@@ -114,7 +114,7 @@ class WordOrSentenceController extends Controller
 
     public function update(Request $request, WordOrSentence $wordOrSentence)
     {
-        if ($request->user()->cannot('update', $wordOrSentence)) {
+        if ($request->user()->cannot('updateWord', $wordOrSentence)) {
             abort(403);
         }
         // Validate the incoming request
@@ -190,7 +190,7 @@ class WordOrSentenceController extends Controller
 
     public function destroy(Request $request, WordOrSentence $wordOrSentence)
     {
-        if ($request->user()->cannot('update', $wordOrSentence)) {
+        if ($request->user()->cannot('updateWord', $wordOrSentence)) {
             abort(403);
         }
         // Optionally delete the associated image if it exists
@@ -244,7 +244,7 @@ class WordOrSentenceController extends Controller
 
     public function addComment(Request $request, WordOrSentence $wordOrSentence)
     {
-        if ($request->user()->cannot('update', $wordOrSentence)) {
+        if ($request->user()->cannot('updateWord', $wordOrSentence)) {
             abort(403);
         }
         $request->validate([
