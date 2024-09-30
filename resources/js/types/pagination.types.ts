@@ -16,6 +16,10 @@ interface PaginationLink {
     active: boolean;
 }
 
+export interface PaginationSettings {
+    perPage: number;
+}
+
 export type PaginatedWords = PaginatedResponse<WordOrSentence>;
 export type PaginatedTags = PaginatedResponse<TagModel>;
 export type PaginatedIrregularVerbs = PaginatedResponse<IrregularVerbModel>;

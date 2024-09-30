@@ -32,20 +32,11 @@ onMounted(() => {
     }
 });
 
-const startApplyingFilters = (startAt = 2) => {
-    if (filters.value.search.trim().length < startAt) {
-        return;
-    }
-    applyFilters();
-}
-const onBlur = () => {
-    if (filters.value.search.trim() === '') {
-        resetFilters();
-    }
-}
-
 const refresh = () => {
-    verbStore.fetchIrregularVerbs(1, 100, wordStore.setting.irregularVerbListMode as ListMode);
+    verbStore.fetchIrregularVerbs(1,
+        verbStore.parginationSettings.perPage,
+        wordStore.setting.irregularVerbListMode as ListMode
+    );
 }
 
 refresh();
@@ -71,24 +62,11 @@ refresh();
             </div>
 
             <div class="flex items-center w-full flex-wrap gap-2 border border-solid border-gray-300 px-4 py-1 rounded lg:gap-4">
-                <span class="font-bold">Options</span>
-                <!-- Search by Name -->
-                <input
-                    type="text"
-                    class="border rounded p-2 max-w-xs"
-                    placeholder="Filter by name"
-                    v-model="filters.search"
-                    @keyup.enter="startApplyingFilters()"
-                    @blur="onBlur"
+                <Link
+                    :href="route('irregular-verb.index',
+                    { listMode: wordStore.setting.irregularVerbListMode })"
+
                 >
-                <button
-                    v-show="hasFilter"
-                    class="btn btn-xs rounded-full w-8 h-8 text-base text-pink-600 shadow-none"
-                    @click.prevent="resetFilters"
-                >
-                    <i class="fas fa-times"></i>
-                </button>
-                <Link :href="route('irregular-verb.index', { listMode: wordStore.setting.irregularVerbListMode })">
                     <i class="fas fa-sync text-sm"></i>
                 </Link>
                 <tw-multi-state-switch
@@ -96,6 +74,16 @@ refresh();
                     v-model="wordStore.setting.irregularVerbListMode"
                     @switch="refresh"
                 ></tw-multi-state-switch>
+                <select
+                    class="py-1 border border-gray-300 border-solid rounded-md outline-none"
+                    v-model="verbStore.parginationSettings.perPage"
+                    @change="refresh"
+                >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
             </div>
         </div>
         <div class="tw-verb-gallery">

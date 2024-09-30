@@ -1,12 +1,17 @@
 import irregularVerbApi from "@/api/irregularVerbApi";
 import { VerbResponse } from "@/types/api.types";
-import { PaginatedIrregularVerbs } from "@/types/pagination.types";
+import { PaginatedIrregularVerbs, PaginationSettings } from "@/types/pagination.types";
 import { ListMode } from "@/types/words/word.types";
+import { useLocalStorage } from "@vueuse/core";
 import { AxiosResponse } from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useVerbStore = defineStore('verb', () => {
+
+    const parginationSettings = useLocalStorage('pagination-settings', {
+        perPage: 100,
+    });
 
     const irregularVerbs = ref<PaginatedIrregularVerbs>();
 
@@ -37,5 +42,5 @@ export const useVerbStore = defineStore('verb', () => {
     }
 
 
-    return { irregularVerbs, visit, fetchIrregularVerbs }
+    return { irregularVerbs, parginationSettings, visit, fetchIrregularVerbs }
 });
