@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HelpController;
+use App\Http\Controllers\IrregularVerbController;
 use App\Http\Controllers\MindwallController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromptController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThematicController;
 use App\Http\Controllers\WordOrSentenceController;
+use App\Models\IrregularVerb;
 use App\Models\Tag;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +51,11 @@ Route::middleware('auth')->group(function () {
         Route::put('/{tag}', [TagController::class, 'update'])->name('update');
         Route::post('/filter', [TagController::class, 'indexPage'])->name('filter.apply');
         Route::delete('{tag}', [TagController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('irregular-verbs')->name('irregular-verb.')->group(function () {
+        Route::get('/', [IrregularVerbController::class, 'indexPage'])->name('index');
+        Route::get('/filter', [IrregularVerbController::class, 'indexPage'])->name('filter');
+        Route::post('/filter', [IrregularVerbController::class, 'indexPage'])->name('filter.apply');
     });
     Route::get('help', [HelpController::class, 'index'])->name('help');
 });

@@ -1,16 +1,25 @@
 <script setup lang="ts">
+type engine = 'inertia' | 'api';
+
 interface Props {
     links: any[];
     minItems?: number;
+    engine?: engine;
 }
 const props = withDefaults(defineProps<Props>(), {
-    minItems: 3
+    minItems: 3,
+    engine: 'inertia',
 });
 // Display pagination components when items >= minItems.
+
+const emit = defineEmits(['linkClicked']);
+const visit = (url: string) => {
+    emit('linkClicked', url);
+}
 </script>
 
 <template>
-<div v-if="links.length > minItems">
+<div v-if="links?.length > minItems">
     <div class="tw-pagination-container" v-bind="$attrs">
         <div
             v-for="(link, index) in links" :key="index"
@@ -19,11 +28,19 @@ const props = withDefaults(defineProps<Props>(), {
                 class="tw-pagination--disabled"
                 v-html="link.label"
             ></div>
-            <Link
-                v-else
-                class="tw-pagination" :class="{ 'active-page': link.active }"
-                :href="link.url" v-html="link.label"
-            />
+            <div v-else>
+                <Link
+                    v-if="engine === 'inertia'"
+                    class="tw-pagination" :class="{ 'active-page': link.active }"
+                    :href="link.url" v-html="link.label"
+                />
+                <button
+                    v-if="engine === 'api'"
+                    class="tw-pagination" :class="{ 'active-page': link.active }"
+                    @click="visit(link.url)"
+                    v-html="link.label"
+                ></button>
+            </div>
         </div>
     </div>
 </div>

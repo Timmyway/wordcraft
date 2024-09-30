@@ -14,3 +14,10 @@ export interface TagModel {
     id: number;
     name: string;
 }
+
+export interface IrregularVerbModel {
+    id: number;
+    verb: string;
+    past_simple: string;
+    past_participle: string;
+}
