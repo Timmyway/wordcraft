@@ -7,11 +7,17 @@ interface Props {
     title: string;
     titleSize?: string;
     sections?: string[];
+    hasHeader?: boolean;
+    hasPreheader?: boolean;
+    titleClass?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     titleSize: '1.3rem',
     sections: () => ['content'],
+    hasHeader: true,
+    hasPreheader: true,
+    titleClass: ''
 });
 
 const isExpanded = ref<{ [key:string]: boolean }>(props.isOpen);
@@ -38,18 +44,19 @@ const toggleCollapse = (section: string) => {
         <div class="flex py-1 px-2">
             <h3
                 class="cursor-pointer"
+                :class="[titleClass]"
                 :style="{ fontSize: titleSize }"
                 @click.prevent="toggleCollapse(sections[0])"
             >{{ title }}</h3>
         </div>
-        <div class="tw-collapse__preheader">
+        <div v-if="hasPreheader" class="tw-collapse__preheader">
             <slot name="preheader"></slot>
         </div>
-        <div class="tw-collapse__header">
+        <div v-if="hasHeader" class="tw-collapse__header">
             <slot name="header"></slot>
         </div>
 
-        <div class="flex gap-2 justify-around">
+        <TransitionGroup name="slide" tag="div" class="flex gap-2 justify-around">
             <div v-for="(section, index) in sections" :key="`${section}-${index}`">
                 <div v-if="viewSection[section]">
                     <div class="flex flex-col justify-center items-center py-2">
@@ -63,7 +70,7 @@ const toggleCollapse = (section: string) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </TransitionGroup>
     </div>
 </template>
 

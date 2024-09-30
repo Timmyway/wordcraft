@@ -12,7 +12,7 @@ export default function useMwRoutes() {
     const items = ref<MwRoute[]>([
         {
             label: 'Words',
-            icon: 'fa fa-book-open',
+            icon: 'fa fa-book',
             urls: [route('word.index'), route('word.add')],
             private: true
         },
@@ -20,6 +20,12 @@ export default function useMwRoutes() {
             label: 'Tags',
             icon: 'fa fa-tags',
             urls: [route('tag.index'), route('tag.add'), route('tag.detail'), route('tag.filter')],
+            private: true
+        },
+        {
+            label: 'Irregular verbs',
+            icon: 'fa fa-book-open',
+            urls: [route('irregular-verb.index')],
             private: true
         },
         {

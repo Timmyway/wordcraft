@@ -6,9 +6,8 @@ import { onMounted, ref } from 'vue';
 import { useNotifStore } from '@/store/notificationStore';
 import TwPagination from '@/Components/ui/TwPagination.vue'
 import useFilterAndSort from '@/composable/useFilterAndSort';
-import irregularVerbApi from '@/api/irregularVerbApi';
-import { PaginatedIrregularVerbs } from '@/types/pagination.types';
 import { useVerbStore } from '@/store/verbStore';
+import TwIrregularVerbCard from '@/Components/verbs/TwIrregularVerbCard.vue';
 
 const props = defineProps<{
 
@@ -83,19 +82,28 @@ verbStore.fetchIrregularVerbs();
                 </button>
             </div>
         </div>
-        <div class="min-w-xs mx-auto px-1 py-2 lg:max-w-[90%] lg:px-4 lg:py-8">
+        <div class="tw-verb-gallery">
             <div v-for="irregularVerb in verbStore.irregularVerbs?.data" :key="irregularVerb.id">
-                <span>{{ irregularVerb.verb }}</span>
+                <tw-irregular-verb-card :irregular-verb="irregularVerb"></tw-irregular-verb-card>
             </div>
-            <div class="pt-2">
-                <tw-pagination
-                    class="justify-center"
-                    :links="verbStore.irregularVerbs?.links ?? []"
-                    engine="api"
-                    @link-clicked="verbStore.visit"
-                ></tw-pagination>
-            </div>
+        </div>
+        <div class="pt-2">
+            <tw-pagination
+                class="justify-center"
+                :links="verbStore.irregularVerbs?.links ?? []"
+                engine="api"
+                @link-clicked="verbStore.visit"
+            ></tw-pagination>
         </div>
     </section>
 </Layout>
 </template>
+
+<style lang="scss">
+.tw-verb-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 4px;
+    padding: 20px;
+}
+</style>

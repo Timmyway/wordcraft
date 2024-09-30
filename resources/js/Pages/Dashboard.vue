@@ -18,18 +18,28 @@ import Layout from '@/Layouts/Layout.vue';
                         <h2 class="font-bold text-2xl text-primary">Manage</h2>
                         <div class="py-4">
                             <Link
-                                class="btn btn-xs text-base bg-yellow-400"
+                                class="btn btn-xs text-base bg-yellow-400 flex items-center gap-2"
                                 :href="route('word.index')">
-                                <i class="fas fa-light-bulb"></i>
+                                <i class="fas fa-book"></i>
                                 <span>Words and sentences</span>
                             </Link>
                         </div>
                         <div class="py-4">
                             <Link
-                                class="btn btn-xs text-base bg-yellow-400"
-                                :href="route('tag.index')">
-                                <i class="fas fa-light-bulb"></i>
+                                class="btn btn-xs text-base bg-yellow-400 flex items-center gap-2"
+                                :href="route('tag.index')"
+                            >
+                                <i class="fas fa-tags"></i>
                                 <span>Tags</span>
+                            </Link>
+                        </div>
+                        <div class="py-4">
+                            <Link
+                                class="btn btn-xs text-base bg-yellow-400 flex items-center gap-2"
+                                :href="route('irregular-verb.index')"
+                            >
+                                <i class="fas fa-book-open"></i>
+                                <span>Irregular verbs</span>
                             </Link>
                         </div>
                     </div>
