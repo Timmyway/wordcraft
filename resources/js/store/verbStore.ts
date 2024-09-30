@@ -1,6 +1,7 @@
 import irregularVerbApi from "@/api/irregularVerbApi";
 import { VerbResponse } from "@/types/api.types";
 import { PaginatedIrregularVerbs } from "@/types/pagination.types";
+import { ListMode } from "@/types/words/word.types";
 import { AxiosResponse } from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -16,14 +17,14 @@ export const useVerbStore = defineStore('verb', () => {
         return parseInt(page, 10); // Convert to an integer
     };
 
-    const visit = (urlString: string) => {
+    const visit = (urlString: string, perPage = 100, listMode: ListMode = 'normal') => {
         const page = getPageFromUrl(urlString);
-        fetchIrregularVerbs(page);
+        fetchIrregularVerbs(page, perPage, listMode);
     }
 
-    const fetchIrregularVerbs = async (page = 1): VerbResponse => {
+    const fetchIrregularVerbs = async (page = 1, perPage = 100, listMode: ListMode = 'normal'): VerbResponse => {
         try {
-            const response = await irregularVerbApi.list(page);
+            const response = await irregularVerbApi.list(page, perPage, listMode);
 
             // Check if the response is not null before accessing data
             if (response && response.data) {

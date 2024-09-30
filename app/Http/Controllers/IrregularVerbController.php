@@ -23,10 +23,20 @@ class IrregularVerbController extends Controller
     {
         // Get the 'per_page' and 'page' query parameters with defaults
         $perPage = $request->input('per_page', 10); // Default to 10 items per page
-        $page = $request->input('page', 1); // Default to the first page
+        $listMode = $request->input('list_mode', 'normal'); // Default to 'default' mode
+
+        // Initialize the query
+        $query = IrregularVerb::query();
+
+        // Shuffle words if requested
+        if ($listMode === 'shuffle') {
+            $query->inRandomOrder();
+        } else {
+            $query->orderBy('verb', 'asc');
+        }
 
         // Retrieve paginated results
-        $verbs = IrregularVerb::paginate($perPage);
+        $verbs = $query->paginate($perPage);
 
         return response()->json($verbs);
     }

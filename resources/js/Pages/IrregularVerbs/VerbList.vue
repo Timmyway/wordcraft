@@ -8,6 +8,9 @@ import TwPagination from '@/Components/ui/TwPagination.vue'
 import useFilterAndSort from '@/composable/useFilterAndSort';
 import { useVerbStore } from '@/store/verbStore';
 import TwIrregularVerbCard from '@/Components/verbs/TwIrregularVerbCard.vue';
+import { useWordStore } from '@/store/wordStore';
+import TwMultiStateSwitch from '@/Components/form/TwMultiStateSwitch.vue';
+import { ListMode } from '@/types/words/word.types';
 
 const props = defineProps<{
 
@@ -18,6 +21,7 @@ const verbStore = useVerbStore();
 const page = usePage<InertiaPageProps>();
 
 const notifStore = useNotifStore();
+const wordStore = useWordStore();
 
 const { resetFilters, applyFilters, hasFilter, filters } = useFilterAndSort({ search: 'irregular-verb.filter', index: 'irregular-verb.index' });
 onMounted(() => {
@@ -40,7 +44,11 @@ const onBlur = () => {
     }
 }
 
-verbStore.fetchIrregularVerbs();
+const refresh = () => {
+    verbStore.fetchIrregularVerbs(1, 100, wordStore.setting.irregularVerbListMode as ListMode);
+}
+
+refresh();
 </script>
 <template>
 <Layout>
@@ -80,6 +88,14 @@ verbStore.fetchIrregularVerbs();
                 >
                     <i class="fas fa-times"></i>
                 </button>
+                <Link :href="route('irregular-verb.index', { listMode: wordStore.setting.irregularVerbListMode })">
+                    <i class="fas fa-sync text-sm"></i>
+                </Link>
+                <tw-multi-state-switch
+                    :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
+                    v-model="wordStore.setting.irregularVerbListMode"
+                    @switch="refresh"
+                ></tw-multi-state-switch>
             </div>
         </div>
         <div class="tw-verb-gallery">
