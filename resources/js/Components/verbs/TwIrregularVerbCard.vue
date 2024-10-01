@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
     <div class="tw-irregular-verb py-2 my-2">
         <tw-collapse
+            class="bg-white/90"
             :sections="['details']"
             :title="irregularVerb.verb"
             :is-open="{ details: false }"

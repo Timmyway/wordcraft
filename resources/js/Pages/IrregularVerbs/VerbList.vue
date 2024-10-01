@@ -110,7 +110,7 @@ refresh();
                 <tw-irregular-verb-card :irregular-verb="irregularVerb"></tw-irregular-verb-card>
             </div>
         </div>
-        <div class="pt-2">
+        <div class="py-2 px-2 bg-white rounded-sm w-fit mx-auto">
             <tw-pagination
                 class="justify-center"
                 :links="verbStore.irregularVerbs?.links ?? []"
@@ -132,7 +132,7 @@ refresh();
 .tw-verb-list {
     background-image: url('../../../images/library.WebP');
     background-size: contain;
-    background-color: #b3eb4d;
-    background-blend-mode: darken;
+    background-color: #775905;
+    background-blend-mode: multiply;
 }
 </style>

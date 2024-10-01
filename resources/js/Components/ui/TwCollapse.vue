@@ -40,7 +40,7 @@ const toggleCollapse = (section: string) => {
 </script>
 
 <template>
-    <div class="tw-collapse">
+    <div class="tw-collapse" v-bind="$attrs">
         <div class="flex py-1 px-2">
             <h3
                 class="cursor-pointer"
