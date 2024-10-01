@@ -22,7 +22,6 @@ const page = usePage<InertiaPageProps>();
 
 const notifStore = useNotifStore();
 const wordStore = useWordStore();
-const baseUrl = inject('$apiUrl');
 
 onMounted(() => {
     if (page.props.flash.success) {

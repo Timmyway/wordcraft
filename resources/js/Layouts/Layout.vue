@@ -4,11 +4,15 @@ import Menubar from 'primevue/menubar';
 import useMwRoutes from '@/composable/manage/useMwRoutes';
 import TwNotification from '@/Components/ui/TwNotification.vue';
 
-defineProps<{
+interface Props {
     canLogin?: boolean;
     canRegister?: boolean;
     noStyle?: boolean;
-}>();
+}
+
+const props = withDefaults(defineProps<Props>(), {
+
+});
 
 function handleImageError() {
     document.getElementById('screenshot-container')?.classList.add('!hidden');
@@ -21,7 +25,7 @@ const { items, isActive } = useMwRoutes();
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Wordcraft layout" />
     <tw-notification pos="tr"></tw-notification>
     <div
         :class="[noStyle ? '' : 'relative min-h-dvh flex flex-col']"
