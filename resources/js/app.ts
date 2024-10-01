@@ -14,7 +14,7 @@ import { createPinia } from 'pinia';
 import Tooltip from 'primevue/tooltip';
 import Ripple from 'primevue/ripple';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Mindwall';
+const appName = import.meta.env.VITE_APP_NAME || 'Wordcraft';
 const apiUrl = import.meta.env.VITE_APP_ENV === 'prod'
     ? import.meta.env.VITE_API_BASE_URI_PROD
     : import.meta.env.VITE_API_BASE_URI_DEV;

@@ -1,9 +1,9 @@
 import irregularVerbApi from "@/api/irregularVerbApi";
+import useLoading from "@/composable/useLoading";
 import { VerbResponse } from "@/types/api.types";
 import { PaginatedIrregularVerbs, PaginationSettings } from "@/types/pagination.types";
 import { ListMode } from "@/types/words/word.types";
 import { useLocalStorage } from "@vueuse/core";
-import { AxiosResponse } from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -14,6 +14,7 @@ export const useVerbStore = defineStore('verb', () => {
     });
 
     const irregularVerbs = ref<PaginatedIrregularVerbs>();
+    const { isLoading, startLoading, stopLoading } = useLoading();
 
     const getPageFromUrl = (urlString: string) => {
         const url = new URL(urlString);
@@ -42,5 +43,7 @@ export const useVerbStore = defineStore('verb', () => {
     }
 
 
-    return { irregularVerbs, parginationSettings, visit, fetchIrregularVerbs }
+    return { irregularVerbs, parginationSettings, visit, fetchIrregularVerbs,
+        isLoading, startLoading, stopLoading, getPageFromUrl
+    }
 });

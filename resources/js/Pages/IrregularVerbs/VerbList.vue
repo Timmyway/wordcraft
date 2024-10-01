@@ -2,15 +2,15 @@
 import Layout from '@/Layouts/Layout.vue';
 import { InertiaPageProps } from '@/types/inertia';
 import { usePage } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted } from 'vue';
 import { useNotifStore } from '@/store/notificationStore';
 import TwPagination from '@/Components/ui/TwPagination.vue'
-import useFilterAndSort from '@/composable/useFilterAndSort';
 import { useVerbStore } from '@/store/verbStore';
 import TwIrregularVerbCard from '@/Components/verbs/TwIrregularVerbCard.vue';
 import { useWordStore } from '@/store/wordStore';
 import TwMultiStateSwitch from '@/Components/form/TwMultiStateSwitch.vue';
 import { ListMode } from '@/types/words/word.types';
+import TwSelect from '@/Components/ui/TwSelect.vue';
 
 const props = defineProps<{
 
@@ -22,8 +22,8 @@ const page = usePage<InertiaPageProps>();
 
 const notifStore = useNotifStore();
 const wordStore = useWordStore();
+const baseUrl = inject('$apiUrl');
 
-const { resetFilters, applyFilters, hasFilter, filters } = useFilterAndSort({ search: 'irregular-verb.filter', index: 'irregular-verb.index' });
 onMounted(() => {
     if (page.props.flash.success) {
         notifStore.notifUser([
@@ -32,19 +32,39 @@ onMounted(() => {
     }
 });
 
-const refresh = () => {
-    verbStore.fetchIrregularVerbs(1,
-        verbStore.parginationSettings.perPage,
-        wordStore.setting.irregularVerbListMode as ListMode
-    );
+const refresh = async (page = 1) => {
+    verbStore.startLoading();
+    try {
+        await verbStore.fetchIrregularVerbs(page,
+            verbStore.parginationSettings.perPage,
+            wordStore.setting.irregularVerbListMode as ListMode
+        );
+        verbStore.stopLoading();
+    } catch (err) {
+        verbStore.stopLoading();
+    }
+}
+
+const visit = async (pageString: string) => {
+    const page = verbStore.getPageFromUrl(pageString);
+    verbStore.startLoading();
+    try {
+        await verbStore.fetchIrregularVerbs(page,
+            verbStore.parginationSettings.perPage,
+            wordStore.setting.irregularVerbListMode as ListMode
+        );
+        verbStore.stopLoading();
+    } catch (err) {
+        verbStore.stopLoading();
+    }
 }
 
 refresh();
 </script>
 <template>
 <Layout>
-    <section class="p-4">
-        <div class="mb-4 flex gap-5 items-center flex-wrap lg:mb-6">
+    <section class="p-4 tw-verb-list">
+        <div class="mb-4 flex gap-5 items-center flex-wrap bg-white px-2 py-2 rounded lg:mb-6">
             <div class="flex items-center gap-4">
                 <Link
                     class="btn btn-xs text-base bg-orange-300"
@@ -62,31 +82,30 @@ refresh();
             </div>
 
             <div class="flex items-center w-full flex-wrap gap-2 border border-solid border-gray-300 px-4 py-1 rounded lg:gap-4">
-                <Link
-                    :href="route('irregular-verb.index',
-                    { listMode: wordStore.setting.irregularVerbListMode })"
-
-                >
-                    <i class="fas fa-sync text-sm"></i>
-                </Link>
+                <button @click.prevent="refresh()">
+                    <img v-if="verbStore.isLoading" src="../../../images/loading-2.gif" class="w-4 h-4 block" />
+                    <i v-else class="fas fa-sync text-sm"></i>
+                </button>
                 <tw-multi-state-switch
                     :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
                     v-model="wordStore.setting.irregularVerbListMode"
                     @switch="refresh"
                 ></tw-multi-state-switch>
-                <select
-                    class="py-1 border border-gray-300 border-solid rounded-md outline-none"
+                <tw-select
+                    :items="[
+                        {id: 1, name: '10', value: 10},
+                        {id: 2, name: '25', value: 25},
+                        {id: 3, name: '50', value: 50},
+                        {id: 4, name: '100', value: 100},
+                        {id: 5, name: '200', value: 200}
+                    ]"
                     v-model="verbStore.parginationSettings.perPage"
                     @change="refresh"
-                >
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
+                ></tw-select>
+
             </div>
         </div>
-        <div class="tw-verb-gallery">
+        <div class="tw-verb-gallery px-2 py-2 rounded">
             <div v-for="irregularVerb in verbStore.irregularVerbs?.data" :key="irregularVerb.id">
                 <tw-irregular-verb-card :irregular-verb="irregularVerb"></tw-irregular-verb-card>
             </div>
@@ -96,7 +115,7 @@ refresh();
                 class="justify-center"
                 :links="verbStore.irregularVerbs?.links ?? []"
                 engine="api"
-                @link-clicked="verbStore.visit"
+                @link-clicked="visit"
             ></tw-pagination>
         </div>
     </section>
@@ -109,5 +128,11 @@ refresh();
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 4px;
     padding: 20px;
+}
+.tw-verb-list {
+    background-image: url('../../../images/library.WebP');
+    background-size: contain;
+    background-color: #b3eb4d;
+    background-blend-mode: darken;
 }
 </style>

@@ -1,14 +1,15 @@
 <script setup lang="ts">
 
 interface Props {
-    items: any[],
-    modelValue: any[];
-    itemLabel: string;
-    itemValue: any;
+    items: { [key: string]: any }[],
+    modelValue: string | number;
+    optionLabel?: string;
+    optionValue?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-
+    optionLabel: 'name',
+    optionValue: '',
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -22,9 +23,12 @@ function updateValue(e: any) {
 <select
     class="py-1 border border-gray-300 border-solid rounded-md outline-none"
     :value="modelValue"
-    @change="updateValue"
+    @input="updateValue"
 >
-    <option v-for="item in items" :key="item.id" :value="itemValue ? item[itemValue]: item[itemLabel]">{{ item[itemLabel]}}</option>
+    <option
+        v-for="item in items" :key="item.id"
+        :value="optionValue ? item[optionValue]: item[optionLabel]"
+    >{{ item[optionLabel] }}</option>
 </select>
 </template>
 
