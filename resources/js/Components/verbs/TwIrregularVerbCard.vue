@@ -2,6 +2,9 @@
 import TwCollapse from '../ui/TwCollapse.vue';
 import { IrregularVerbModel } from '@/types/models/models.types';
 import { openGoogleSearch } from '@/helpers/utils';
+import { ref } from 'vue';
+import TwPopup from '../ui/TwPopup.vue';
+import wordApi from '@/api/wordApi';
 
 interface Props {
     irregularVerb: IrregularVerbModel;
@@ -15,17 +18,38 @@ const props = withDefaults(defineProps<Props>(), {
 const searchDefinition = (text: string) => {
     openGoogleSearch(`Definition of: "${text}"`, 'web');
 }
+
+const showModal = ref(false);
+const content = ref('');
+const searchWord = async (word: string) => {
+    showModal.value = true;
+    const { data } = await wordApi.search(word);
+    console.log('====> Data: ', data)
+}
 </script>
 
 <template>
     <div class="tw-irregular-verb py-2 my-2">
+        <tw-popup :is-open="showModal" pos="top-right" max-width="32rem" height="auto" @close="showModal = false">
+            <div class="p-4 text-lg leading-loose">
+                <span>{{ content }}</span>
+            </div>
+        </tw-popup>
         <div class="bg-white/90">
-            <button
-                @click.prevent="searchDefinition(irregularVerb.verb)"
-                class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
-            >
-                <i class="fas fa-search text-xs"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button
+                    @click.prevent="searchDefinition(irregularVerb.verb)"
+                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                >
+                    <i class="fas fa-search text-xs"></i>
+                </button>
+                <button
+                    @click.prevent="searchWord(irregularVerb.verb)"
+                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                >
+                    <i class="fas fa-book text-xs"></i>
+                </button>
+            </div>
             <tw-collapse
                 :sections="['details']"
                 :title="irregularVerb.verb"

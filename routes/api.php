@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\WordOrSentenceApiController;
 use App\Http\Controllers\ApiAiController;
 use App\Http\Controllers\Auth\Api\UserController;
 use App\Http\Controllers\GalleryController;
@@ -33,6 +34,13 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('/{irregularVerb}', [IrregularVerbController::class, 'show']);
         Route::put('/{irregularVerb}', [IrregularVerbController::class, 'update']);
         Route::delete('/{irregularVerb}', [IrregularVerbController::class, 'destroy']);
+    });
+
+    Route::prefix('words')->group(function () {
+        Route::get('/', [WordOrSentenceApiController::class, 'index']);
+        Route::post('/', [WordOrSentenceApiController::class, 'store']);
+        Route::get('/search', [WordOrSentenceApiController::class, 'search'])->name('api.words.search');
+        Route::get('/{id}', [WordOrSentenceApiController::class, 'show']);
     });
     Route::get('/logout', [UserController::class, 'logout'])->name('api.logout');
 });
