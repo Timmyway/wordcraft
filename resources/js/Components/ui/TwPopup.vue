@@ -8,6 +8,7 @@ interface Props {
     maxWidth?: string;
     title?: string;
     bgColor?: string;
+    contentClass?: string;
 }
 
 type PositionOptions = 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-center';
@@ -18,7 +19,8 @@ const props = withDefaults(defineProps<Props>(), {
     height: '60%',
     pos: 'center',
     maxWidth: '50%',
-    bgColor: "#FFF"
+    bgColor: "#FFF",
+    contentClass: '',
 });
 
 const emit = defineEmits(['close']);
@@ -51,24 +53,24 @@ const position = computed(() => {
 </script>
 <template>
 <transition name="slide-up-down">
-    <div
-        v-if="isOpen"
-        :class="['tw-popup', position]"
-        :style="{ maxWidth, height }"
-    >
-        <div class="sticky top-0 flex items-center justify-between px-4 py-2 bg-gray-100 shadow-sm">
-            <h6 v-if="title" class="font-bold text-lg">{{ title }}</h6>
-            <button
-                class="group btn btn-icon btn-xs ml-auto mr-0 btn-icon--flat bg-gray-200 w-8 h-8 p-2 transition-all duration-400 hover:bg-red-600"
-                @click.prevent="close"
-            >
-                <i class="fas fa-times text-red-600 group-hover:text-white"></i>
-            </button>
-        </div>
-        <div class="tw-popup__content" :style="{ backgroundColor: bgColor }">
-            <slot></slot>
-        </div>
+<div
+    v-if="isOpen"
+    :class="['tw-popup', position]"
+    :style="{ maxWidth, height }"
+>
+    <div class="sticky top-0 flex items-center justify-between px-4 py-2 bg-gray-100 z-20 shadow-sm">
+        <h6 v-if="title" class="font-bold text-lg">{{ title }}</h6>
+        <button
+            class="group btn btn-icon btn-xs ml-auto mr-0 btn-icon--flat bg-gray-200 w-8 h-8 p-2 transition-all duration-400 hover:bg-red-600"
+            @click.prevent="close"
+        >
+            <i class="fas fa-times text-gray-600 group-hover:text-white"></i>
+        </button>
     </div>
+    <div :class="['tw-popup__content', contentClass]" :style="{ backgroundColor: bgColor }">
+        <slot></slot>
+    </div>
+</div>
 </transition>
 </template>
 

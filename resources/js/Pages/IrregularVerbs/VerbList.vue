@@ -11,6 +11,10 @@ import { useWordStore } from '@/store/wordStore';
 import TwMultiStateSwitch from '@/Components/form/TwMultiStateSwitch.vue';
 import { ListMode } from '@/types/words/word.types';
 import TwSelect from '@/Components/ui/TwSelect.vue';
+import TwPopup from '@/Components/ui/TwPopup.vue';
+import { useAppStore } from '@/store/appStore';
+import TwCollapse from '@/Components/ui/TwCollapse.vue';
+import useMarkdownParser from '@/composable/useMarkdownParser';
 
 const props = defineProps<{
 
@@ -22,6 +26,9 @@ const page = usePage<InertiaPageProps>();
 
 const notifStore = useNotifStore();
 const wordStore = useWordStore();
+const appStore = useAppStore();
+
+const { toHtml } = useMarkdownParser();
 
 onMounted(() => {
     if (page.props.flash.success) {
@@ -62,6 +69,32 @@ refresh();
 </script>
 <template>
 <Layout>
+    <tw-popup
+        :is-open="appStore.showModal"
+        pos="top-right"
+        max-width="32rem" height="80dvh"
+        class="bg-white"
+        content-class="flex flex-col gap-2 px-2"
+        @close="appStore.showModal = false"
+    >
+        <div v-for="foundVerb in verbStore.foundVerbs">
+            <tw-collapse
+                class="bg-yellow-200"
+                :sections="['about']"
+                :title="foundVerb.word_or_sentence"
+                :is-open="{ about: false }"
+                :view-section="{ about: true }"
+                :has-header="false"
+                :has-preheader="false"
+                title-class="font-black capitalize mx-auto"
+                :content-max-height="'300px'"
+            >
+                <template #about>
+                    <div class="tw-markdown-content px-4 py-2" v-html="toHtml(foundVerb.about)"></div>
+                </template>
+            </tw-collapse>
+        </div>
+    </tw-popup>
     <section class="p-4 tw-verb-list">
         <div class="mb-4 flex gap-5 items-center flex-wrap bg-white px-2 py-2 rounded lg:mb-6">
             <div class="flex items-center gap-4">

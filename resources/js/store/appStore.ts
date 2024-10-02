@@ -5,6 +5,7 @@ export const useAppStore = defineStore('application', () => {
 
     const isSaving = ref<boolean>(false);
     const isReady = ref<boolean>(true);
+    const showModal = ref(false);
 
-    return { isSaving, isReady }
+    return { isSaving, isReady, showModal }
 });

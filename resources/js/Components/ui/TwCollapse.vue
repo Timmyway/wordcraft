@@ -10,6 +10,7 @@ interface Props {
     hasHeader?: boolean;
     hasPreheader?: boolean;
     titleClass?: string;
+    contentMaxHeight?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -17,7 +18,8 @@ const props = withDefaults(defineProps<Props>(), {
     sections: () => ['content'],
     hasHeader: true,
     hasPreheader: true,
-    titleClass: ''
+    titleClass: '',
+    contentMaxHeight: '360px'
 });
 
 const isExpanded = ref<{ [key:string]: boolean }>(props.isOpen);
@@ -65,7 +67,7 @@ const toggleCollapse = (section: string) => {
                             <i :class="isExpanded[section] ? 'fas fa-chevron-down text-blue-600' : 'fas fa-chevron-right text-gray-400'"></i>
                         </button>
                     </div>
-                    <div v-if="isExpanded[section]" class="tw-collapse__content">
+                    <div v-if="isExpanded[section]" class="tw-collapse__content" :style="{ maxHeight: contentMaxHeight }">
                         <slot :name="section"></slot>
                     </div>
                 </div>
@@ -129,7 +131,6 @@ const toggleCollapse = (section: string) => {
         position: absolute;
         top: 100%; left: 0;
         z-index: 30;
-        max-height: 360px;
         overflow-y: auto; scrollbar-width: thin;
         width: 100%;
         border-radius: 0 0 4px 6px;

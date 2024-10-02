@@ -1,4 +1,5 @@
 import irregularVerbApi from "@/api/irregularVerbApi";
+import wordApi from "@/api/wordApi";
 import useLoading from "@/composable/useLoading";
 import { VerbResponse } from "@/types/api.types";
 import { PaginatedIrregularVerbs, PaginationSettings } from "@/types/pagination.types";
@@ -6,6 +7,7 @@ import { ListMode } from "@/types/words/word.types";
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useAppStore } from "./appStore";
 
 export const useVerbStore = defineStore('verb', () => {
 
@@ -15,6 +17,7 @@ export const useVerbStore = defineStore('verb', () => {
 
     const irregularVerbs = ref<PaginatedIrregularVerbs>();
     const { isLoading, startLoading, stopLoading } = useLoading();
+    const foundVerbs = ref();
 
     const getPageFromUrl = (urlString: string) => {
         const url = new URL(urlString);
@@ -42,8 +45,26 @@ export const useVerbStore = defineStore('verb', () => {
         }
     }
 
+    const appStore = useAppStore();
 
-    return { irregularVerbs, parginationSettings, visit, fetchIrregularVerbs,
-        isLoading, startLoading, stopLoading, getPageFromUrl
+    const searchWord = async (word: string) => {
+        try {
+            startLoading();
+            const { data } = await wordApi.search(word);
+            console.log('-----> L: ', data?.length)
+            if (data?.length < 1) {
+                console.log('----> Nothing found...')
+                return;
+            }
+            appStore.showModal = true;
+            console.log('====> Data: ', data);
+            foundVerbs.value = [...data];
+        } finally {
+            stopLoading();
+        }
+    }
+
+    return { irregularVerbs, parginationSettings, foundVerbs, visit, fetchIrregularVerbs,
+        isLoading, startLoading, stopLoading, getPageFromUrl, searchWord
     }
 });
