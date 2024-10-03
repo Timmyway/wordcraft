@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
+        "test": "vitest",
         "build": "vue-tsc && vite build"
     },
     "devDependencies": {
@@ -11,6 +12,7 @@
         "@types/lodash": "^4.17.4",
         "@types/markdown-it": "^14.1.2",
         "@vitejs/plugin-vue": "^5.0.0",
+        "@vue/test-utils": "^2.4.6",
         "autoprefixer": "^10.4.12",
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0",
@@ -19,6 +21,7 @@
         "tailwindcss": "^3.4.13",
         "typescript": "^5.5.4",
         "vite": "^5.0",
+        "vitest": "^2.1.2",
         "vue": "^3.4.0",
         "vue-tsc": "^2.1.4"
     },
@@ -35,6 +38,7 @@
         "marked": "^13.0.3",
         "nanoid": "^5.0.7",
         "pinia": "^2.1.7",
-        "primevue": "^4.0.0"
+        "primevue": "^4.0.0",
+        "vite-tsconfig-paths": "^5.0.1"
     }
 }
