@@ -40,7 +40,10 @@ const removeTag = (wordId: number, tagsId: number[] = []) => {
     const ok = confirm('Confirm that you do want remove the tag from this word.');
     if (ok) {
         tagStore.removeTag(wordId, tagsId);
-        router.get('words', { preserveScroll: true })
+        router.visit(route('word.index'), {
+            only: ['words'],
+            preserveScroll: true
+        })
     }
 }
 
@@ -48,6 +51,14 @@ const canTagWord = (wordUserId: number) => {
     // wordUserId should be the ID of word creator.
     const loggedInUser = page.props.auth.user
     return (loggedInUser.id === wordUserId) || loggedInUser.is_admin;
+}
+
+const emit = defineEmits(['addTag']);
+const addTag = () => {
+    router.visit(route('word.index'), {
+        only: ['words'],
+        preserveScroll: true,
+    });
 }
 </script>
 
@@ -148,7 +159,7 @@ const canTagWord = (wordUserId: number) => {
                             </tw-chips>
                         </div>
                         <div>
-                            <tw-multi-tag :wordId="word.id"></tw-multi-tag>
+                            <tw-multi-tag :wordId="word.id" @add-tag="addTag"></tw-multi-tag>
                         </div>
                     </div>
                 </template>

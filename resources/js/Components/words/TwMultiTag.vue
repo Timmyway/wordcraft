@@ -2,7 +2,6 @@
 import { useTagStore } from '@/store/tagStore';
 import MultiSelect from 'primevue/multiselect';
 import { computed } from 'vue';
-import { router } from '@inertiajs/vue3';
 import { useFilterStore } from '@/store/filterStore';
 
 interface Props {
@@ -24,12 +23,14 @@ const tag = computed(() => {
     return tagStore.tags[getTagName(props.wordId)];
 });
 
+const emit = defineEmits(['addTag']);
+
 const addTag = (wId: number) => {
     tagStore.addTag(wId);
     if (filterStore.filters.search || filterStore.filters.tags.length > 0) {
         filterStore.applyFilters();
     } else {
-        router.get(route('word.index'), { preserveScroll: true });
+        emit('addTag');
     }
 }
 

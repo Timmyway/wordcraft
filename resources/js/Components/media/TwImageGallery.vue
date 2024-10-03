@@ -42,7 +42,10 @@
         </div>
 
         <!-- Image gallery area -->
-        <div class="image-gallery" :style="[scrollable ? `max-height: ${maxHeight}px; overflow: auto;` : '']">
+        <div
+            class="image-gallery"
+            :style="[scrollable ? `max-height: ${maxHeight}px; overflow: auto;` : '']"
+        >
             <div v-for="image in images" :key="image.id" class="image-container">
                 <div class="command-panel text-theme">
                     <button
