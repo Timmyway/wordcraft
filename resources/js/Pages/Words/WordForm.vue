@@ -2,9 +2,8 @@
 import Layout from '@/Layouts/Layout.vue';
 import { useForm } from '@inertiajs/vue3';
 import TwTextInput from '@/Components/form/TwTextInput.vue';
-import { useNotifStore } from '@/store/notificationStore';
 import { WordOrSentence } from '@/types/words/word.types';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import TwCheckbox from '@/Components/form/TwCheckbox.vue';
 import TwTextarea from '@/Components/form/TwTextarea.vue';
 import { CommentModel, TagModel } from '@/types/models/models.types';
@@ -15,7 +14,7 @@ interface Props {
     mode?: 'edit',
 	word?: WordOrSentence; // Optional since it's not needed in 'add' mode
     tags: TagModel[],
-    wordTags: TagModel[]
+    wordTags?: TagModel[]
 }
 
 interface WordInertiaForm {
@@ -28,7 +27,6 @@ interface WordInertiaForm {
 
 const props = defineProps<Props>();
 
-const notifStore = useNotifStore();
 const isProcessing = ref<boolean>(false);
 
 // Initialize form data
@@ -36,7 +34,7 @@ const form = useForm<WordInertiaForm>({
     id: props?.mode === 'edit' ? props.word?.id ?? null : null,
     word_or_sentence: props.word?.word_or_sentence || '',
     regenerate: false,
-    tags: props?.mode === 'edit' ? props.wordTags : [], // Store selected tag IDs
+    tags: props?.mode === 'edit' ? (props.wordTags || []) : [], // Store selected tag IDs
     comments: props.mode === 'edit' ? props.word?.comments?.map((c: CommentModel): CommentForm => {
         return { id: c.id, comment: c.comment };
     }) ?? [] : [], // Provide a fallback to an empty array
@@ -126,6 +124,7 @@ const removeByIndex = (index: number) => {
                         v-model="form.word_or_sentence"
                         required
                         tabindex="1"
+                        autofocus
                     ></tw-text-input>
                 </div>
                 <div>
