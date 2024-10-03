@@ -71,9 +71,10 @@ refresh();
 <Layout>
     <tw-popup
         :is-open="appStore.showModal"
-        pos="top-right"
-        max-width="32rem" height="80dvh"
         class="bg-white"
+        max-width="32rem" height="80dvh"
+        pos="top-right"
+        transition-name="slide-right"
         content-class="flex flex-col gap-2 px-2"
         @close="appStore.showModal = false"
     >

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LayoutDirection, TailwindColor } from '@/types/ui.types';
 import { ref } from 'vue';
 
 interface Props {
@@ -11,6 +12,12 @@ interface Props {
     hasPreheader?: boolean;
     titleClass?: string;
     contentMaxHeight?: string;
+    iconExpandClass?: string;
+    iconCollapseClass?: string;
+    triggerLayoutDirection?: LayoutDirection;
+    activatedColor?: TailwindColor;
+    triggerExpandText?: string;
+    triggerCollapseText?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -19,7 +26,14 @@ const props = withDefaults(defineProps<Props>(), {
     hasHeader: true,
     hasPreheader: true,
     titleClass: '',
-    contentMaxHeight: '360px'
+    contentMaxHeight: '360px',
+    iconCollapseClass: 'fa-caret-right',
+    iconExpandClass: 'fa-caret-down',
+    triggerLayoutDirection: 'x',
+    activatedColor: 'blue',
+    triggerText: '',
+    triggerExpandText: 'Hide',
+    triggerCollapseText: 'Show',
 });
 
 const isExpanded = ref<{ [key:string]: boolean }>(props.isOpen);
@@ -39,6 +53,23 @@ const toggleCollapse = (section: string) => {
     }
 };
 
+const setTriggerIconClass = (section: string) => {
+    if (isExpanded.value[section]) {
+        return `fas ${props.iconExpandClass} text-${props.activatedColor}-600`;
+    }
+    return `fas ${props.iconCollapseClass} text-gray-400`;
+}
+
+const setTriggerTextClass = (section: string) => {
+    if (isExpanded.value[section]) {
+        return `tw-collapse__section--active text-${props.activatedColor}-600`;
+    }
+    return 'tw-collapse__section--inactive text-gray-400';
+}
+
+const setTriggerText = (section: string) => {
+    return isExpanded.value[section] ? props.triggerExpandText : props.triggerCollapseText;
+}
 </script>
 
 <template>
@@ -61,10 +92,13 @@ const toggleCollapse = (section: string) => {
         <TransitionGroup name="slide" tag="div" class="flex gap-2 justify-around">
             <div v-for="(section, index) in sections" :key="`${section}-${index}`">
                 <div v-if="viewSection[section]">
-                    <div class="flex flex-col justify-center items-center py-2">
-                        <span :class="[isExpanded[section] ? 'tw-collapse__section--active text-blue-600' : 'tw-collapse__section--inactive text-gray-400']">{{ section }}</span>
-                        <button class="tw-collapse__toggle-btn" @click.prevent="toggleCollapse(section)">
-                            <i :class="isExpanded[section] ? 'fas fa-chevron-down text-blue-600' : 'fas fa-chevron-right text-gray-400'"></i>
+                    <div
+                        :class="['flex justify-center items-center py-2 cursor-pointer', triggerLayoutDirection === 'x' ? 'gap-2' : 'flex-col']"
+                        @click.prevent="toggleCollapse(section)"
+                    >
+                        <span :class="setTriggerTextClass(section)">{{ setTriggerText(section) }}</span>
+                        <button class="tw-collapse__toggle-btn">
+                            <i :class="setTriggerIconClass(section)"></i>
                         </button>
                     </div>
                     <div v-if="isExpanded[section]" class="tw-collapse__content" :style="{ maxHeight: contentMaxHeight }">

@@ -24,7 +24,7 @@ class WordOrSentenceController extends Controller
 
     public function indexPage(Request $request)
     {
-        $itemsPerPage = 100;
+        $itemsPerPage = 25;
 
         // Get filter parameters from the request
         $search = $request->post('search'); // For filtering by name

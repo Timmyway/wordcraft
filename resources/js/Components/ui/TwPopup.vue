@@ -9,6 +9,7 @@ interface Props {
     title?: string;
     bgColor?: string;
     contentClass?: string;
+    transitionName?: string;
 }
 
 type PositionOptions = 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-center';
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
     maxWidth: '50%',
     bgColor: "#FFF",
     contentClass: '',
+    transitionName: 'slide-up',
 });
 
 const emit = defineEmits(['close']);
@@ -52,7 +54,7 @@ const position = computed(() => {
 
 </script>
 <template>
-<transition name="slide-up-down">
+<transition :name="transitionName">
 <div
     v-if="isOpen"
     :class="['tw-popup', position]"

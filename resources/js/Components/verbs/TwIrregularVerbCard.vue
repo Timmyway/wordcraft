@@ -52,6 +52,9 @@ const content = ref('');
                 :view-section="{ details: true }"
                 :has-header="false"
                 :has-preheader="false"
+                icon-collapse-class="fa-caret-right"
+                icon-expand-class="fa-caret-down"
+                trigger-layout-direction="x"
                 title-class="font-black capitalize mx-auto"
             >
                 <template #details>

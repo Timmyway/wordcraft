@@ -34,7 +34,7 @@ const { items, isActive } = useMwRoutes();
             <Menubar :model="items" class="w-full px-2 lg:px-4">
                 <template #start>
                     <Link :href="route('home')">
-                        <img src="../../images/logo.svg" alt="Wordcraft" class="w-8 lg:w-24">
+                        <img src="../../images/logo.svg" alt="Wordcraft" class="w-16 lg:w-24">
                     </Link>
                 </template>
                 <template #item="{ item }">

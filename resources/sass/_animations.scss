@@ -7,21 +7,67 @@
     transform: translateY(-5px); /* Slide up effect */
 }
 
-/* Enter and leave active states */
-.slide-up-down-enter-active {
-    transition: all 0.3s cubic-bezier(.26,.62,.66,.27);
-}
-.slide-up-down-leave-active {
-    transition: all 0.8s cubic-bezier(.53,.81,.3,.84);
+// /* Enter and leave active states */
+// .slide-up-down-enter-active {
+//     transition: all 0.3s cubic-bezier(.26,.62,.66,.27);
+// }
+// .slide-up-down-leave-active {
+//     transition: all 0.8s cubic-bezier(.53,.81,.3,.84);
+// }
+
+// /* Final state when the element has entered */
+// .slide-up-down-enter-from, .slide-up-down-leave-to {
+//     opacity: 0;
+//     transform: translateY(100%);
+// }
+
+// .slide-up-down-enter-to, .slide-up-down-leave-from {
+//     opacity: 1;
+//     transform: translateY(0);
+// }
+
+// Define variables for transition times and easing functions
+$transition-duration-enter: 0.4s;
+$transition-duration-leave: 0.2s;
+$ease-enter: cubic-bezier(0.4, 0, 0.2, 1);  // smoother in-out curve
+$ease-leave: cubic-bezier(0.55, 0.06, 0.68, 0.19);  // more dynamic leave
+
+// Mixin for reusability
+@mixin slide-transition($direction, $translate-value) {
+    &-enter-active {
+        transition: all $transition-duration-enter $ease-enter;
+    }
+    &-leave-active {
+        transition: all $transition-duration-leave $ease-leave;
+    }
+
+    // Initial state when element enters and final state when it leaves
+    &-enter-from, &-leave-to {
+        opacity: 0;
+        transform: translate#{$direction}($translate-value);
+    }
+
+    // Final state when element has entered and initial state when it leaves
+    &-enter-to, &-leave-from {
+        opacity: 1;
+        transform: translate#{$direction}(0);
+    }
 }
 
-/* Final state when the element has entered */
-.slide-up-down-enter-from, .slide-up-down-leave-to {
-    opacity: 0;
-    transform: translateY(100%);
+// Sliding down and up (using Y axis)
+.slide-up {
+    @include slide-transition(y, 100%);
 }
 
-.slide-up-down-enter-to, .slide-up-down-leave-from {
-    opacity: 1;
-    transform: translateY(0);
+.slide-down {
+    @include slide-transition(y, -100%);
+}
+
+// Sliding left and right (using X axis)
+.slide-left {
+    @include slide-transition(x, -100%);
+}
+
+.slide-right {
+    @include slide-transition(x, 100%);
 }
