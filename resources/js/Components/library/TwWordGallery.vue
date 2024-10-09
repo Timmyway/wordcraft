@@ -165,7 +165,14 @@ const addTag = () => {
                 </template>
                 <template #content>
                     <div class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center">
-                        <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
+                        <template v-if="word.about">
+                            <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
+                        </template>
+                        <template v-else>
+                            <p class="px-2 text-sm">
+                                {{ word.definition }}
+                            </p>
+                        </template>
                     </div>
                 </template>
                 <template #comment>

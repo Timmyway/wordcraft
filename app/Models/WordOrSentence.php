@@ -16,6 +16,10 @@ class WordOrSentence extends Model
         'about',
         'image_path',
         'image_url',
+        'user_id',
+        'definition',
+        'count',
+        'pos',
     ];
 
     public function user()

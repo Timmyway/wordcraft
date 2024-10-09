@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('word_or_sentences', function (Blueprint $table) {
-            $table->string('pos')->nullable();
-            $table->text('def')->nullable();
-            $table->integer('count')->default(0);
+            $table->text('definition')->nullable()->after('image_url');
+            $table->string('pos')->nullable()->after('definition');
+            $table->bigInteger('count')->default(0)->after('pos');
         });
     }
 

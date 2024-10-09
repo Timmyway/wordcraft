@@ -13,11 +13,12 @@ export interface WordOrSentence {
     about?: string | null;
     image_path: string | null;
     image_url: string | null;
+    definition?: string;
     created_at: string; // Assuming you have timestamps in your model
     updated_at: string; // Assuming you have timestamps in your model
     user: User;
-    tags: TagModel[],
-    comments: CommentModel[]
+    tags: TagModel[];
+    comments: CommentModel[];
 }
 
 export type ListMode = 'normal' | 'shuffle';

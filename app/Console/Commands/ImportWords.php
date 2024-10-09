@@ -46,23 +46,16 @@ class ImportWords extends Command
 
         try {
             foreach ($reader as $record) {
-                // Find the user instance, assuming the user exists
-                $user = User::find(1); // You can adjust this as needed
-
-                $wordOrSentence = WordOrSentence::updateOrCreate(
+                WordOrSentence::updateOrCreate(
                     ['word_or_sentence' => $record['word']], // Assuming this is the unique column
                     [
                         'pos' => $record['pos'],
-                        'def' => $record['def'],
+                        'definition' => $record['def'],
                         'count' => $record['count'],
                         'user_id' => 1 // Set a default user_id or fetch based on your logic
                     ]
                 );
             }
-
-            // Attach the user to the word or sentence
-            $wordOrSentence->user()->associate($user);
-            $wordOrSentence->save(); // Save the changes
 
             DB::commit(); // Commit the transaction
             $this->info('Words imported successfully.');
