@@ -91,17 +91,21 @@ const { items, isActive } = useMwRoutes();
                 <div class="mb-4">
                     <span class="text-md text-gray-400">&copy; TimmywayCreative {{ new Date().getFullYear() }}</span>
                 </div>
-                <h6 class="mb-2 text-lg text-dark font-bold">Follow me</h6>
+                <h6 class="mb-2 text-lg text-dark font-bold">Connect with Me</h6>
                 <ul class="mx-auto flex gap-4 items-center max-w-xs">
                     <li>
-                        <a href="" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://github.com/Timmyway" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </li>
                     <li>
                         <a href="https://www.linkedin.com/in/timmyway" target="_blank"><i class="fab fa-linkedin"></i></a>
                     </li>
+                    <!--
                     <li>
                         <a href="" target="_blank"><i class="fab fa-youtube"></i></a>
                     </li>
+                    -->
                 </ul>
             </div>
         </footer>

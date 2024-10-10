@@ -64,17 +64,20 @@ const visit = (url: string) => {
     display: flex;
     align-items: center;
     opacity: .9;
+    color: white;
     &:hover {
         opacity: 1;
     }
     &:focus {
-        color: #29335C;
+        color: hsl(42, 100%, 40%);
     }
 }
 
 .active-page {
     background: lighten(#ffd166, 5%);
-    border-radius: 100%;
+    color: #111111;
+    border-radius: 12px;
+    padding: 0 25px;
     width: 32px; height: 32px;
     font-weight: bold;
     display: flex; justify-content: center; align-items: center;
