@@ -45,6 +45,7 @@ class ImportWords extends Command
         DB::beginTransaction();
 
         try {
+            $counter = 0;
             foreach ($reader as $record) {
                 WordOrSentence::updateOrCreate(
                     ['word_or_sentence' => $record['word']], // Assuming this is the unique column
@@ -55,6 +56,11 @@ class ImportWords extends Command
                         'user_id' => 1 // Set a default user_id or fetch based on your logic
                     ]
                 );
+
+                $counter ++;
+                if ($counter % 1000 == 0) {
+                    $this->info($counter . ' records processed... Cuurent: '. $record['word']);
+                }
             }
 
             DB::commit(); // Commit the transaction

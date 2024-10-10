@@ -20,7 +20,7 @@ const { getTagName } = tagStore;
 const tagName = getTagName(props.wordId);
 
 const tag = computed(() => {
-    return tagStore.tags[getTagName(props.wordId)];
+    return tagStore.tags[getTagName(props.wordId)] ?? [];
 });
 
 const emit = defineEmits(['addTag']);
@@ -44,7 +44,7 @@ const addNewTag = (e: any) => {
     <div class="items-center gap-2 w-full">
         <div class="flex items-center gap-1 py-1 overflow-x-auto scrollbar-thin">
             <div
-                v-for="t in tag.selectedTags"
+                v-for="t in tag?.selectedTags"
                 class="bg-black px-2 py-0 text-white text-xs rounded-lg"
             >{{ t.name }}</div>
         </div>
@@ -66,7 +66,7 @@ const addNewTag = (e: any) => {
             </div>
             <div class="lg:col-span-2 place-items-center">
                 <button
-                    v-show="tag.selectedTags.length > 0"
+                    v-show="tag.selectedTags?.length > 0"
                     class="btn btn--xs btn-icon w-8 h-8 lg:col-span-2"
                     @click.prevent="addTag(wordId)"
                 >
