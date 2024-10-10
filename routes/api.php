@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\Api\UserController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImageBankController;
 use App\Http\Controllers\IrregularVerbController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
@@ -42,6 +43,12 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('/search', [WordOrSentenceApiController::class, 'search'])->name('api.words.search');
         Route::get('/{id}', [WordOrSentenceApiController::class, 'show']);
     });
+
+    Route::apiResource('playlists', PlaylistController::class);
+    // Custom routes for adding and removing words or sentences from playlists
+    Route::post('playlists/{playlist}/add', [PlaylistController::class, 'addToPlaylist']);
+    Route::post('playlists/{playlist}/remove', [PlaylistController::class, 'removeFromPlaylist']);
+
     Route::get('/logout', [UserController::class, 'logout'])->name('api.logout');
 });
 

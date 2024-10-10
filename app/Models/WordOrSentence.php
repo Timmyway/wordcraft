@@ -36,4 +36,9 @@ class WordOrSentence extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class, 'playlist_word_or_sentence');
+    }
 }

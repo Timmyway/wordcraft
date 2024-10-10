@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(WordOrSentence::class);
     }
+
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class);
+    }
 }
