@@ -1,5 +1,9 @@
+import wordApi from "@/api/wordApi";
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
+import { useFilterStore } from "./filterStore";
+import { router } from '@inertiajs/vue3';
+import { ref } from "vue";
 
 export const useWordStore = defineStore('word', () => {
     // Sync the setting object with localStorage using useLocalStorage
@@ -9,5 +13,36 @@ export const useWordStore = defineStore('word', () => {
         perPage: 100,
     });
 
-    return { setting }
+    const isGenerating = ref<boolean>(false);
+
+    const unlock = async (ids: number[]) => {
+        try {
+            isGenerating.value = true;
+            const { data } = await wordApi.unlock({ ids });
+            if (data?.success) {
+                if (filterStore.hasFilter) {
+                    filterStore.applyFilters();
+                } else {
+                    refresh();
+                }                
+            }
+            isGenerating.value = false;
+        } catch(err) {
+            isGenerating.value = false;
+            console.log(err);
+        }
+    }
+
+    const filterStore = useFilterStore();
+
+    const refresh = () => {
+        filterStore.resetFilters();
+        isGenerating.value = false;
+        router.get(route('word.index', {
+            listMode: setting.value.listMode,
+            perPage: setting.value.perPage,
+        }));
+    }
+
+    return { setting, isGenerating, unlock, refresh }
 });

@@ -46,5 +46,15 @@ export const useFilterStore = defineStore('filter', () => {
         router.get(route('word.index'), { preserveState: true, preserveScroll: true });
     }
 
-    return { filters, hasFilter, applyFilters, resetFilters }
+    const filterByLetter = (letter: string) => {
+        if (!letter) return;
+        if (filters.value.letter === letter) {
+            filters.value.letter = '';
+        } else {
+            filters.value.letter = letter;
+        }
+        applyFilters();
+    }
+
+    return { filters, hasFilter, applyFilters, resetFilters, filterByLetter }
 });

@@ -43,20 +43,6 @@ onMounted(() => {
     // wordStore.setting.listMode = listMode.value;
 });
 
-
-
-const refresh = () => {
-    filterStore.resetFilters();
-    router.get(route('word.index', {
-        listMode: wordStore.setting.listMode,
-        perPage: wordStore.setting.perPage,
-    }));
-}
-
-const visit = (url: string) => {
-    route('word.index', { listMode: wordStore.setting.listMode })
-}
-
 const onChangePage = (url: string) => {
     if (filterStore.hasFilter) {
         filterStore.applyFilters(url);
@@ -66,16 +52,6 @@ const onChangePage = (url: string) => {
             perPage: wordStore.setting.perPage,
         });
     }
-}
-
-const filterByLetter = (letter: string) => {
-    if (!letter) return;
-    if (filterStore.filters.letter === letter) {
-        filterStore.filters.letter = '';
-    } else {
-        filterStore.filters.letter = letter;
-    }
-    filterStore.applyFilters();
 }
 
 </script>
@@ -94,13 +70,13 @@ const filterByLetter = (letter: string) => {
                 </Link>
             </div>
             <div class="flex items-center gap-4 justify-center">
-                <button @click.prevent="refresh">
+                <button @click.prevent="wordStore.refresh">
                     <i class="fas fa-home text-sm text-white"></i>
                 </button>
                 <tw-multi-state-switch
                     :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
                     v-model="wordStore.setting.listMode"
-                    @switch="refresh"
+                    @switch="wordStore.refresh"
                 ></tw-multi-state-switch>
                 <Link
                     class="btn btn-xs text-base py-1 bg-yellow-400 space-x-2"
@@ -128,7 +104,7 @@ const filterByLetter = (letter: string) => {
                     v-model="filterStore.filters.tags"
                 ></tw-multi-select>
 
-                <tw-alphabet-filter @filter="filterByLetter"></tw-alphabet-filter>
+                <tw-alphabet-filter @filter="filterStore.filterByLetter"></tw-alphabet-filter>
 
                 <div class="flex items-center gap-2">
                     <button
@@ -160,7 +136,7 @@ const filterByLetter = (letter: string) => {
                         {id: 4, name: '100', value: 100},
                     ]"
                     v-model="wordStore.setting.perPage"
-                    @change="refresh"
+                    @change="wordStore.refresh"
                 ></tw-select>
                 <tw-pagination class="justify-center"
                     :links="words.links"

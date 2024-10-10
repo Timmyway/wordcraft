@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/', [WordOrSentenceApiController::class, 'store']);
         Route::get('/search', [WordOrSentenceApiController::class, 'search'])->name('api.words.search');
         Route::get('/{id}', [WordOrSentenceApiController::class, 'show']);
+        Route::post('/{id}/unlock', [WordOrSentenceApiController::class, 'unlock'])->name('api.words.unlock');
+        Route::post('/unlock-many', [WordOrSentenceApiController::class, 'unlockMany'])->name('api.words.unlock-many');
     });
 
     Route::apiResource('playlists', PlaylistController::class);

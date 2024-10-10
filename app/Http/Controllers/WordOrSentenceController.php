@@ -189,7 +189,7 @@ class WordOrSentenceController extends Controller
         // Return response
         return redirect()->route('word.index')
             ->with('success', 'The new word was added.');
-    }
+    }    
 
     public function destroy(Request $request, WordOrSentence $wordOrSentence)
     {

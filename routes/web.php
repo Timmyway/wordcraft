@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{word?}/{mode?}', [WordOrSentenceController::class, 'formPage'])->name('detail');
         Route::post('', [WordOrSentenceController::class, 'store'])->name('store');
         Route::put('/{wordOrSentence}', [WordOrSentenceController::class, 'update'])->name('update');
-        Route::post('/words/{word}/comment', [WordOrSentenceController::class, 'addComment'])->name('comment.add');
+        Route::post('/{word}/comment', [WordOrSentenceController::class, 'addComment'])->name('comment.add');        
     });
     Route::prefix('tags')->name('tag.')->group(function () {
         Route::get('', [TagController::class, 'indexPage'])->name('index');

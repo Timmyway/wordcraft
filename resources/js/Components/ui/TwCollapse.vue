@@ -7,6 +7,7 @@ interface Props {
     viewSection: { [key: string]: boolean };
     title: string;
     titleSize?: string;
+    titleColor?: string;
     sections?: string[];
     hasHeader?: boolean;
     hasPreheader?: boolean;
@@ -22,6 +23,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     titleSize: '1.3rem',
+    titleColor: '#111111',
     sections: () => ['content'],
     hasHeader: true,
     hasPreheader: true,
@@ -78,7 +80,7 @@ const setTriggerText = (section: string) => {
             <h3
                 class="cursor-pointer"
                 :class="[titleClass]"
-                :style="{ fontSize: titleSize }"
+                :style="{ fontSize: titleSize, color: titleColor }"
                 @click.prevent="toggleCollapse(sections[0])"
             >{{ title }}</h3>
         </div>
@@ -118,16 +120,14 @@ const setTriggerText = (section: string) => {
     width: 100%;
     height: auto;
     position: relative;
-    &__preheader {
-        background-color: #f5f5f5;
+    &__preheader {        
         display: flex;
         align-items: center;
         gap: 10px;
         padding: 2px 5px;
         overflow-x: auto;
     }
-    &__header {
-        background-color: #f5f5f5;
+    &__header {        
         display: flex;
         flex-direction: column;
         justify-content: space-between;

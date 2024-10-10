@@ -10,8 +10,8 @@ import TwChips from '../ui/TwChips.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
-import { ref } from 'vue';
 import { useWordStore } from '@/store/wordStore';
+import { WordOrSentence } from '@/types/words/word.types';
 
 interface Props {
     words: PaginatedWords;
@@ -60,10 +60,14 @@ const addTag = () => {
         preserveScroll: true,
     });
 }
+
+const isLocked = (w: WordOrSentence) => {
+    return !w?.about;
+}
 </script>
 
 <template>
-    <div class="tw-word-gallery gap-1 py-2 my-2">
+    <div class="tw-word-gallery gap-1 py-2 my-2">        
         <div v-if="words.data?.length <= 0" class="flex items-center gap-2 text-white text-2xl">
             <span>No word or sentence found...</span>
             <Link
@@ -75,20 +79,25 @@ const addTag = () => {
         <div
             v-for="(word, i) in words.data"
             :key="`poster-${word.id}` ?? `poster-${i}`"
-            :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
+            :class="['tw-markdown-content tw-word-gallery-card', bgColor]"            
         >
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
+                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-lime-50']"
+                :title-color="isLocked(word) ? '#777777' : '#111111'"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
             >
                 <template #preheader>
+                    <div v-if="isLocked(word)" class="tw-word-gallery__badge">
+                        <i class="fas fa-lock"></i>
+                    </div>
                     <div class="space-y-2 w-full">
                         <div class="flex gap-4">
                             <div class="max-w-48 truncate">
                                 <span class="text-[0.7rem] text-gray-700 py-1">
-                                    Added by {{ word.user.name }}
+                                    Added by {{ word.user.name }} {{word.id}}
                                 </span>
                             </div>
                             <span></span>
@@ -107,6 +116,16 @@ const addTag = () => {
                                     :href="route('word.detail', { word: word.id, mode: 'edit' })">
                                         <i class="fas fa-edit"></i>
                                 </Link>
+                                <div class="w-4 flex justify-center">
+                                    <button
+                                        v-if="isLocked(word)"
+                                        class="btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
+                                        @click.prevent="wordStore.unlock([word.id])"
+                                        :disabled="wordStore.isGenerating"
+                                    >
+                                        <i class="fas fa-lock"></i>
+                                    </button>                                    
+                                </div>
                                 <button
                                     @click.prevent="audioStore.readText(word.word_or_sentence)"
                                     class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
@@ -200,6 +219,14 @@ const addTag = () => {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 4px;
     padding: 20px;
+    &__badge {
+        position: absolute;
+        top: 0; right: 3px;
+        i {
+            color: #6e6b6e;
+            font-size: .6rem;
+        }
+    }
 }
 
 .tw-word-gallery-card {

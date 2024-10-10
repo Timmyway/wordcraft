@@ -130,6 +130,78 @@ class WordOrSentenceApiController extends Controller
         return response()->json($words);
     }
 
+    public function unlock(int $id)
+    {
+        // Find the word or sentence by ID, if it doesn't exist, throw a 404 error
+        $wordOrSentence = WordOrSentence::find($id);
+
+        if (!$wordOrSentence) {
+            return redirect()->route('word.index')
+                ->with('error', 'Word or sentence not found.');
+        }
+
+        // Use the AI helper to generate the 'about' content
+        $about = AiHelper::askToAi(AiPromptsHelper::generateAboutPrompt($wordOrSentence->word_or_sentence));
+
+        if ($about) {
+            // Update the 'about' column for the word or sentence
+            $wordOrSentence->update([
+                'about' => $about,
+            ]);
+
+            return response()->json(['success' => 'The "about" section was successfully generated.']);                
+        }
+
+        return response()->json(['error' => 'Failed to generate the "about" section.'], 500);
+    }
+
+    public function unlockMany(Request $request)
+    {
+        // Validate that we receive an array of IDs
+        $request->validate([
+            'ids' => 'required|array|max:5',
+            'ids.*' => 'integer|exists:word_or_sentences,id', // Ensure each ID exists
+        ]);
+
+        // Get the word or sentence IDs from the request
+        $ids = $request->input('ids');
+
+        // Find all words or sentences with the provided IDs
+        $wordsOrSentences = WordOrSentence::whereIn('id', $ids)->get();
+
+        $failedWords = [];
+        $updatedWords = [];
+
+        foreach ($wordsOrSentences as $wordOrSentence) {
+            // Use the AI helper to generate the 'about' content
+            $about = AiHelper::askToAi(AiPromptsHelper::generateAboutPrompt($wordOrSentence->word_or_sentence));
+
+            if ($about) {
+                // Update the 'about' column for the word or sentence
+                $wordOrSentence->update([
+                    'about' => $about,
+                ]);
+                $updatedWords[] = $wordOrSentence->id;
+            } else {
+                $failedWords[] = $wordOrSentence->id;
+            }
+        }
+
+        // Prepare response data
+        $response = [
+            'success' => 'The "about" section was successfully generated for the following words.',
+            'updated_words' => $updatedWords,
+        ];
+
+        // If any words failed to generate the 'about' section, include that in the response
+        if (!empty($failedWords)) {
+            $response['failed_words'] = $failedWords;
+            return response()->json($response, 207); // Multi-Status response for partial success
+        }
+
+        return response()->json($response, 200);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

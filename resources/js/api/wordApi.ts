@@ -11,4 +11,11 @@ export default {
             throw error;
         }
     },
+    async unlock(payload: { ids: number[] }) {
+        try {
+            return await Api.post('api/words/unlock-many', payload);
+        } catch (error) {
+            throw error;
+        }
+    },
 }
