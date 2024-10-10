@@ -22,13 +22,12 @@ class WordOrSentenceController extends Controller
 
     public function indexPage(Request $request)
     {
-        $itemsPerPage = 25;
-
         // Get filter parameters from the request
         $search = $request->post('search'); // For filtering by name
         $tagIds = $request->post('tags', []); // For filtering by tag
         $listMode = $request->input('listMode', 'normal'); // New parameter to check if words should be shuffled
         $letter = $request->input('letter');
+        $itemsPerPage = min($request->input('perPage', 25), 100);
 
         // Build the query
         $query = WordOrSentence::with(['user', 'tags', 'comments.user']);

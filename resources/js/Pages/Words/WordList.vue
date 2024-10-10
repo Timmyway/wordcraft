@@ -2,7 +2,7 @@
 import Layout from '@/Layouts/Layout.vue';
 import { InertiaPageProps } from '@/types/inertia';
 import { router, usePage } from '@inertiajs/vue3';
-import { computed, onBeforeUnmount, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useNotifStore } from '@/store/notificationStore';
 import { PaginatedWords } from '@/types/pagination.types';
 import TwPagination from '@/Components/ui/TwPagination.vue'
@@ -12,7 +12,9 @@ import { TagModel } from '@/types/models/models.types';
 import TwMultiSelect from '@/Components/ui/TwMultiSelect.vue';
 import { useWordStore } from '@/store/wordStore';
 import TwMultiStateSwitch from '@/Components/form/TwMultiStateSwitch.vue';
+import TwAlphabetFilter from '@/Components/words/TwAlphabetFilter.vue';
 import { ListMode } from '@/types/words/word.types';
+import TwSelect from '@/Components/ui/TwSelect.vue';
 
 const props = defineProps<{
     words: PaginatedWords,
@@ -41,23 +43,38 @@ onMounted(() => {
     // wordStore.setting.listMode = listMode.value;
 });
 
+
+
 const refresh = () => {
-    router.get(route('word.index', { listMode: wordStore.setting.listMode }));
+    filterStore.resetFilters();
+    router.get(route('word.index', {
+        listMode: wordStore.setting.listMode,
+        perPage: wordStore.setting.perPage,
+    }));
 }
 
 const visit = (url: string) => {
+    route('word.index', { listMode: wordStore.setting.listMode })
+}
+
+const onChangePage = (url: string) => {
     if (filterStore.hasFilter) {
         filterStore.applyFilters(url);
     } else {
-        router.get(url, { listMode: wordStore.setting.listMode });
+        router.get(url, {
+            listMode: wordStore.setting.listMode,
+            perPage: wordStore.setting.perPage,
+        });
     }
 }
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
 const filterByLetter = (letter: string) => {
     if (!letter) return;
-    filterStore.filters.letter = letter;
+    if (filterStore.filters.letter === letter) {
+        filterStore.filters.letter = '';
+    } else {
+        filterStore.filters.letter = letter;
+    }
     filterStore.applyFilters();
 }
 
@@ -77,9 +94,9 @@ const filterByLetter = (letter: string) => {
                 </Link>
             </div>
             <div class="flex items-center gap-4 justify-center">
-                <Link :href="route('word.index', { listMode: wordStore.setting.listMode })">
+                <button @click.prevent="refresh">
                     <i class="fas fa-home text-sm text-white"></i>
-                </Link>
+                </button>
                 <tw-multi-state-switch
                     :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
                     v-model="wordStore.setting.listMode"
@@ -111,15 +128,7 @@ const filterByLetter = (letter: string) => {
                     v-model="filterStore.filters.tags"
                 ></tw-multi-select>
 
-                <div class="flex items-center gap-2 flex-wrap max-h-14 overflow-y-auto">
-                    <template v-for="letter in alphabet" :key="letter">
-                        <button
-                            class="btn btn-xs text-xs rounded-lg px-2 py-1"
-                            :class="[filterStore.filters.letter === letter ? 'bg-yellow-300' : 'bg-white']"
-                            @click.prevent="filterByLetter(letter)"
-                        >{{ letter }}</button>
-                    </template>
-                </div>
+                <tw-alphabet-filter @filter="filterByLetter"></tw-alphabet-filter>
 
                 <div class="flex items-center gap-2">
                     <button
@@ -142,7 +151,23 @@ const filterByLetter = (letter: string) => {
         <div class="min-w-xs mx-auto px-1 py-2 lg:max-w-[90%] lg:px-4 lg:py-8">
             <tw-word-gallery :words="words"></tw-word-gallery>
 
-            <tw-pagination class="justify-center" :links="words.links" engine="api" @link-clicked="visit"></tw-pagination>
+            <div class="flex items-center gap-4">
+                <tw-select
+                    :items="[
+                        {id: 1, name: '10', value: 10},
+                        {id: 2, name: '25', value: 25},
+                        {id: 3, name: '50', value: 50},
+                        {id: 4, name: '100', value: 100},
+                    ]"
+                    v-model="wordStore.setting.perPage"
+                    @change="refresh"
+                ></tw-select>
+                <tw-pagination class="justify-center"
+                    :links="words.links"
+                    engine="api"
+                    @link-clicked="onChangePage"
+                ></tw-pagination>
+            </div>
         </div>
     </section>
 </Layout>
