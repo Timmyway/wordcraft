@@ -1,6 +1,4 @@
-import { AxiosResponse } from "axios";
 import { Api } from "./Api";
-import { PaginatedIrregularVerbs } from "@/types/pagination.types";
 import { VerbResponse } from "@/types/api.types";
 import { ListMode } from "@/types/words/word.types";
 

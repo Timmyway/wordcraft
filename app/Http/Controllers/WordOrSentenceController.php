@@ -8,9 +8,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\WordOrSentence;
 use App\Services\ImageUploadService;
-use Doctrine\Inflector\Rules\Word;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class WordOrSentenceController extends Controller

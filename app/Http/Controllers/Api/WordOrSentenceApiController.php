@@ -120,7 +120,7 @@ class WordOrSentenceApiController extends Controller
         $searchQuery = trim($request->input('q'));
 
         // Perform a search query with a limit of 10 results
-        $words = WordOrSentence::select(['word_or_sentence', 'about'])
+        $words = WordOrSentence::select(['word_or_sentence', 'about', 'definition'])
             ->where('word_or_sentence', 'like', '%' . $searchQuery . '%')
             ->orderBy('word_or_sentence', 'asc')
             ->limit(10)

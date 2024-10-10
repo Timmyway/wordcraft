@@ -85,10 +85,20 @@ const addTag = () => {
             >
                 <template #preheader>
                     <div class="space-y-2 w-full">
-                        <div class="max-w-48 truncate">
-                            <span class="text-[0.7rem] text-gray-700 py-1">
-                                Added by {{ word.user.name }}
-                            </span>
+                        <div class="flex gap-4">
+                            <div class="max-w-48 truncate">
+                                <span class="text-[0.7rem] text-gray-700 py-1">
+                                    Added by {{ word.user.name }}
+                                </span>
+                            </div>
+                            <span></span>
+                            <!--
+                            <div class="max-w-48 truncate">
+                                <span class="text-[0.7rem] text-gray-700 py-1">
+                                    {{ word.pos }}
+                                </span>
+                            </div>
+                            -->
                         </div>
                         <div class="flex gap-2 items-center">
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">

@@ -91,7 +91,7 @@ refresh();
                 :content-max-height="'300px'"
             >
                 <template #about>
-                    <div class="tw-markdown-content px-4 py-2" v-html="toHtml(foundVerb.about)"></div>
+                    <div class="tw-markdown-content px-4 py-2" v-html="toHtml(foundVerb.about ? foundVerb.about : foundVerb?.definition)"></div>
                 </template>
             </tw-collapse>
         </div>
@@ -143,7 +143,7 @@ refresh();
                 <tw-irregular-verb-card :irregular-verb="irregularVerb"></tw-irregular-verb-card>
             </div>
         </div>
-        <div class="py-2 px-2 bg-white rounded-sm w-fit mx-auto">
+        <div class="py-2 px-2 rounded-sm w-fit mx-auto">
             <tw-pagination
                 class="justify-center"
                 :links="verbStore.irregularVerbs?.links ?? []"
