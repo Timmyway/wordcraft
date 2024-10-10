@@ -45,6 +45,22 @@ const refresh = () => {
     router.get(route('word.index', { listMode: wordStore.setting.listMode }));
 }
 
+const visit = (url: string) => {
+    if (filterStore.hasFilter) {
+        filterStore.applyFilters(url);
+    } else {
+        router.get(url, { listMode: wordStore.setting.listMode });
+    }
+}
+
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+const filterByLetter = (letter: string) => {
+    if (!letter) return;
+    filterStore.filters.letter = letter;
+    filterStore.applyFilters();
+}
+
 </script>
 <template>
 <Layout>
@@ -95,26 +111,38 @@ const refresh = () => {
                     v-model="filterStore.filters.tags"
                 ></tw-multi-select>
 
-                <button
-                    v-show="filterStore.hasFilter"
-                    class="btn btn-xs text-base bg-yellow-400 space-x-2"
-                    @click.prevent="filterStore.applyFilters()"
-                >
-                    <span>Filter</span>
-                </button>
-                <button
-                    v-show="filterStore.hasFilter"
-                    class="btn btn-xs rounded-full w-8 h-8 text-base text-pink-600 shadow-none"
-                    @click.prevent="filterStore.resetFilters"
-                >
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="flex items-center gap-2 flex-wrap max-h-14 overflow-y-auto">
+                    <template v-for="letter in alphabet" :key="letter">
+                        <button
+                            class="btn btn-xs text-xs rounded-lg px-2 py-1"
+                            :class="[filterStore.filters.letter === letter ? 'bg-yellow-300' : 'bg-white']"
+                            @click.prevent="filterByLetter(letter)"
+                        >{{ letter }}</button>
+                    </template>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button
+                        v-show="filterStore.hasFilter"
+                        class="btn btn-xs text-base bg-yellow-400 space-x-2"
+                        @click.prevent="filterStore.applyFilters()"
+                    >
+                        <span>Filter</span>
+                    </button>
+                    <button
+                        v-show="filterStore.hasFilter"
+                        class="btn btn-xs rounded-full w-8 h-8 text-base text-pink-600 shadow-none"
+                        @click.prevent="filterStore.resetFilters"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="min-w-xs mx-auto px-1 py-2 lg:max-w-[90%] lg:px-4 lg:py-8">
             <tw-word-gallery :words="words"></tw-word-gallery>
 
-            <tw-pagination class="justify-center" :links="words.links"></tw-pagination>
+            <tw-pagination class="justify-center" :links="words.links" engine="api" @link-clicked="visit"></tw-pagination>
         </div>
     </section>
 </Layout>

@@ -28,9 +28,15 @@ class WordOrSentenceController extends Controller
         $search = $request->post('search'); // For filtering by name
         $tagIds = $request->post('tags', []); // For filtering by tag
         $listMode = $request->input('listMode', 'normal'); // New parameter to check if words should be shuffled
+        $letter = $request->input('letter');
 
         // Build the query
         $query = WordOrSentence::with(['user', 'tags', 'comments.user']);
+
+        // Apply letter filter if present
+        if ($letter) {
+            $query->where('word_or_sentence', 'like', "$letter%");
+        }
 
         // Apply filters if present
         if ($search) {
@@ -48,7 +54,7 @@ class WordOrSentenceController extends Controller
         if ($listMode === 'shuffle') {
             $query->inRandomOrder();
         } else {
-            $query->orderBy('id', 'desc');
+            $query->orderBy('count', 'desc');
         }
 
         // Paginate results

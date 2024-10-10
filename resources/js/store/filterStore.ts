@@ -4,21 +4,34 @@ import { router } from "@inertiajs/vue3";
 import { TagModel } from "@/types/models/models.types";
 
 export const useFilterStore = defineStore('filter', () => {
-    const filters = ref<{ search: string, tags: TagModel[] }>({
+    const filters = ref<{ search: string, tags: TagModel[], letter: string }>({
         search: '',
         tags: [],
+        letter: '',
     });
 
-    const applyFilters = (routeName = 'word.filter') => {
+    const applyFilters = (urlOrRouteName = 'word.filter') => {
         const payload = {
             search: filters.value.search,
             tags: filters.value.tags.map(tag => tag.id),
+            letter: filters.value.letter,
         }
-        router.post(route(routeName), payload, { preserveState: true, preserveScroll: true });
+
+        // Check if the provided argument is a URL or a route name
+        let url;
+        if (urlOrRouteName.startsWith('http://') || urlOrRouteName.startsWith('https://')) {
+            // It's a full URL
+            url = urlOrRouteName;
+        } else {
+            // It's a route name, construct the URL from it
+            url = route(urlOrRouteName);
+        }
+
+        router.post(url, payload, { preserveState: true, preserveScroll: true });
     }
 
     const hasFilter = computed(() => {
-        if (filters.value.search.trim() !== '' || filters.value.tags.length > 0) {
+        if (filters.value.search.trim() !== '' || filters.value.tags.length > 0 || filters.value.letter !== '') {
             return true;
         }
         return false;
@@ -28,6 +41,7 @@ export const useFilterStore = defineStore('filter', () => {
         filters.value = {
             search: '',
             tags: [],
+            letter: '',
         }
         router.get(route('word.index'), { preserveState: true, preserveScroll: true });
     }

@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('words')->name('word.')->group(function () {
         Route::get('', [WordOrSentenceController::class, 'indexPage'])->name('index');
+        Route::get('/filter', [WordOrSentenceController::class, 'indexPage']);
         Route::post('/filter', [WordOrSentenceController::class, 'indexPage'])->name('filter');
         Route::get('/add', [WordOrSentenceController::class, 'addPage'])->name('add');
         Route::get('/{word?}/{mode?}', [WordOrSentenceController::class, 'formPage'])->name('detail');
