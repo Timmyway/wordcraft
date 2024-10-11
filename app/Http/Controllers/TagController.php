@@ -202,6 +202,35 @@ class TagController extends Controller
         ], 200);
     }
 
+    public function addTagsToWords(Request $request): JsonResponse
+    {
+        // Validate the request data
+        $data = $request->validate([
+            'wordIds' => 'required|array',
+            'wordIds.*' => 'integer|exists:word_or_sentences,id', // Validate each word ID
+            'tagsId' => 'required|array',
+            'tagsId.*' => 'integer|exists:tags,id',
+        ]);
+
+        // Authorize the action using the TagPolicy for each word
+        foreach ($data['wordIds'] as $wordId) {
+            $word = WordOrSentence::findOrFail($wordId);
+
+            // Check authorization for each word
+            if ($request->user()->cannot('addTagToWord', $word)) {
+                abort(403, 'Unauthorized to modify word ID ' . $wordId);
+            }
+
+            // Attach the tags to the word (many-to-many relationship)
+            $word->tags()->syncWithoutDetaching($data['tagsId']);
+        }
+
+        return response()->json([
+            'message' => 'Tags successfully added to the selected words.',
+            'words' => WordOrSentence::with('tags')->whereIn('id', $data['wordIds'])->get(), // Load tags for the modified words
+        ], 200);
+    }
+
     /**
      * Remove tags from a word or sentence.
      */

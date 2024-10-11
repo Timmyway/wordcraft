@@ -3,21 +3,21 @@ import { ref } from "vue";
 import { TagModel } from '@/types/models/models.types';
 import { useDebounceFn } from "@vueuse/core";
 
-interface TagState {
+export interface TagState {
     isVisible: boolean,
     isLoading: boolean,
     selectedTags: TagModel[],
 }
 
-type Tags = Record<string, TagState>;
+export type Tags = Record<string, TagState>;
 
-export default function useMultiTag() {
-    const tags = ref<Tags>({});
+export default function useMultiTag(tags: Tags) {
+    console.log('=================> Tags: ', tags);
     const tagSuggestions = ref<TagModel[]>([]);
     const isLoading = ref<boolean>(false);
 
     const searchTags = useDebounceFn(async (event: any, wordId: number) => {
-        const tag = tags.value[getTagName(wordId)];
+        const tag = tags[getTagName(wordId)];
         tag.isLoading = true;
 
         const payload = {
@@ -39,7 +39,7 @@ export default function useMultiTag() {
     }
 
     const initTagState = (wordId: number, wordTags?: TagModel[]) => {
-        tags.value[getTagName(wordId)] = {
+        tags[getTagName(wordId)] = {
             isLoading: false,
             isVisible: false,
             selectedTags: wordTags ?? []
@@ -48,7 +48,7 @@ export default function useMultiTag() {
 
     // Add tags to a word or sentence
     const addTag = async (wordId: number) => {
-        const tag = tags.value[getTagName(wordId)];
+        const tag = tags[getTagName(wordId)];
         const payload = {
             'wordId': wordId,
             'tagsId': tag.selectedTags.map(t => t.id)
@@ -71,23 +71,18 @@ export default function useMultiTag() {
 
     // Remove tags from a word or sentence
     const removeTag = async (wordId: number, tagsId: number[] | null = []) => {
-        console.log('=============> Remove: ', tagsId)
-        const tag = tags.value[getTagName(wordId)];
+        const tag = tags[getTagName(wordId)];
         let tagToRemove;
         if (tagsId && tagsId?.length > 0) {
             tagToRemove = [...tagsId];
         } else {
             tagToRemove = tag.selectedTags.map((t) => t.id)
-            console.log('==========> Else', tagToRemove);
         }
 
-        console.log('=====> Tag to remove; ', tagToRemove)
         const payload = {
             'wordId': wordId,
             'tagsId': tagToRemove
         };
-
-        console.log('=====> ', payload)
 
         try {
             // Call the API to remove tags
@@ -111,5 +106,5 @@ export default function useMultiTag() {
     //     }
     // };
 
-    return { tags, tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName }
+    return { tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName }
 }

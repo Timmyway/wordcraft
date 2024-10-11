@@ -17,6 +17,13 @@ export default {
             throw error;
         }
     },
+    async addTagsToWords(payload: { 'wordIds': number[], 'tagsId': number[] }) {
+        try {
+            return await Api.post('api/tags/word-or-sentence/attach-multiple', payload);
+        } catch (error) {
+            throw error;
+        }
+    },
     async removeTagFromWord(payload: { 'wordId': number, 'tagsId': number[] }) {
         try {
             return await Api.post('api/tags/word-or-sentence/remove', payload);

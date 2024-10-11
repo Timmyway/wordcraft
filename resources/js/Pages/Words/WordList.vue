@@ -2,7 +2,7 @@
 import Layout from '@/Layouts/Layout.vue';
 import { InertiaPageProps } from '@/types/inertia';
 import { router, usePage } from '@inertiajs/vue3';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useNotifStore } from '@/store/notificationStore';
 import { PaginatedWords } from '@/types/pagination.types';
 import TwPagination from '@/Components/ui/TwPagination.vue'
@@ -15,6 +15,7 @@ import TwMultiStateSwitch from '@/Components/form/TwMultiStateSwitch.vue';
 import TwAlphabetFilter from '@/Components/words/TwAlphabetFilter.vue';
 import { ListMode } from '@/types/words/word.types';
 import TwSelect from '@/Components/ui/TwSelect.vue';
+import TwChips from '@/Components/ui/TwChips.vue';
 
 const props = defineProps<{
     words: PaginatedWords,
@@ -54,6 +55,28 @@ const onChangePage = (url: string) => {
     }
 }
 
+const handleOutsideClick = () => {
+    console.log('====> CLicked outside');
+    wordStore.clearSelection();
+}
+const selectionView = computed(() => {
+    return wordStore.selection?.length > 0;
+});
+
+const selectedWords = computed(() => {
+    // Filter the words based on the selected IDs
+    const foundWords = wordStore.selection.map(wId => {
+        // Find the corresponding word for each selected ID
+        const foundWord = props.words.data.find(w => w.id === wId);
+        if (foundWord) {
+            return { name: foundWord.word_or_sentence };
+        }
+        // Return null for non-matching words to avoid undefined entries
+        return null;
+    }).filter(word => word !== null); // Filter out null entries
+
+    return foundWords;
+});
 </script>
 <template>
 <Layout>
@@ -108,6 +131,13 @@ const onChangePage = (url: string) => {
 
                 <div class="flex items-center gap-2">
                     <button
+                        v-show="filterStore.hasFilter && wordStore.selection?.length > 0"
+                        class="btn btn-xs text-base bg-indigo-400 space-x-2"
+                        @click.prevent="wordStore.applyTagToSelection()"
+                    >
+                        <span>Tag</span>
+                    </button>
+                    <button
                         v-show="filterStore.hasFilter"
                         class="btn btn-xs text-base bg-yellow-400 space-x-2"
                         @click.prevent="filterStore.applyFilters()"
@@ -120,6 +150,42 @@ const onChangePage = (url: string) => {
                         @click.prevent="filterStore.resetFilters"
                     >
                         <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div
+                v-show="selectionView"
+                class="absolute top-full left-10 bg-white pt-0 pb-2 px-2 rounded-b-lg max-w-7xl"
+            >
+                <div>
+                    <span class="text-xs font-bold">Words selection ({{ wordStore.selection?.length }} in total)</span>
+                    <div>
+                        <tw-chips
+                            :items="selectedWords"
+                            class="border border-solid border-gray-200 px-1 py-1 rounded"
+                            bg-color="#defa44"
+                            count-label="selected items in page"
+                            no-wrap
+                            counter
+                        >
+                            <template #text="{ chipsItem }">
+                                {{ chipsItem.name }}
+                            </template>
+                        </tw-chips>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 mt-2">
+                    <button
+                        class="btn py-1 text-xs px-2 bg-indigo-800 text-white"
+                        @click.prevent="wordStore.selectWords(words.data.map(w => w.id))"
+                    >
+                        All page
+                    </button>
+                    <button
+                        class="btn py-1 text-xs px-2 bg-pink-800 text-white"
+                        @click.prevent="wordStore.clearSelection"
+                    >
+                        Clear selection
                     </button>
                 </div>
             </div>

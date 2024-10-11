@@ -6,19 +6,25 @@ interface Props {
     bgColor?: string;
     hasBorder?: boolean;
     maxHeight?: string;
+    maxWidth?: string;
+    noWrap?: boolean;
     counter?: boolean;
     square?: boolean;
     maxLength?: number;
+    countLabel?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     customClass: '',
     bgColor: '',
+    maxWidth: '100%',
     maxHeight: '96px',
+    noWrap: false,
     counter: false,
     square: false,
     maxLength: 15,
-    hasBorder: true
+    hasBorder: true,
+    countLabel: ' items',
 });
 
 const setTooltip = (str: string): string => {
@@ -34,13 +40,14 @@ const setTooltip = (str: string): string => {
     <div
         class="text-xs flex items-center gap-2 mb-2"
     >
-        <span>{{ items?.length }} items</span>
+        <span>{{ items?.length }} {{ countLabel }}</span>
         <slot name="head"></slot>
     </div>
     <div class="h-[1px] bg-gray-200 rounded-full my-2"></div>
     <div
-        class="flex flex-wrap gap-2 box-border overflow-y-auto overflow-x-none scrollbar-thin"
-        :style="{ maxHeight }"
+        class="flex gap-2 box-border overflow-y-auto overflow-x-none scrollbar-thin"
+        :class="[noWrap ? '': 'flex-wrap']"
+        :style="{ maxHeight, maxWidth }"
     >
         <div
             v-for="item in items"

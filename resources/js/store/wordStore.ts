@@ -4,6 +4,9 @@ import { defineStore } from "pinia";
 import { useFilterStore } from "./filterStore";
 import { router } from '@inertiajs/vue3';
 import { ref } from "vue";
+import useSelection from "@/composable/useSelection";
+import { useTagStore } from "./tagStore";
+import useTagOperation from "@/composable/useTagOperation";
 
 export const useWordStore = defineStore('word', () => {
     // Sync the setting object with localStorage using useLocalStorage
@@ -15,6 +18,10 @@ export const useWordStore = defineStore('word', () => {
 
     const isGenerating = ref<boolean>(false);
 
+    const { selection, addToSelection, removeFromSelection,
+        toggleSelection, clearSelection, isSelected
+    } = useSelection();
+
     const unlock = async (ids: number[]) => {
         try {
             isGenerating.value = true;
@@ -24,7 +31,7 @@ export const useWordStore = defineStore('word', () => {
                     filterStore.applyFilters();
                 } else {
                     refresh();
-                }                
+                }
             }
             isGenerating.value = false;
         } catch(err) {
@@ -37,6 +44,7 @@ export const useWordStore = defineStore('word', () => {
 
     const refresh = () => {
         filterStore.resetFilters();
+        clearSelection();
         isGenerating.value = false;
         router.get(route('word.index', {
             listMode: setting.value.listMode,
@@ -44,5 +52,21 @@ export const useWordStore = defineStore('word', () => {
         }));
     }
 
-    return { setting, isGenerating, unlock, refresh }
+    const selectWords = (wordIds: number[]) => {
+        wordIds.forEach(wId => {
+            addToSelection(wId);
+        });
+        console.log('=============> Selection: ', selection.value);
+    }
+
+    const { addTagsToWords } = useTagOperation();
+    const applyTagToSelection = () => {
+        addTagsToWords(selection.value, filterStore.filters.tags);
+        refresh();
+    }
+
+    return { setting, isGenerating, unlock, refresh,
+        selection, addToSelection, removeFromSelection, toggleSelection, clearSelection,
+        isSelected, applyTagToSelection, selectWords,
+    }
 });

@@ -28,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/tags', [TagController::class, 'search'])->name('api.tags.search');
     Route::post('/tags/word-or-sentence/attach', [TagController::class, 'addToWord'])->name('api.tags.add-to-word');
     Route::post('tags/word-or-sentence/remove', [TagController::class, 'removeFromWord'])->name('api.tags.remove-to-word');
+    // Route to add tags to multiple words
+    Route::post('/tags/word-or-sentence/attach-multiple', [TagController::class, 'addTagsToWords'])->name('api.tags.add-to-words');
 
     Route::prefix('irregular-verbs')->group(function () {
         Route::get('/', [IrregularVerbController::class, 'list']);

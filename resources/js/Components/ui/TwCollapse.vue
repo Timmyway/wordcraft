@@ -81,7 +81,7 @@ const setTriggerText = (section: string) => {
                 class="cursor-pointer"
                 :class="[titleClass]"
                 :style="{ fontSize: titleSize, color: titleColor }"
-                @click.prevent="toggleCollapse(sections[0])"
+                @click.stop.prevent="toggleCollapse(sections[0])"
             >{{ title }}</h3>
         </div>
         <div v-if="hasPreheader" class="tw-collapse__preheader">
@@ -96,7 +96,7 @@ const setTriggerText = (section: string) => {
                 <div v-if="viewSection[section]">
                     <div
                         :class="['flex justify-center items-center py-2 cursor-pointer', triggerLayoutDirection === 'x' ? 'gap-2' : 'flex-col']"
-                        @click.prevent="toggleCollapse(section)"
+                        @click.stop.prevent="toggleCollapse(section)"
                     >
                         <span :class="setTriggerTextClass(section)">{{ setTriggerText(section) }}</span>
                         <button class="tw-collapse__toggle-btn">
@@ -120,14 +120,14 @@ const setTriggerText = (section: string) => {
     width: 100%;
     height: auto;
     position: relative;
-    &__preheader {        
+    &__preheader {
         display: flex;
         align-items: center;
         gap: 10px;
         padding: 2px 5px;
         overflow-x: auto;
     }
-    &__header {        
+    &__header {
         display: flex;
         flex-direction: column;
         justify-content: space-between;

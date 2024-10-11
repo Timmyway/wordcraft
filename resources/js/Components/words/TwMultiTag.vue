@@ -1,32 +1,35 @@
 <script setup lang="ts">
-import { useTagStore } from '@/store/tagStore';
 import MultiSelect from 'primevue/multiselect';
 import { computed } from 'vue';
 import { useFilterStore } from '@/store/filterStore';
+import useMultiTag, { Tags } from '@/composable/useMultiTag';
 
 interface Props {
     wordId: number;
+    tags: Tags;
     selectionLimit?: number | null;
+    isVisible?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
     selectionLimit: null,
+    isVisible: false,
 });
 
-const tagStore = useTagStore();
+console.log('====================> TAGS: ', props.tags);
+console.log('======================================> TEST');
+
+const { addTag, searchTags, tagSuggestions, getTagName } = useMultiTag(props.tags);
 const filterStore = useFilterStore();
 
-const { getTagName } = tagStore;
-
-const tagName = getTagName(props.wordId);
-
 const tag = computed(() => {
-    return tagStore.tags[getTagName(props.wordId)] ?? [];
+    const tagName = getTagName(props.wordId);
+    return props.tags[tagName] ?? [];
 });
 
 const emit = defineEmits(['addTag']);
 
-const addTag = (wId: number) => {
-    tagStore.addTag(wId);
+const applyTag = (wId: number) => {
+    addTag(wId);
     if (filterStore.filters.search || filterStore.filters.tags.length > 0) {
         filterStore.applyFilters();
     } else {
@@ -40,7 +43,7 @@ const addNewTag = (e: any) => {
 </script>
 
 <template>
-<div v-show="tag.isVisible" class="flex items-center gap-2">
+<div v-show="isVisible" class="flex items-center gap-2">
     <div class="items-center gap-2 w-full">
         <div class="flex items-center gap-1 py-1 overflow-x-auto scrollbar-thin">
             <div
@@ -53,10 +56,10 @@ const addNewTag = (e: any) => {
             <div class="w-full lg:col-span-10">
                 <MultiSelect
                     v-model="tag.selectedTags"
-                    :options="tagStore.tagSuggestions"
+                    :options="tagSuggestions"
                     optionLabel="name"
                     filter
-                    @filter="tagStore.searchTags($event, wordId)"
+                    @filter="searchTags($event, wordId)"
                     @keydown.enter="addNewTag"
                     placeholder="Select tags"
                     :maxSelectedLabels="5"
@@ -68,7 +71,7 @@ const addNewTag = (e: any) => {
                 <button
                     v-show="tag.selectedTags?.length > 0"
                     class="btn btn--xs btn-icon w-8 h-8 lg:col-span-2"
-                    @click.prevent="addTag(wordId)"
+                    @click.prevent="applyTag(wordId)"
                 >
                     <i class="fas fa-plus"></i>
                 </button>

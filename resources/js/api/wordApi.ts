@@ -1,6 +1,13 @@
 import { Api } from "./Api";
 
 export default {
+    async list() {
+        try {
+            return await Api.get('api/words');
+        } catch (error) {
+            throw error;
+        }
+    },
     async search(q: string) {
         const params: { q: string } = {
             q,

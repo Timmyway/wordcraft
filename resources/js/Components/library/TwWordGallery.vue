@@ -12,6 +12,8 @@ import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
 import { useWordStore } from '@/store/wordStore';
 import { WordOrSentence } from '@/types/words/word.types';
+import { ref } from 'vue';
+import useMultiTag, { Tags } from '@/composable/useMultiTag';
 
 interface Props {
     words: PaginatedWords;
@@ -25,21 +27,22 @@ const props = withDefaults(defineProps<Props>(), {
 const page = usePage();
 
 const audioStore = useAudioStore();
-const tagStore = useTagStore();
 const wordStore = useWordStore();
 
-props.words.data.forEach(w => {
-    tagStore.initTagState(w.id, w.tags);
-});
+const wordTags = ref<Tags>({});
 
-const { getTagName } = tagStore;
+const { initTagState, getTagName, removeTag } = useMultiTag(wordTags.value);
+
+props.words.data.forEach(w => {
+    initTagState(w.id, w.tags);
+});
 
 const { toHtml } = useMarkdownParser();
 
-const removeTag = (wordId: number, tagsId: number[] = []) => {
+const applyRemoveTag = (wordId: number, tagsId: number[] = []) => {
     const ok = confirm('Confirm that you do want remove the tag from this word.');
     if (ok) {
-        tagStore.removeTag(wordId, tagsId);
+        removeTag(wordId, tagsId);
         router.visit(route('word.index'), {
             only: ['words'],
             preserveScroll: true
@@ -64,10 +67,15 @@ const addTag = () => {
 const isLocked = (w: WordOrSentence) => {
     return !w?.about;
 }
+
+const selectWord = (e: MouseEvent, wordId: number) => {
+    console.log('Selecting word: ', wordId);
+    wordStore.toggleSelection(wordId, e);
+}
 </script>
 
 <template>
-    <div class="tw-word-gallery gap-1 py-2 my-2">        
+    <div class="tw-word-gallery gap-1 py-2 my-2" @click.stop>
         <div v-if="words.data?.length <= 0" class="flex items-center gap-2 text-white text-2xl">
             <span>No word or sentence found...</span>
             <Link
@@ -79,15 +87,16 @@ const isLocked = (w: WordOrSentence) => {
         <div
             v-for="(word, i) in words.data"
             :key="`poster-${word.id}` ?? `poster-${i}`"
-            :class="['tw-markdown-content tw-word-gallery-card', bgColor]"            
+            :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
         >
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-lime-50']"
+                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-lime-50', wordStore.isSelected(word.id) ? 'tw-word--selected': '']"
                 :title-color="isLocked(word) ? '#777777' : '#111111'"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
+                @click.prevent="selectWord($event, word.id)"
             >
                 <template #preheader>
                     <div v-if="isLocked(word)" class="tw-word-gallery__badge">
@@ -109,7 +118,7 @@ const isLocked = (w: WordOrSentence) => {
                             </div>
                             -->
                         </div>
-                        <div class="flex gap-2 items-center">
+                        <div class="flex gap-2 items-center" @click.stop>
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
                                 <Link
                                     class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
@@ -124,7 +133,7 @@ const isLocked = (w: WordOrSentence) => {
                                         :disabled="wordStore.isGenerating"
                                     >
                                         <i class="fas fa-lock"></i>
-                                    </button>                                    
+                                    </button>
                                 </div>
                                 <button
                                     @click.prevent="audioStore.readText(word.word_or_sentence)"
@@ -147,15 +156,15 @@ const isLocked = (w: WordOrSentence) => {
                                     <i class="fas fa-image text-xs"></i>
                                 </button>
                             </div>
-                            <template v-if="canTagWord(word.user.id) && tagStore.tags[getTagName(word.id)]">
+                            <template v-if="canTagWord(word.user.id) && wordTags?.[getTagName(word.id)]">
                                 <tw-checkbox
                                     label="Tags"
                                     has-border
-                                    v-model="tagStore.tags[getTagName(word.id)].isVisible"
+                                    v-model="wordTags[getTagName(word.id)].isVisible"
                                 ></tw-checkbox>
                             </template>
                         </div>
-                        <div>
+                        <div @click.stop>
                             <tw-chips
                                 :items="word.tags"
                                 class="border border-solid border-gray-200 px-1 py-1 rounded"
@@ -167,7 +176,7 @@ const isLocked = (w: WordOrSentence) => {
                                     <button
                                         v-if="canTagWord(word.user.id)"
                                         class="btn bg-red-300 flex items-center gap-1 shadow-none py-0 px-2 rounded-lg"
-                                        @click.prevent="removeTag(word.id)"
+                                        @click.prevent="applyRemoveTag(word.id)"
                                     >
                                         <span class="text-xs">clear</span>
                                         <i class="fas fa-times text-red-500 text-xs"></i>
@@ -180,15 +189,20 @@ const isLocked = (w: WordOrSentence) => {
                                     <button
                                         v-if="canTagWord(word.user.id)"
                                         class="btn shadow-none btn-icon w-4 h-4 p-2"
-                                        @click.prevent="removeTag(word.id, [chipsItem.id])"
+                                        @click.prevent="applyRemoveTag(word.id, [chipsItem.id])"
                                     >
                                         <i class="fas fa-times text-red-500"></i>
                                     </button>
                                 </template>
                             </tw-chips>
                         </div>
-                        <div>
-                            <tw-multi-tag :wordId="word.id" @add-tag="addTag"></tw-multi-tag>
+                        <div @click.stop>
+                            <tw-multi-tag
+                                :is-visible="wordTags[getTagName(word.id)]?.isVisible"
+                                :tags="wordTags"
+                                :wordId="word.id"
+                                @add-tag="addTag"
+                            ></tw-multi-tag>
                         </div>
                     </div>
                 </template>
@@ -239,5 +253,10 @@ const isLocked = (w: WordOrSentence) => {
     scrollbar-width: thin;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     margin-top: 0;
+}
+
+.tw-word--selected {
+    transition: border .2s;
+    border: 2px solid rgb(253, 166, 4);
 }
 </style>
