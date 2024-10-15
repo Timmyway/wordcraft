@@ -6,6 +6,7 @@ import TwCollapse from '@/Components/ui/TwCollapse.vue';
 import useMarkdownParser from '@/composable/useMarkdownParser';
 import { isLocked } from '@/helpers/wordcraftHelper';
 import { usePlaylistStore } from '@/store/playlistStore';
+import { router } from '@inertiajs/vue3';
 
 interface Props {
 
@@ -23,6 +24,7 @@ const clear = (playlistId: number) => {
     const ok = confirm('Confirm that you do want remove the tag from this word.');
     if (ok) {
         playlistStore.clearPlaylist(playlistId);
+        router.visit(route('playlist.index'));
     }
 }
 </script>
@@ -48,6 +50,7 @@ const clear = (playlistId: number) => {
                     </div>
                     <div class="mt-2">
                         <button
+                            v-show="playlist.words_or_sentences?.length && playlist.words_or_sentences?.length > 0"
                             class="btn btn-xs text-base bg-yellow-400"
                             @click.prevent="clear(playlist?.id)"
                         >

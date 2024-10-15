@@ -83,6 +83,11 @@ const resetFilters = () => {
     filterStore.resetFilters();
     playlistStore.reset();
 }
+
+const addWordsToPlaylist = (wordsId: number[]) => {
+    playlistStore.addWords(wordsId);
+    wordStore.refresh();
+}
 </script>
 <template>
 <Layout>
@@ -211,7 +216,7 @@ const resetFilters = () => {
                             <button
                                 v-show="playlistStore.selected"
                                 class="mt-1 btn py-1 text-xs px-2 bg-lime-800 text-white"
-                                @click.prevent="playlistStore.addWords(wordStore.selection)"
+                                @click.prevent="addWordsToPlaylist(wordStore.selection)"
                             >
                                 <span>Add to Playlist</span>
                             </button>

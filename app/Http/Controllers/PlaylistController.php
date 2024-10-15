@@ -160,7 +160,6 @@ class PlaylistController extends Controller
      */
     public function clearPlaylist(Playlist $playlist)
     {
-        dd('=====> Delete all');
         // Detach all words or sentences from the playlist
         $playlist->wordsOrSentences()->detach();
 

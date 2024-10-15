@@ -28,8 +28,6 @@ export const usePlaylistStore = defineStore('playlist', () => {
         try {
             // Call the API method to clear the playlist
             await playlistApi.clearPlaylist(playlistId);
-            // Optionally refresh playlists after clearing
-            await fetchPlaylists();
         } catch (error) {
             console.error('Error clearing playlist:', error);
         }
