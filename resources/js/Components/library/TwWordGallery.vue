@@ -86,13 +86,13 @@ const selectWord = (e: MouseEvent, wordId: number) => {
         </div>
         <div
             v-for="(word, i) in words.data"
-            :key="`poster-${word.id}` ?? `poster-${i}`"
+            :key="`poster-${word.id}`"
             :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
         >
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-lime-50', wordStore.isSelected(word.id) ? 'tw-word--selected': '']"
+                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-gradient-to-tr from-yellow-100 to-lime-300', wordStore.isSelected(word.id) ? 'tw-word--selected': '']"
                 :title-color="isLocked(word) ? '#777777' : '#111111'"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
@@ -128,7 +128,7 @@ const selectWord = (e: MouseEvent, wordId: number) => {
                                 <div class="w-4 flex justify-center">
                                     <button
                                         v-if="isLocked(word)"
-                                        class="btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
+                                        class="jumping-button btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
                                         @click.prevent="wordStore.unlock([word.id])"
                                         :disabled="wordStore.isGenerating"
                                     >
@@ -142,6 +142,7 @@ const selectWord = (e: MouseEvent, wordId: number) => {
                                 >
                                     <i class="fas fa-bullhorn text-xs"></i>
                                 </button>
+                                <!--
                                 <button
                                     @click.prevent="audioStore.readText(word.about ?? '')"
                                     class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
@@ -149,6 +150,7 @@ const selectWord = (e: MouseEvent, wordId: number) => {
                                 >
                                     <i class="fas fa-bullhorn text-pink-700 text-xs"></i>
                                 </button>
+                                -->
                                 <button
                                     @click.prevent="openGoogleSearch(word.word_or_sentence)"
                                     class="btn btn-icon--xs btn-icon--flat btn-icon p-3"

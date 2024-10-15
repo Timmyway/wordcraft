@@ -71,3 +71,20 @@ $ease-leave: cubic-bezier(0.55, 0.06, 0.68, 0.19);  // more dynamic leave
 .slide-right {
     @include slide-transition(x, 100%);
 }
+
+.jumping-button i:hover {
+    display: inline-block;
+    animation: jumpForJoy 2s cubic-bezier(.31,1.1,.3,.79) infinite;
+}
+
+@keyframes jumpForJoy {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    10% { transform: translateY(0) rotate(-15deg); }
+    20% { transform: translateY(0) rotate(15deg); }
+    30% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(0); }
+    60% { transform: translateY(-10px); }
+    70% { transform: translateY(0); }
+    80% { transform: translateY(-5px); }
+    90% { transform: translateY(0); }
+}
