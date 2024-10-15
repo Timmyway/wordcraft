@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Playlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class PlaylistController extends Controller
 {
@@ -13,6 +14,53 @@ class PlaylistController extends Controller
     {
         $playlists = Auth::user()->playlists()->with('wordsOrSentences')->get();
         return response()->json($playlists);
+    }
+
+    public function indexPage(Request $request)
+    {
+        $itemsPerPage = 100;
+
+        // Build the query
+        $playlists = Playlist::orderBy('id', 'desc')
+            ->paginate($itemsPerPage);
+
+        // Pass filter parameters to the view
+        return Inertia::render('Playlists/Playlist', ['playlists' => $playlists]);
+    }
+
+    public function addPage(Request $request)
+    {
+        if ($request->user()->cannot('create', Playlist::class)) {
+            abort(403);
+        }
+        return Inertia::render('Playlists/PlaylistForm', [
+            'mode' => 'add'
+        ]);
+    }
+
+    public function formPage(Request $request, Playlist $playlist = null, string $mode = null)
+    {
+        if ($request->user()->cannot('update', $playlist)) {
+            abort(403);
+        }
+        return Inertia::render('Playlists/PlaylistForm', [
+            'playlist' => $playlist,
+            'mode' => $mode
+        ]);
+    }
+
+    public function explorePage(Request $request, Playlist $playlist = null)
+    {
+        if ($request->user()->cannot('view', $playlist)) {
+            abort(403);
+        }
+
+        // Eager load word_or_sentences relationship
+        $playlistToPreview = Playlist::with('wordsOrSentences')->find($playlist->id);
+
+        return Inertia::render('Playlists/PlaylistExplore', [
+            'playlist' => $playlistToPreview,
+        ]);
     }
 
     // Create a new playlist
@@ -107,5 +155,16 @@ class PlaylistController extends Controller
         return response()->json(['message' => 'Words or sentences removed from playlist successfully'], 200);
     }
 
+    /**
+     * Clear all words or sentences from a playlist
+     */
+    public function clearPlaylist(Playlist $playlist)
+    {
+        dd('=====> Delete all');
+        // Detach all words or sentences from the playlist
+        $playlist->wordsOrSentences()->detach();
+
+        return response()->json(['message' => 'All words or sentences cleared from playlist successfully'], 200);
+    }
 
 }

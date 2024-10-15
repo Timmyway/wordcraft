@@ -23,6 +23,12 @@ export default function useMwRoutes() {
             private: true
         },
         {
+            label: 'Playlists',
+            icon: 'fa fa-music',
+            urls: [route('playlist.index'), route('playlist.add'), route('playlist.detail')],
+            private: true
+        },
+        {
             label: 'Irregular verbs',
             icon: 'fa fa-book-open',
             urls: [route('irregular-verb.index')],

@@ -1,4 +1,5 @@
 import { User } from "../auth.types";
+import { WordOrSentence } from "../words/word.types";
 
 export interface CommentModel {
     id: number;
@@ -13,6 +14,14 @@ export interface CommentModel {
 export interface TagModel {
     id: number;
     name: string;
+}
+
+export interface PlaylistModel {
+    id: number;
+    name: string;
+    created_at?: string;
+    updated_at?: string;
+    words_or_sentences?: WordOrSentence[];
 }
 
 export interface IrregularVerbModel {

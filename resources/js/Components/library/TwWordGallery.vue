@@ -5,13 +5,12 @@ import TwCollapse from '../ui/TwCollapse.vue';
 import { useAudioStore } from '@/store/audioStore';
 import TwMultiTag from '@/Components/words/TwMultiTag.vue';
 import TwCheckbox from '../form/TwCheckbox.vue';
-import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
+import { isLocked } from '@/helpers/wordcraftHelper';
 import { useWordStore } from '@/store/wordStore';
-import { WordOrSentence } from '@/types/words/word.types';
 import { ref } from 'vue';
 import useMultiTag, { Tags } from '@/composable/useMultiTag';
 
@@ -62,10 +61,6 @@ const addTag = () => {
         only: ['words'],
         preserveScroll: true,
     });
-}
-
-const isLocked = (w: WordOrSentence) => {
-    return !w?.about;
 }
 
 const selectWord = (e: MouseEvent, wordId: number) => {
@@ -131,6 +126,7 @@ const selectWord = (e: MouseEvent, wordId: number) => {
                                         class="jumping-button btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
                                         @click.prevent="wordStore.unlock([word.id])"
                                         :disabled="wordStore.isGenerating"
+                                        v-tooltip="'Unlocked words have greater details when shown!'"
                                     >
                                         <i class="fas fa-lock"></i>
                                     </button>

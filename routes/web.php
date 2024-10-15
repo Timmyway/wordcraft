@@ -4,6 +4,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\IrregularVerbController;
 use App\Http\Controllers\MindwallController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromptController;
 use App\Http\Controllers\TagController;
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{word?}/{mode?}', [WordOrSentenceController::class, 'formPage'])->name('detail');
         Route::post('', [WordOrSentenceController::class, 'store'])->name('store');
         Route::put('/{wordOrSentence}', [WordOrSentenceController::class, 'update'])->name('update');
-        Route::post('/{word}/comment', [WordOrSentenceController::class, 'addComment'])->name('comment.add');        
+        Route::post('/{word}/comment', [WordOrSentenceController::class, 'addComment'])->name('comment.add');
     });
     Route::prefix('tags')->name('tag.')->group(function () {
         Route::get('', [TagController::class, 'indexPage'])->name('index');
@@ -52,6 +53,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/{tag}', [TagController::class, 'update'])->name('update');
         Route::post('/filter', [TagController::class, 'indexPage'])->name('filter.apply');
         Route::delete('{tag}', [TagController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('playlists')->name('playlist.')->group(function () {
+        Route::get('', [PlaylistController::class, 'indexPage'])->name('index');
+        Route::get('/add', [PlaylistController::class, 'addPage'])->name('add');
+        Route::post('', [PlaylistController::class, 'store'])->name('store');
+        Route::get('{playlist}', [PlaylistController::class, 'explorePage'])->name('explore');
+        Route::get('/{playlist?}/{mode?}', [PlaylistController::class, 'formPage'])->name('detail');
+        Route::delete('{playlist}', [PlaylistController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('irregular-verbs')->name('irregular-verb.')->group(function () {
         Route::get('/', [IrregularVerbController::class, 'indexPage'])->name('index');
