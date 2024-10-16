@@ -187,7 +187,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                 <span class="text-white text-lg font-black">You can create a free account to unlock more features</span>
             </div>
             <div
-                v-show="wordStore.hasSelection"
+                v-show="isAuth && wordStore.hasSelection"
                 class="absolute top-full left-10 bg-white pt-0 pb-2 px-2 rounded-b-lg max-w-7xl"
             >
                 <div>
