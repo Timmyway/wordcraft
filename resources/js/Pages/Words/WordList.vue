@@ -183,8 +183,8 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                     </button>
                 </div>
             </div>
-            <div class="flex justify-end flex-1">
-                <span class="text-white text-lg font-black" v-if="!isAuth">You can create a free account to unlock more features</span>
+            <div v-if="!isAuth" class="flex justify-end flex-1">
+                <span class="text-white text-lg font-black">You can create a free account to unlock more features</span>
             </div>
             <div
                 v-show="wordStore.hasSelection"
