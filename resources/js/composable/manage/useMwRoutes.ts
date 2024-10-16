@@ -23,8 +23,8 @@ export default function useMwRoutes() {
             private: true
         },
         {
-            label: 'Playlists',
-            icon: 'fa fa-music',
+            label: 'MyLists',
+            icon: 'fa fa-heart',
             urls: [route('playlist.index'), route('playlist.add'), route('playlist.detail')],
             private: true
         },

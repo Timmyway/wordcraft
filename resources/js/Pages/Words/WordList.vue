@@ -25,6 +25,10 @@ const props = defineProps<{
 
 const page = usePage<InertiaPageProps>();
 
+const isAuth = computed(() => {
+    return page.props.auth.user?.id;
+})
+
 const notifStore = useNotifStore();
 const filterStore = useFilterStore();
 const wordStore = useWordStore();
@@ -113,6 +117,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                     @switch="wordStore.refresh"
                 ></tw-multi-state-switch>
                 <Link
+                    v-if="isAuth"
                     class="btn btn-xs text-base py-1 bg-yellow-400 space-x-2"
                     :href="route('word.add')"
                 >
@@ -121,7 +126,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                 </Link>
             </div>
 
-            <div class="flex items-center flex-wrap flex-1 gap-4 border border-solid border-gray-400 px-2 py-1 rounded">
+            <div v-if="isAuth" class="flex items-center flex-wrap flex-1 gap-4 border border-solid border-gray-400 px-2 py-1 rounded">
                 <button
                     v-show="filterStore.hasFilter"
                     class="btn btn-xs rounded-full w-8 h-8 text-base text-pink-600 shadow-none"
@@ -177,6 +182,9 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
+            </div>
+            <div class="flex justify-end flex-1">
+                <span class="text-white text-lg font-black" v-if="!isAuth">You can create a free account to unlock more features</span>
             </div>
             <div
                 v-show="wordStore.hasSelection"

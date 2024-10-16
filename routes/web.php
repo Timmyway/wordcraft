@@ -27,6 +27,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('words', [WordOrSentenceController::class, 'indexPage'])->name('word.index');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -35,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('storage/private/images/uploads/thumbnails/{filename}', [GalleryController::class, 'thumbnailImage'])->name('private.thumbnail');
 
     Route::prefix('words')->name('word.')->group(function () {
-        Route::get('', [WordOrSentenceController::class, 'indexPage'])->name('index');
+        // Route::get('', [WordOrSentenceController::class, 'indexPage'])->name('index');
         Route::get('/filter', [WordOrSentenceController::class, 'indexPage']);
         Route::post('/filter', [WordOrSentenceController::class, 'indexPage'])->name('filter');
         Route::get('/add', [WordOrSentenceController::class, 'addPage'])->name('add');

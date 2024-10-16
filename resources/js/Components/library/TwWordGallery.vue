@@ -11,7 +11,7 @@ import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
 import { isLocked } from '@/helpers/wordcraftHelper';
 import { useWordStore } from '@/store/wordStore';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import useMultiTag, { Tags } from '@/composable/useMultiTag';
 import { useLongPress } from '@/composable/mobile/useLongPress';
 
@@ -53,8 +53,12 @@ const applyRemoveTag = (wordId: number, tagsId: number[] = []) => {
 const canTagWord = (wordUserId: number) => {
     // wordUserId should be the ID of word creator.
     const loggedInUser = page.props.auth.user
-    return (loggedInUser.id === wordUserId) || loggedInUser.is_admin;
+    return (loggedInUser?.id === wordUserId) || loggedInUser?.is_admin;
 }
+
+const isAuth = computed(() => {
+    return page.props.auth.user?.id;
+})
 
 const emit = defineEmits(['addTag']);
 
@@ -126,13 +130,14 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                         <div class="flex gap-2 items-center" @click.stop>
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
                                 <Link
+                                    v-if="isAuth"
                                     class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
                                     :href="route('word.detail', { word: word.id, mode: 'edit' })">
                                         <i class="fas fa-edit"></i>
                                 </Link>
                                 <div class="w-4 flex justify-center">
                                     <button
-                                        v-if="isLocked(word)"
+                                        v-if="isAuth && isLocked(word)"
                                         class="jumping-button btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
                                         @click.prevent="wordStore.unlock([word.id])"
                                         :disabled="wordStore.isGenerating"
