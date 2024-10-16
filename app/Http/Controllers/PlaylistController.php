@@ -115,9 +115,12 @@ class PlaylistController extends Controller
         return response()->json($playlist, 200);
     }
 
-    public function destroy($playlistId)
+    public function destroy(Request $request, int $playlistId)
     {
         $playlist = Auth::user()->playlists()->findOrFail($playlistId);
+        if ($request->user()->cannot('delete', $playlist)) {
+            abort(403);
+        }
         $playlist->delete();
 
         return response()->json(['message' => 'Playlist deleted.'], 200);

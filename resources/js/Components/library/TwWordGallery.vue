@@ -136,7 +136,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                         class="jumping-button btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
                                         @click.prevent="wordStore.unlock([word.id])"
                                         :disabled="wordStore.isGenerating"
-                                        v-tooltip="'Unlocked words have greater details when shown!'"
+                                        v-tooltip="'Unlocked words have greater details when shown! Try it!'"
                                     >
                                         <i class="fas fa-lock"></i>
                                     </button>
@@ -264,7 +264,8 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
 }
 
 .tw-word--selected {
-    transition: border .2s;
+    transition: border .1s;
     border: 2px solid rgb(253, 166, 4);
+    background-color: hsl(39, 100%, 94%);
 }
 </style>

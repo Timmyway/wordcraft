@@ -13,6 +13,7 @@ export default function useDeleteConfirm(routeName: string, name='item') {
                 header: 'Supprimer',
                 icon: 'fas fa-exclamation-triangle',
                 accept: () => {
+                    console.log('========> Delete ', name, routeName);
                     router.delete(route(routeName, id), {preserveScroll: true});
                     resolve();
                 }
@@ -20,5 +21,21 @@ export default function useDeleteConfirm(routeName: string, name='item') {
         });
     }
 
-    return { deleteItem }
+    function deleteItemByApi(id: number, callback: Function) {
+        // Display delete confirm popup using Primevue
+        return new Promise<void>((resolve) => {
+            confirm.require({
+                message: `Attention: la suppression de cet élément (${name}) est une action irréversible`,
+                header: 'Supprimer',
+                icon: 'fas fa-exclamation-triangle',
+                accept: () => {
+                    console.log('========> Delete ', name, routeName);
+                    callback(id);
+                    resolve();
+                }
+            });
+        });
+    }
+
+    return { deleteItem, deleteItemByApi }
 }

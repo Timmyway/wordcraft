@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
         Route::post('', [PlaylistController::class, 'store'])->name('store');
         Route::get('{playlist}', [PlaylistController::class, 'explorePage'])->name('explore');
         Route::get('/{playlist?}/{mode?}', [PlaylistController::class, 'formPage'])->name('detail');
-        Route::delete('{playlist}', [PlaylistController::class, 'destroy'])->name('destroy');
+        Route::delete('{playlistId}', [PlaylistController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('irregular-verbs')->name('irregular-verb.')->group(function () {
         Route::get('/', [IrregularVerbController::class, 'indexPage'])->name('index');

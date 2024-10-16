@@ -8,6 +8,7 @@ import { PaginatedPlayLists } from '@/types/pagination.types';
 import TwPagination from '@/Components/ui/TwPagination.vue'
 import TwDatatable from '@/Components/ui/TwDatatable.vue';
 import useDeleteConfirm from '@/composable/useDeleteConfirm';
+import playlistApi from '@/api/playlistApi';
 
 const props = defineProps<{
     playlists: PaginatedPlayLists,
@@ -17,11 +18,13 @@ const page = usePage<InertiaPageProps>();
 
 const notifStore = useNotifStore();
 
-const { deleteItem } = useDeleteConfirm('playlist.destroy', 'playlist');
+const { deleteItemByApi } = useDeleteConfirm('playlist.destroy', 'playlist');
 
 async function deletePlaylist(playlistId: number) {
-    await deleteItem(playlistId);
-    router.visit(route('playlist.index'));
+    deleteItemByApi(playlistId, playlistApi.delete)
+    .then(() => {
+        router.visit(route('playlist.index'));
+    });
 }
 
 onMounted(() => {
