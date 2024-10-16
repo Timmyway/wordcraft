@@ -12,7 +12,6 @@ export interface TagState {
 export type Tags = Record<string, TagState>;
 
 export default function useMultiTag(tags: Tags) {
-    console.log('=================> Tags: ', tags);
     const tagSuggestions = ref<TagModel[]>([]);
     const isLoading = ref<boolean>(false);
 

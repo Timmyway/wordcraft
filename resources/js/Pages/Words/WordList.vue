@@ -188,7 +188,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
             </div>
             <div
                 v-show="isAuth && wordStore.hasSelection"
-                class="absolute top-full left-10 bg-white pt-0 pb-2 px-2 rounded-b-lg max-w-7xl"
+                class="absolute top-full left-10 bg-white/80 pt-0 pb-2 px-2 rounded-b-lg max-w-7xl transition-all hover:bg-white"
             >
                 <div>
                     <span class="text-xs font-bold">Words selection ({{ wordStore.selection?.length }} in total)</span>

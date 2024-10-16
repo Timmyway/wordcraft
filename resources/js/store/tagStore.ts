@@ -1,8 +1,10 @@
-import useMultiTag from "@/composable/useMultiTag";
+import useMultiTag, { Tags } from "@/composable/useMultiTag";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 export const useTagStore = defineStore('tag', () => {
-    const { tags, tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName } = useMultiTag();
+    const tags = ref<Tags>();
+    const { tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName } = useMultiTag(tags.value ?? {});
 
-    return { tags, tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName }
+    return { tagSuggestions, initTagState, addTag, removeTag, searchTags, getTagName }
 });

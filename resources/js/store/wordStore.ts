@@ -5,7 +5,6 @@ import { useFilterStore } from "./filterStore";
 import { router } from '@inertiajs/vue3';
 import { computed, ref } from "vue";
 import useSelection from "@/composable/useSelection";
-import { useTagStore } from "./tagStore";
 import useTagOperation from "@/composable/useTagOperation";
 
 export const useWordStore = defineStore('word', () => {

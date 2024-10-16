@@ -1,4 +1,4 @@
-import { IrregularVerbModel, PlayListModel, TagModel } from "./models/models.types";
+import { IrregularVerbModel, PlaylistModel, TagModel } from "./models/models.types";
 import { WordOrSentence } from "./words/word.types";
 
 export interface PaginatedResponse<T> {
@@ -22,5 +22,5 @@ export interface PaginationSettings {
 
 export type PaginatedWords = PaginatedResponse<WordOrSentence>;
 export type PaginatedTags = PaginatedResponse<TagModel>;
-export type PaginatedPlayLists = PaginatedResponse<PlayListModel>;
+export type PaginatedPlayLists = PaginatedResponse<PlaylistModel>;
 export type PaginatedIrregularVerbs = PaginatedResponse<IrregularVerbModel>;

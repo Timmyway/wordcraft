@@ -98,7 +98,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-gradient-to-tr from-yellow-100 to-lime-300', wordStore.isSelected(word.id) ? 'tw-word--selected': '']"
+                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-gradient-to-tr from-yellow-100 to-lime-300', wordStore.isSelected(word.id) ? 'tw-word--selected': '', 'hover:cursor-crosshair']"
                 :title-color="isLocked(word) ? '#777777' : '#111111'"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
@@ -127,7 +127,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                             </div>
                             -->
                         </div>
-                        <div class="flex gap-2 items-center" @click.stop>
+                        <div class="flex gap-2 items-center cursor-default" @click.stop>
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
                                 <Link
                                     v-if="isAuth"
@@ -177,7 +177,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                 ></tw-checkbox>
                             </template>
                         </div>
-                        <div @click.stop>
+                        <div @click.stop class="cursor-default">
                             <tw-chips
                                 :items="word.tags"
                                 class="border border-solid border-gray-200 px-1 py-1 rounded"
