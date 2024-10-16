@@ -14,6 +14,7 @@ import { useWordStore } from '@/store/wordStore';
 import { WordOrSentence } from '@/types/words/word.types';
 import { ref } from 'vue';
 import useMultiTag, { Tags } from '@/composable/useMultiTag';
+import { useLongPress } from '@/composable/mobile/useLongPress';
 
 interface Props {
     words: PaginatedWords;
@@ -57,6 +58,7 @@ const canTagWord = (wordUserId: number) => {
 }
 
 const emit = defineEmits(['addTag']);
+
 const addTag = () => {
     router.visit(route('word.index'), {
         only: ['words'],
@@ -68,10 +70,15 @@ const isLocked = (w: WordOrSentence) => {
     return !w?.about;
 }
 
-const selectWord = (e: MouseEvent, wordId: number) => {
+const selectWord = (e: MouseEvent | TouchEvent, wordId: number) => {
     console.log('Selecting word: ', wordId);
     wordStore.toggleSelection(wordId, e);
 }
+
+const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<number>({
+    duration: 600,  // Adjust long press duration if needed
+    onLongPress: selectWord,  // Pass the selectWord function with the wordId
+});
 </script>
 
 <template>
@@ -97,6 +104,9 @@ const selectWord = (e: MouseEvent, wordId: number) => {
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
                 @click.prevent="selectWord($event, word.id)"
+                @touchstart="handleTouchStart($event, word.id)"
+                @touchend="handleTouchEnd"
+                @touchmove="handleTouchMove"
             >
                 <template #preheader>
                     <div v-if="isLocked(word)" class="tw-word-gallery__badge">

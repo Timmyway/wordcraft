@@ -13,7 +13,7 @@ export default function useSelection() {
         selection.value = selection.value.filter(id => id !== wordId);
     };
 
-    const toggleSelection = (wordId: number, event: MouseEvent) => {
+    const toggleSelection = (wordId: number, event: MouseEvent | TouchEvent) => {
         if (event.ctrlKey || event.metaKey) { // Ctrl on Windows/Linux or Cmd on Mac
             // Allow multi-selection
             if (selection.value.includes(wordId)) {
