@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::apiResource('playlists', PlaylistController::class);
     // Custom routes for adding and removing words or sentences from playlists
+    Route::delete('playlists/{playlist}/clear', [PlaylistController::class, 'clearPlaylist'])->name('clear');
     Route::post('playlists/{playlist}/add', [PlaylistController::class, 'addToPlaylist']);
     Route::post('playlists/{playlist}/remove', [PlaylistController::class, 'removeFromPlaylist']);
 

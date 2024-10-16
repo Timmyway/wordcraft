@@ -5,13 +5,12 @@ import TwCollapse from '../ui/TwCollapse.vue';
 import { useAudioStore } from '@/store/audioStore';
 import TwMultiTag from '@/Components/words/TwMultiTag.vue';
 import TwCheckbox from '../form/TwCheckbox.vue';
-import { useTagStore } from '@/store/tagStore';
 import TwChips from '../ui/TwChips.vue';
 import { router, usePage } from '@inertiajs/vue3';
 import TwWordComment from '@/Components/words/TwWordComment.vue';
 import { openGoogleSearch } from '@/helpers/utils';
+import { isLocked } from '@/helpers/wordcraftHelper';
 import { useWordStore } from '@/store/wordStore';
-import { WordOrSentence } from '@/types/words/word.types';
 import { ref } from 'vue';
 import useMultiTag, { Tags } from '@/composable/useMultiTag';
 import { useLongPress } from '@/composable/mobile/useLongPress';
@@ -66,10 +65,6 @@ const addTag = () => {
     });
 }
 
-const isLocked = (w: WordOrSentence) => {
-    return !w?.about;
-}
-
 const selectWord = (e: MouseEvent | TouchEvent, wordId: number) => {
     console.log('Selecting word: ', wordId);
     wordStore.toggleSelection(wordId, e);
@@ -93,13 +88,13 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
         </div>
         <div
             v-for="(word, i) in words.data"
-            :key="`poster-${word.id}` ?? `poster-${i}`"
+            :key="`poster-${word.id}`"
             :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
         >
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-lime-50', wordStore.isSelected(word.id) ? 'tw-word--selected': '']"
+                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-gradient-to-tr from-yellow-100 to-lime-300', wordStore.isSelected(word.id) ? 'tw-word--selected': '']"
                 :title-color="isLocked(word) ? '#777777' : '#111111'"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
@@ -138,9 +133,10 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                 <div class="w-4 flex justify-center">
                                     <button
                                         v-if="isLocked(word)"
-                                        class="btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
+                                        class="jumping-button btn btn-icon--xs btn-icon--flat disabled:text-gray-300"
                                         @click.prevent="wordStore.unlock([word.id])"
                                         :disabled="wordStore.isGenerating"
+                                        v-tooltip="'Unlocked words have greater details when shown!'"
                                     >
                                         <i class="fas fa-lock"></i>
                                     </button>
@@ -152,6 +148,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                 >
                                     <i class="fas fa-bullhorn text-xs"></i>
                                 </button>
+                                <!--
                                 <button
                                     @click.prevent="audioStore.readText(word.about ?? '')"
                                     class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
@@ -159,6 +156,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                 >
                                     <i class="fas fa-bullhorn text-pink-700 text-xs"></i>
                                 </button>
+                                -->
                                 <button
                                     @click.prevent="openGoogleSearch(word.word_or_sentence)"
                                     class="btn btn-icon--xs btn-icon--flat btn-icon p-3"

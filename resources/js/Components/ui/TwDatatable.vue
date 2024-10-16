@@ -30,108 +30,112 @@ function getNestedValue(obj: DatatableItem, path: string) {
 <template>
     <div class="tw-datatable-wrapper" v-bind="$attrs" :style="{ maxHeight: maxHeight }">
         <table class="tw-datatable" :class="[dark ? 'tw-table--dark': 'tw-table--light']">
-            <tr>
-                <template v-for="columnHead in columns" :key="columnHead.id">
-                    <th v-if="columnHead.type !== 'skip'">{{ columnHead.label }}</th>
-                </template>
-            </tr>
-            <tr
-                v-for="(item,rowIndex) in items"
-                :key="item.id ? item.id : rowIndex"
-                :class="[item?.is_active === 0 ? 'tw-datatable__row--inactive' : '']"
-            >
-                <template v-for="(columnData,columnIndex) in columns"
-                    :key="`row-${rowIndex}-col-${columnIndex}`"
+            <thead>
+                <tr>
+                    <template v-for="columnHead in columns" :key="columnHead.id">
+                        <th v-if="columnHead.type !== 'skip'">{{ columnHead.label }}</th>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="(item,rowIndex) in items"
+                    :key="item.id ? item.id : rowIndex"
+                    :class="[item?.is_active === 0 ? 'tw-datatable__row--inactive' : '']"
                 >
-                    <!-- TYPE: Just a simple string  -->
-                    <td
-                        v-if="columnData?.type === 'string'"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ?? '' }"
-                        v-tooltip="item[columnData.name]?.length > columnMaxLength ? item[columnData.name] : ''"
-                        :data-cell="columnData.name"
+                    <template v-for="(columnData,columnIndex) in columns"
+                        :key="`row-${rowIndex}-col-${columnIndex}`"
                     >
-                        <span>
-                            {{ setMaxLength(getNestedValue(item, columnData.name)) }}
-                        </span>
-                    </td>
+                        <!-- TYPE: Just a simple string  -->
+                        <td
+                            v-if="columnData?.type === 'string'"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ?? '' }"
+                            v-tooltip="item[columnData.name]?.length > columnMaxLength ? item[columnData.name] : ''"
+                            :data-cell="columnData.name"
+                        >
+                            <span>
+                                {{ setMaxLength(getNestedValue(item, columnData.name)) }}
+                            </span>
+                        </td>
 
-                    <!-- TYPE: Rich text -->
-                    <td
-                        v-if="columnData?.type === 'richText'"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ?? '' }"
-                        v-tooltip="item[columnData.name]?.length > columnMaxLength ? item[columnData.name] : ''"
-                        :data-cell="columnData.name"
-                    >
-                        <span v-html="setMaxLength(item[columnData.name])"></span>
-                    </td>
+                        <!-- TYPE: Rich text -->
+                        <td
+                            v-if="columnData?.type === 'richText'"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ?? '' }"
+                            v-tooltip="item[columnData.name]?.length > columnMaxLength ? item[columnData.name] : ''"
+                            :data-cell="columnData.name"
+                        >
+                            <span v-html="setMaxLength(item[columnData.name])"></span>
+                        </td>
 
-                    <!-- TYPE: anchor link  -->
-                    <td
-                        v-if="columnData?.type === 'link'"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ?? '' }"
-                        :data-cell="columnData.name"
-                    >
-                        <a :href="item[columnData.name]" target="_blank">
-                            <span>{{ item[columnData.name] }}</span>
-                        </a>
-                    </td>
+                        <!-- TYPE: anchor link  -->
+                        <td
+                            v-if="columnData?.type === 'link'"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ?? '' }"
+                            :data-cell="columnData.name"
+                        >
+                            <a :href="item[columnData.name]" target="_blank">
+                                <span>{{ item[columnData.name] }}</span>
+                            </a>
+                        </td>
 
-                    <!-- TYPE: Data and time -->
-                    <td
-                        v-if="columnData?.type === 'datetime'"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ? columnData.width : '' }"
-                        :data-cell="columnData.name"
-                    >
-                        <span>
-                            {{ toUserFriendlyDate(item[columnData.name]) }}
-                        </span>
-                    </td>
+                        <!-- TYPE: Data and time -->
+                        <td
+                            v-if="columnData?.type === 'datetime'"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ? columnData.width : '' }"
+                            :data-cell="columnData.name"
+                        >
+                            <span>
+                                {{ toUserFriendlyDate(item[columnData.name]) }}
+                            </span>
+                        </td>
 
-                    <!-- TYPE: Date only -->
-                    <td
-                        v-if="columnData?.type === 'date'"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ?? '' }"
-                        :data-cell="columnData.name"
-                    >
-                        <span>
-                            {{ toUserFriendlyDate(item[columnData.name]) }}
-                        </span>
-                    </td>
+                        <!-- TYPE: Date only -->
+                        <td
+                            v-if="columnData?.type === 'date'"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ?? '' }"
+                            :data-cell="columnData.name"
+                        >
+                            <span>
+                                {{ toUserFriendlyDate(item[columnData.name]) }}
+                            </span>
+                        </td>
 
-                    <!-- TYPE: Image -->
-                    <td
-                        v-if="columnData?.type === 'image'"
-                        class="vertical-align-middle"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ?? '' }"
-                        :data-cell="columnData.name"
-                    >
-                        <div class="datatable--logo" v-if="item[columnData.name]">
-                            <img
-                                :src="`${columnData?.baseUrl}${item[columnData.name]}`"
-                                :alt="item[columnData.label]"
-                                width="100%"
-                            >
-                        </div>
-                    </td>
+                        <!-- TYPE: Image -->
+                        <td
+                            v-if="columnData?.type === 'image'"
+                            class="vertical-align-middle"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ?? '' }"
+                            :data-cell="columnData.name"
+                        >
+                            <div class="datatable--logo" v-if="item[columnData.name]">
+                                <img
+                                    :src="`${columnData?.baseUrl}${item[columnData.name]}`"
+                                    :alt="item[columnData.label]"
+                                    width="100%"
+                                >
+                            </div>
+                        </td>
 
-                    <!-- TYPE: Any other type -->
-                    <td
-                        v-if="columnData?.type === 'custom'"
-                        :class="[columnData?.classList, 'vertical-align-middle']"
-                        :style="{ width: columnData.width ? columnData.width : '' }"
-                        :data-cell="columnData.name"
-                    >
-                        <slot :name="columnData.name" :item="item" :index="rowIndex"></slot>
-                    </td>
-                    <template v-if="columnData?.type === 'skip'"></template>
-                </template>
-            </tr>
+                        <!-- TYPE: Any other type -->
+                        <td
+                            v-if="columnData?.type === 'custom'"
+                            :class="[columnData?.classList, 'vertical-align-middle']"
+                            :style="{ width: columnData.width ? columnData.width : '' }"
+                            :data-cell="columnData.name"
+                        >
+                            <slot :name="columnData.name" :item="item" :index="rowIndex"></slot>
+                        </td>
+                        <template v-if="columnData?.type === 'skip'"></template>
+                    </template>
+                </tr>
+            </tbody>
         </table>
     </div>
 </template>

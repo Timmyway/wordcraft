@@ -2,7 +2,7 @@
 
 interface Props {
     items: { [key: string]: any }[],
-    modelValue: string | number;
+    modelValue: string | number | object | null;
     optionLabel?: string;
     optionValue?: string;
 }

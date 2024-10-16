@@ -16,6 +16,7 @@ import TwAlphabetFilter from '@/Components/words/TwAlphabetFilter.vue';
 import { ListMode } from '@/types/words/word.types';
 import TwSelect from '@/Components/ui/TwSelect.vue';
 import TwChips from '@/Components/ui/TwChips.vue';
+import { usePlaylistStore } from '@/store/playlistStore';
 
 const props = defineProps<{
     words: PaginatedWords,
@@ -59,9 +60,6 @@ const handleOutsideClick = () => {
     console.log('====> CLicked outside');
     wordStore.clearSelection();
 }
-const selectionView = computed(() => {
-    return wordStore.selection?.length > 0;
-});
 
 const selectedWords = computed(() => {
     // Filter the words based on the selected IDs
@@ -77,6 +75,19 @@ const selectedWords = computed(() => {
 
     return foundWords;
 });
+
+const playlistStore = usePlaylistStore();
+playlistStore.fetchPlaylists();
+
+const resetFilters = () => {
+    filterStore.resetFilters();
+    playlistStore.reset();
+}
+
+const addWordsToPlaylist = (wordsId: number[]) => {
+    playlistStore.addWords(wordsId);
+    wordStore.refresh();
+}
 </script>
 <template>
 <Layout>
@@ -111,6 +122,20 @@ const selectedWords = computed(() => {
             </div>
 
             <div class="flex items-center flex-wrap flex-1 gap-4 border border-solid border-gray-400 px-2 py-1 rounded">
+                <button
+                    v-show="filterStore.hasFilter"
+                    class="btn btn-xs rounded-full w-8 h-8 text-base text-pink-600 shadow-none"
+                    @click.prevent="filterStore.resetFilters"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
+                <button
+                    v-show="filterStore.hasFilter"
+                    class="btn btn-xs text-base bg-yellow-400 space-x-2"
+                    @click.prevent="filterStore.applyFilters()"
+                >
+                    <span>Filter</span>
+                </button>
                 <!-- Search by word -->
                 <input
                     type="text"
@@ -131,7 +156,7 @@ const selectedWords = computed(() => {
 
                 <div class="flex items-center gap-2">
                     <button
-                        v-show="filterStore.hasFilter && wordStore.selection?.length > 0"
+                        v-show="filterStore.hasFilter && wordStore.hasSelection"
                         class="btn btn-xs text-base bg-indigo-400 space-x-2"
                         @click.prevent="wordStore.applyTagToSelection()"
                     >
@@ -145,16 +170,16 @@ const selectedWords = computed(() => {
                         <span>Filter</span>
                     </button>
                     <button
-                        v-show="filterStore.hasFilter"
+                        v-show="filterStore.hasFilter || playlistStore.selected"
                         class="btn btn-xs rounded-full w-8 h-8 text-base text-pink-600 shadow-none"
-                        @click.prevent="filterStore.resetFilters"
+                        @click.prevent="resetFilters"
                     >
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
             <div
-                v-show="selectionView"
+                v-show="wordStore.hasSelection"
                 class="absolute top-full left-10 bg-white pt-0 pb-2 px-2 rounded-b-lg max-w-7xl"
             >
                 <div>
@@ -174,19 +199,50 @@ const selectedWords = computed(() => {
                         </tw-chips>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 mt-2">
-                    <button
-                        class="btn py-1 text-xs px-2 bg-indigo-800 text-white"
-                        @click.prevent="wordStore.selectWords(words.data.map(w => w.id))"
-                    >
-                        All page
-                    </button>
-                    <button
-                        class="btn py-1 text-xs px-2 bg-pink-800 text-white"
-                        @click.prevent="wordStore.clearSelection"
-                    >
-                        Clear selection
-                    </button>
+                <div class="flex flex-col gap-2 mt-2">
+                    <div class="border border-gray-200 px-1 py-1">
+                        <label class="flex items-center gap-2 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <span class="text-gray-700">Playlist</span>
+                        </label>
+                        <tw-select
+
+                            v-show="wordStore.hasSelection"
+                            :items="playlistStore.playlists"
+                            option-value="id"
+                            v-model="playlistStore.selected"
+                        ></tw-select>
+                        <div class="flex gap-2 items-center">
+                            <button
+                                v-show="playlistStore.selected"
+                                class="mt-1 btn py-1 text-xs px-2 bg-lime-800 text-white"
+                                @click.prevent="addWordsToPlaylist(wordStore.selection)"
+                            >
+                                <span>Add to Playlist</span>
+                            </button>
+                            <button
+                                v-if="playlistStore.selected"
+                                class="btn btn-icon shadow-none w-4 h-4 text-xs"
+                                @click.prevent="playlistStore.reset"
+                            >
+                                <i class="fas fa-times text-pink-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="btn py-1 text-xs px-2 bg-indigo-800 text-white"
+                            @click.prevent="wordStore.selectWords(words.data.map(w => w.id))"
+                        >
+                            All page
+                        </button>
+                        <button
+                            class="btn py-1 text-xs px-2 bg-pink-800 text-white"
+                            @click.prevent="wordStore.clearSelection"
+                        >
+                            Clear selection
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

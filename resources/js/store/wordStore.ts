@@ -3,7 +3,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { useFilterStore } from "./filterStore";
 import { router } from '@inertiajs/vue3';
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import useSelection from "@/composable/useSelection";
 import { useTagStore } from "./tagStore";
 import useTagOperation from "@/composable/useTagOperation";
@@ -59,6 +59,10 @@ export const useWordStore = defineStore('word', () => {
         console.log('=============> Selection: ', selection.value);
     }
 
+    const hasSelection = computed(() => {
+        return selection.value?.length > 0;
+    })
+
     const { addTagsToWords } = useTagOperation();
     const applyTagToSelection = () => {
         addTagsToWords(selection.value, filterStore.filters.tags);
@@ -66,7 +70,7 @@ export const useWordStore = defineStore('word', () => {
     }
 
     return { setting, isGenerating, unlock, refresh,
-        selection, addToSelection, removeFromSelection, toggleSelection, clearSelection,
+        hasSelection, selection, addToSelection, removeFromSelection, toggleSelection, clearSelection,
         isSelected, applyTagToSelection, selectWords,
     }
 });

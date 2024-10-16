@@ -16,6 +16,12 @@ class PlaylistPolicy
         return $user->id === $playlist->user_id;
     }
 
+    public function create(): bool
+    {
+        // Allow anyone with an account to create a playlist
+        return auth()->check();
+    }
+
     public function update(User $user, Playlist $playlist)
     {
         return $user->id === $playlist->user_id;
