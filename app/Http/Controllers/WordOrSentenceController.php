@@ -60,6 +60,7 @@ class WordOrSentenceController extends Controller
         $words = $query->paginate($itemsPerPage);
         $tags = Tag::select('id', 'name')
             ->orderBy('name', 'asc')
+            ->take(300)
             ->get();
 
         // Pass filter parameters to the view
@@ -211,7 +212,7 @@ class WordOrSentenceController extends Controller
     {
         $tags = Tag::select('id', 'name')
             ->orderBy('name', 'asc')
-            ->take(100)
+            ->take(300)
             ->get();
 
         return Inertia::render('Words/WordForm', [
@@ -227,7 +228,7 @@ class WordOrSentenceController extends Controller
         }
         $tags = Tag::select('id', 'name')
             ->orderBy('name', 'asc')
-            ->take(100)
+            ->take(300)
             ->get();
 
         // Format wordTags to match the tags structure
