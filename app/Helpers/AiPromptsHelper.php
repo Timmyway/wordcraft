@@ -13,7 +13,7 @@ class AiPromptsHelper
     // Generate prompt for "about" information
     public static function generateAboutPrompt(string $input): string
     {
-        $prompt = "For the term or question '{$input}', determine whether it is:
+        $prompt = "For the term or question '{$input}', determine (but don't mention it into your answer of course) whether it is:
         - a single word, phrase, or idiom, or
         - a question (especially FAQ-type).
 
