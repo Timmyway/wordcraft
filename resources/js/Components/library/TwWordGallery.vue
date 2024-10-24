@@ -220,7 +220,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                     </div>
                 </template>
                 <template #content>
-                    <div class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center dark:text-gray-700">
+                    <div @click.stop class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center hover:cursor-default dark:text-gray-700">
                         <template v-if="word.about">
                             <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
                         </template>

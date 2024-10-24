@@ -174,7 +174,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
             </div>
             <div
                 v-show="isAuth && wordStore.hasSelection"
-                class="absolute top-full left-10 bg-white/80 pt-0 pb-2 px-2 rounded-b-lg max-w-7xl transition-all hover:bg-white"
+                class="absolute top-full left-10 bg-white/80 pt-0 pb-2 px-2 rounded-b-lg max-w-7xl transition-all hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800"
             >
                 <div>
                     <span class="text-xs font-bold">Words selection ({{ wordStore.selection?.length }} in total)</span>
@@ -188,7 +188,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                             counter
                         >
                             <template #text="{ chipsItem }">
-                                {{ chipsItem.name }}
+                                <span class="dark:text-gray-700">{{ chipsItem.name }}</span>
                             </template>
                         </tw-chips>
                     </div>
@@ -197,7 +197,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                     <div class="border border-gray-200 px-1 py-1">
                         <label class="flex items-center gap-2 text-xs mb-1">
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-700">Playlist</span>
+                            <span class="text-gray-700 dark:text-white">Playlist</span>
                         </label>
                         <tw-select
 
