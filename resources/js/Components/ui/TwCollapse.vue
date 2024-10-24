@@ -101,7 +101,7 @@ const setTriggerText = (section: string) => {
                             <i :class="setTriggerIconClass(section)" class="dark:text-white"></i>
                         </button>
                     </div>
-                    <div v-if="isExpanded[section]" class="tw-collapse__content" :style="{ maxHeight: contentMaxHeight }">
+                    <div v-if="isExpanded[section]" class="tw-collapse__content hover:cursor-default" :style="{ maxHeight: contentMaxHeight }">
                         <slot :name="section"></slot>
                     </div>
                 </div>
