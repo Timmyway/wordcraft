@@ -131,7 +131,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
                                 <Link
                                     v-if="isAuth"
-                                    class="btn btn-icon--xs btn-icon--flat bg-yellow-400"
+                                    class="btn btn-icon--xs btn-icon--flat bg-yellow-400 dark:bg-yellow-800"
                                     :href="route('word.detail', { word: word.id, mode: 'edit' })">
                                         <i class="fas fa-edit"></i>
                                 </Link>
