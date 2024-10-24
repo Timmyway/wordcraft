@@ -40,14 +40,14 @@ const submit = () => {
 
                 <div class="flex items-center gap-2">
                     <div class="px-2">
-                        <i class="fas fa-envelope text-lg"></i>
+                        <i class="fas fa-envelope text-lg dark:text-gray-700"></i>
                     </div>
                     <InputLabel class="text-lg" for="email" value="Email" />
                 </div>
                 <TextInput
                         id="email"
                         type="email"
-                        class="mt-1 block bg-gray-200 w-full focus:bg-gray-50 focus:shadow-lg"
+                        class="mt-1 block bg-gray-200 w-full focus:bg-gray-50 focus:shadow-lg dark:text-gray-700"
                         v-model="form.email"
                         required
                         autofocus
@@ -61,14 +61,14 @@ const submit = () => {
 
                 <div class="flex items-center gap-2">
                     <div class="px-2">
-                        <i class="fas fa-lock text-lg"></i>
+                        <i class="fas fa-lock text-lg dark:text-gray-700"></i>
                     </div>
                     <InputLabel class="text-lg" for="password" value="Password" />
                 </div>
                 <TextInput
                     id="password"
                     type="password"
-                    class="mt-1 block bg-gray-200 w-full focus:bg-gray-50 focus:shadow-lg"
+                    class="mt-1 block bg-gray-200 w-full focus:bg-gray-50 focus:shadow-lg dark:text-gray-700"
                     v-model="form.password"
                     required
                     autocomplete="current-password"

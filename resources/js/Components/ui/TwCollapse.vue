@@ -7,7 +7,6 @@ interface Props {
     viewSection: { [key: string]: boolean };
     title: string;
     titleSize?: string;
-    titleColor?: string;
     sections?: string[];
     hasHeader?: boolean;
     hasPreheader?: boolean;
@@ -23,7 +22,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     titleSize: '1.3rem',
-    titleColor: '#111111',
     sections: () => ['content'],
     hasHeader: true,
     hasPreheader: true,
@@ -80,7 +78,7 @@ const setTriggerText = (section: string) => {
             <h3
                 class="cursor-pointer"
                 :class="[titleClass]"
-                :style="{ fontSize: titleSize, color: titleColor }"
+                :style="{ fontSize: titleSize }"
                 @click.stop.prevent="toggleCollapse(sections[0])"
             >{{ title }}</h3>
         </div>
@@ -98,9 +96,9 @@ const setTriggerText = (section: string) => {
                         :class="['flex justify-center items-center py-2 cursor-pointer', triggerLayoutDirection === 'x' ? 'gap-2' : 'flex-col']"
                         @click.stop.prevent="toggleCollapse(section)"
                     >
-                        <span :class="setTriggerTextClass(section)">{{ setTriggerText(section) }}</span>
+                        <span :class="setTriggerTextClass(section)" class="dark:text-white">{{ setTriggerText(section) }}</span>
                         <button class="tw-collapse__toggle-btn">
-                            <i :class="setTriggerIconClass(section)"></i>
+                            <i :class="setTriggerIconClass(section)" class="dark:text-white"></i>
                         </button>
                     </div>
                     <div v-if="isExpanded[section]" class="tw-collapse__content" :style="{ maxHeight: contentMaxHeight }">

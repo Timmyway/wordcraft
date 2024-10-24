@@ -30,7 +30,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     label: '',
-    labelClass: 'font-bold text-gray-700',
+    labelClass: 'font-bold text-gray-700 dark:text-white',
     hasBorder: false,
     tooltipText: ''
 });

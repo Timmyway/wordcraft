@@ -21,7 +21,7 @@ function updateValue(e: any) {
 
 <template>
 <select
-    class="py-1 border border-gray-300 border-solid rounded-md outline-none"
+    class="py-1 border border-gray-300 border-solid rounded-md outline-none dark:bg-gray-950"
     :value="modelValue"
     @input="updateValue"
 >

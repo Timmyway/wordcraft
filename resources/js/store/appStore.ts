@@ -7,5 +7,8 @@ export const useAppStore = defineStore('application', () => {
     const isReady = ref<boolean>(true);
     const showModal = ref(false);
 
-    return { isSaving, isReady, showModal }
+    // Check if the user prefers dark mode
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    return { isSaving, isReady, showModal, prefersDarkScheme }
 });

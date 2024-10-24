@@ -112,11 +112,33 @@ const { items, isActive } = useMwRoutes();
     </div>
 </template>
 
-<style>
+<style lang="scss">
 .item--active {
     color: #7180B9;
     background: -webkit-linear-gradient(#2E294E, #D81E5B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    /* Fallback for browsers without background-clip support */
+    @supports not (-webkit-background-clip: text) {
+        background: none; /* Remove the background */
+        color: #7180B9; /* Default color */
+    }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .item--active {
+        color: #B0B8FF; /* Brighter blue for contrast */
+        background: -webkit-linear-gradient(hsl(245, 43%, 61%), hsl(334, 79%, 77%)); /* Darker tones in gradient */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        /* Fallback for browsers without background-clip support */
+        @supports not (-webkit-background-clip: text) {
+            background: none;
+            color: #B0B8FF;
+        }
+    }
 }
 </style>

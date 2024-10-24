@@ -18,6 +18,12 @@ body {
 	font-size: 1rem;
 }
 
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: rgb(3 7 18);
+    }
+}
+
 p {
 	margin: 1rem 0;
 	line-height: 1.5;
@@ -59,16 +65,16 @@ $textIncrementSize: $textMaxSize;
 }
 
 .font-secondary {
-	font-family: $primaryFont !important;
+	font-family: $primaryFont;
 }
 
 // Set colors
 @each $colorLabel,$colorValue in $colors {
 	.bg-#{$colorLabel} {
-		background-color: $colorValue!important;
+		background-color: $colorValue;
 	}
 	.text-#{$colorLabel} {
-		color: $colorValue!important;
+		color: $colorValue;
 	}
 	.btn-#{$colorLabel} {
 		background: $colorValue;

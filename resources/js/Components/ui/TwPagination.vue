@@ -82,4 +82,23 @@ const visit = (url: string) => {
     font-weight: bold;
     display: flex; justify-content: center; align-items: center;
 }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .tw-pagination--disabled {
+        color: #555; /* Darker disabled color */
+    }
+
+    .tw-pagination {
+        color: #ddd; /* Lighter text for pagination */
+        &:focus {
+            color: hsl(42, 100%, 60%); /* Slightly brighter focus color */
+        }
+    }
+
+    .active-page {
+        background: darken(#ffd166, 40%); /* Darken the active page background for dark mode */
+        color: #ffffff; /* Light text color for contrast */
+    }
+}
 </style>

@@ -13,9 +13,9 @@ import Layout from '../Layouts/Layout.vue';
                     <!-- Image by natanaelginting on Freepik -->
                 </tw-author-credit>
             <div class="min-h-dvh">
-                <div class="max-w-2xl rounded-b-lg mx-auto px-12 py-6 text-center bg-white/80">
+                <div class="max-w-2xl rounded-b-lg mx-auto px-12 py-6 text-center bg-white/80 text-gray-800">
                     <h1 class="text-3xl font-black uppercase lg:text-6xl">WORDCRAFT: english words and sentences</h1>
-                    <p class="py-6 text-lg max-w-xl mx-auto text-gray-800 xl:text-xl leading-8">
+                    <p class="py-6 text-lg max-w-xl mx-auto xl:text-xl leading-8">
                         Welcome to WordCraft, as you already know, words form the foundation of language.
                         WordCraft helps you discover new words and expressions,
                         explore definitions, synonyms, and antonyms, and even add your own contribution.

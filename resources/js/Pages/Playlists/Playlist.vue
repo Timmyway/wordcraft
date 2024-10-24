@@ -41,7 +41,7 @@ onMounted(() => {
         <div class="mb-4 flex gap-5 items-center flex-wrap lg:mb-6">
             <div class="flex items-center gap-4">
                 <Link
-                    class="btn btn-xs text-base bg-orange-300"
+                    class="btn btn-xs text-base bg-orange-300 dark:bg-orange-600"
                     :href="route('dashboard')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
@@ -54,7 +54,7 @@ onMounted(() => {
                     </h1>
                 </Link>
                 <Link
-                    class="btn btn-xs text-base bg-yellow-400 space-x-2"
+                    class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:bg-yellow-800"
                     :href="route('playlist.add')"
                 >
                     <i class="fas fa-plus-circle"></i>

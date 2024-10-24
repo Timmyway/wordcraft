@@ -70,7 +70,7 @@ const addNewTag = (e: any) => {
             <div class="lg:col-span-2 place-items-center">
                 <button
                     v-show="tag.selectedTags?.length > 0"
-                    class="btn btn--xs btn-icon w-8 h-8 lg:col-span-2"
+                    class="btn btn--xs btn-icon w-8 h-8 lg:col-span-2 dark:bg-black"
                     @click.prevent="applyTag(wordId)"
                 >
                     <i class="fas fa-plus"></i>

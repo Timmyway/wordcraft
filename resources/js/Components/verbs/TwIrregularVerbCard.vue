@@ -27,7 +27,7 @@ const content = ref('');
 
 <template>
     <div class="tw-irregular-verb py-2 my-2">
-        <div class="bg-white/90">
+        <div class="bg-white/90 dark:bg-gray-950">
             <div class="flex items-center gap-2">
                 <button
                     @click.prevent="searchDefinition(irregularVerb.verb)"
@@ -55,7 +55,7 @@ const content = ref('');
                 icon-collapse-class="fa-caret-right"
                 icon-expand-class="fa-caret-down"
                 trigger-layout-direction="x"
-                title-class="font-black capitalize mx-auto"
+                title-class="font-black capitalize mx-auto dark:text-white"
             >
                 <template #details>
                     <div class="overflow-x-auto">
@@ -108,5 +108,20 @@ const content = ref('');
 }
 .tw-irregular-verb__past-participle {
     background-color: hsl(0, 57%, 86%);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .tw-irregular-verb__base-form {
+        background-color: hsl(0, 0%, 20%); /* Darker neutral background */
+    }
+
+    .tw-irregular-verb__past-simple {
+        background-color: hsl(240, 57%, 30%); /* Darker blue tone for dark mode */
+    }
+
+    .tw-irregular-verb__past-participle {
+        background-color: hsl(0, 57%, 30%); /* Darker red tone for dark mode */
+    }
 }
 </style>

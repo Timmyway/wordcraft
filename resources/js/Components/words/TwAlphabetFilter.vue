@@ -17,7 +17,7 @@ const filter = (letter: string) => {
     <template v-for="letter in alphabet" :key="letter">
         <button
             class="btn neumorphic-button btn-xs text-xs rounded-lg px-2 py-1"
-            :class="[filterStore.filters.letter === letter ? 'bg-yellow-300' : 'bg-white']"
+            :class="[filterStore.filters.letter === letter ? 'bg-yellow-300 dark:bg-yellow-800' : '']"
             @click.prevent="filter(letter)"
         >{{ letter }}</button>
     </template>

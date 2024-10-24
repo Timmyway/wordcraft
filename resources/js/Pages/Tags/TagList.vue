@@ -9,6 +9,7 @@ import TwPagination from '@/Components/ui/TwPagination.vue'
 import TwDatatable from '@/Components/ui/TwDatatable.vue';
 import useFilterAndSort from '@/composable/useFilterAndSort';
 import useDeleteConfirm from '@/composable/useDeleteConfirm';
+import { useAppStore } from '@/store/appStore';
 
 interface Permission {
     tagModify: boolean;
@@ -49,6 +50,7 @@ const onBlur = () => {
         resetFilters();
     }
 }
+const appStore = useAppStore();
 </script>
 <template>
 <Layout>
@@ -56,7 +58,7 @@ const onBlur = () => {
         <div class="mb-4 flex gap-5 items-center flex-wrap lg:mb-6">
             <div class="flex items-center gap-4">
                 <Link
-                    class="btn btn-xs text-base bg-orange-300"
+                    class="btn btn-xs text-base bg-orange-300 dark:bg-orange-600"
                     :href="route('dashboard')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
@@ -70,7 +72,7 @@ const onBlur = () => {
                 </Link>
                 <Link
                     v-if="can.tagModify"
-                    class="btn btn-xs text-base bg-yellow-400 space-x-2"
+                    class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:bg-yellow-800"
                     :href="route('tag.add')"
                 >
                     <i class="fas fa-plus-circle"></i>
@@ -78,12 +80,12 @@ const onBlur = () => {
                 </Link>
             </div>
 
-            <div class="flex items-center w-full flex-wrap gap-2 border border-solid border-gray-300 px-4 py-1 rounded lg:gap-4">
+            <div class="flex items-center w-full flex-wrap gap-2 border border-solid border-gray-300 px-4 py-1 rounded lg:gap-4 dark:bg-gray-950">
                 <span class="font-bold">Options</span>
                 <!-- Search by Name -->
                 <input
                     type="text"
-                    class="border rounded p-2 max-w-xs"
+                    class="border rounded p-2 max-w-xs dark:text-gray-700"
                     placeholder="Filter by name"
                     v-model="filters.search"
                     @keyup.enter="startApplyingFilters()"
@@ -100,6 +102,7 @@ const onBlur = () => {
         </div>
         <div class="min-w-xs mx-auto px-1 py-2 lg:max-w-[90%] lg:px-4 lg:py-8">
             <tw-datatable
+                :dark="appStore.prefersDarkScheme"
                 class="scrollbar-thin"
                 :items="tags.data"
                 :columns="[

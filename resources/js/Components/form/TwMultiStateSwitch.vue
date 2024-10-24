@@ -1,6 +1,6 @@
 <template>
 <div
-    class="bg-slate-100 w-8 h-8 flex justify-center items-center rounded-full cursor-pointer"
+    class="bg-slate-100 w-8 h-8 flex justify-center items-center rounded-full cursor-pointer dark:bg-slate-800"
     @click.prevent="updateValue()"
 >
     <i :class="[items[pointerIndex].icon]"></i>

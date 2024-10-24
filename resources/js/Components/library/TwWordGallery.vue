@@ -98,8 +98,8 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :class="[isLocked(word) ? 'bg-gray-100' : 'bg-gradient-to-tr from-yellow-100 to-lime-300', wordStore.isSelected(word.id) ? 'tw-word--selected': '', 'hover:cursor-crosshair']"
-                :title-color="isLocked(word) ? '#777777' : '#111111'"
+                :class="[isLocked(word) ? 'bg-gray-100 dark:bg-gray-900' : 'bg-gradient-to-tr from-yellow-100 to-lime-300 dark:from-yellow-700 dark:to-lime-900', wordStore.isSelected(word.id) ? 'tw-word--selected': '', 'hover:cursor-crosshair']"
+                :title-color="isLocked(word) ? '#777777' : ''"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
                 @click.prevent="selectWord($event, word.id)"
@@ -114,7 +114,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                     <div class="space-y-2 w-full">
                         <div class="flex gap-4">
                             <div class="max-w-48 truncate">
-                                <span class="text-[0.7rem] text-gray-700 py-1">
+                                <span class="text-[0.7rem] text-gray-700 py-1 dark:text-white">
                                     Added by {{ word.user.name }} {{word.id}}
                                 </span>
                             </div>
@@ -196,7 +196,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                     </button>
                                 </template>
                                 <template #text="{ chipsItem }">
-                                    {{ chipsItem.name }}
+                                    <span class="text-black">{{ chipsItem.name }}</span>
                                 </template>
                                 <template #action-before="{ chipsItem }">
                                     <button
@@ -220,7 +220,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                     </div>
                 </template>
                 <template #content>
-                    <div class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center">
+                    <div class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center dark:text-gray-700">
                         <template v-if="word.about">
                             <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
                         </template>

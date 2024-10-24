@@ -97,10 +97,10 @@ refresh();
         </div>
     </tw-popup>
     <section class="p-4 tw-verb-list">
-        <div class="mb-4 flex gap-5 items-center flex-wrap bg-white px-2 py-2 rounded lg:mb-6">
+        <div class="mb-4 flex gap-5 items-center flex-wrap bg-white px-2 py-2 rounded lg:mb-6 dark:bg-gray-950">
             <div class="flex items-center gap-4">
                 <Link
-                    class="btn btn-xs text-base bg-orange-300"
+                    class="btn btn-xs text-base bg-orange-300 dark:bg-orange-600"
                     :href="route('dashboard')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
