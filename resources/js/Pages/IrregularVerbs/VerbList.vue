@@ -71,7 +71,7 @@ refresh();
 <Layout>
     <tw-popup
         :is-open="appStore.showModal"
-        class="bg-white"
+        class="bg-red-600 dark:bg-gray-800"
         max-width="32rem" height="80dvh"
         pos="top-right"
         transition-name="slide-right"
@@ -80,7 +80,7 @@ refresh();
     >
         <div v-for="foundVerb in verbStore.foundVerbs">
             <tw-collapse
-                class="bg-yellow-200"
+                class="bg-yellow-200 dark:bg-yellow-800"
                 :sections="['about']"
                 :title="foundVerb.word_or_sentence"
                 :is-open="{ about: false }"

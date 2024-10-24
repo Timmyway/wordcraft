@@ -57,3 +57,11 @@
         margin: 20px 0;
     }
 }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .tw-markdown-content {
+        background-color: #1E1E1E; /* Dark background */
+        color: #E0E0E0; /* Light text color for readability */
+    }
+}

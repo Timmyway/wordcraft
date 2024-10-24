@@ -105,7 +105,7 @@ const removeByIndex = (index: number) => {
         <div class="mb-4 flex gap-4 items-center lg:mb-6">
             <div class="flex items-center gap-4">
                 <Link
-                    class="btn btn-xs text-base bg-orange-300"
+                    class="btn btn-xs text-base bg-orange-300 dark:bg-orange-600"
                     :href="route('word.index')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
@@ -114,7 +114,7 @@ const removeByIndex = (index: number) => {
                 </h1>
             </div>
         </div>
-        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md">
+        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md dark:bg-gray-950">
             <form class="space-y-4 lg:space-y-8" @submit.prevent="handleSubmit">
                 <div class="p-1 mb-2">
                     <tw-text-input
@@ -203,7 +203,13 @@ const removeByIndex = (index: number) => {
     border: 1px solid #aaaaaa;
     border-radius: 4px;
     background-color: #fff;
-    color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+    .tw-form-control {
+        background-color: rgb(31 41 55);
+        border: 1px solid #dddddd;
+    }
 }
 
 @media (min-width: 768px) {

@@ -7,7 +7,6 @@ interface Props {
     pos?: PositionOptions;
     maxWidth?: string;
     title?: string;
-    bgColor?: string;
     contentClass?: string;
     transitionName?: string;
 }
@@ -20,7 +19,6 @@ const props = withDefaults(defineProps<Props>(), {
     height: '60%',
     pos: 'center',
     maxWidth: '50%',
-    bgColor: "#FFF",
     contentClass: '',
     transitionName: 'slide-up',
 });
@@ -60,7 +58,7 @@ const position = computed(() => {
     :class="['tw-popup', position]"
     :style="{ maxWidth, height }"
 >
-    <div class="sticky top-0 flex items-center justify-between px-4 py-2 bg-gray-100 z-20 shadow-sm">
+    <div class="sticky top-0 flex items-center justify-between px-4 py-2 bg-gray-100 z-20 shadow-sm dark:bg-gray-800">
         <h6 v-if="title" class="font-bold text-lg">{{ title }}</h6>
         <button
             class="group btn btn-icon btn-xs ml-auto mr-0 btn-icon--flat bg-gray-200 w-8 h-8 p-2 transition-all duration-400 hover:bg-red-600"
@@ -69,7 +67,7 @@ const position = computed(() => {
             <i class="fas fa-times text-gray-600 group-hover:text-white"></i>
         </button>
     </div>
-    <div :class="['tw-popup__content', contentClass]" :style="{ backgroundColor: bgColor }">
+    <div :class="['tw-popup__content', contentClass]">
         <slot></slot>
     </div>
 </div>

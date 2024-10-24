@@ -26,7 +26,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     label: '',
-    labelClass: 'font-bold text-gray-700',
+    labelClass: 'font-bold text-gray-700 dark:text-white',
     hasBorder: false,
     tooltipText: ''
 });
@@ -46,6 +46,15 @@ const updateValue = (e: any) => {
         border: 1px solid #ddd;
         border-radius: 6px;
         width: 100%;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .tw-textarea {
+        &__textarea {
+            border: 1px solid #ddd;
+            background-color: rgb(31 41 55);
+        }
     }
 }
 </style>

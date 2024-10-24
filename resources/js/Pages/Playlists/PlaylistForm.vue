@@ -64,7 +64,7 @@ const handleSubmit = async () => {
         <div class="mb-4 flex gap-4 items-center lg:mb-6">
             <div class="flex items-center gap-4">
                 <Link
-                    class="btn btn-xs text-base bg-orange-300"
+                    class="btn btn-xs text-base bg-orange-300 dark:bg-orange-600"
                     :href="route('playlist.index')">
                     <i class="fas fa-arrow-left"></i>
                 </Link>
@@ -73,7 +73,7 @@ const handleSubmit = async () => {
                 </h1>
             </div>
         </div>
-        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md">
+        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md dark:bg-gray-600">
             <form class="space-y-4 lg:space-y-8" @submit.prevent="handleSubmit">
                 <tw-text-input v-model="form.name" placeholder="Name of the playlist"></tw-text-input>
 

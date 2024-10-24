@@ -80,7 +80,7 @@ const handleSubmit = () => {
                 </h1>
             </div>
         </div>
-        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md">
+        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md dark:bg-gray-950">
             <form class="space-y-4 lg:space-y-8" @submit.prevent="handleSubmit">
                 <tw-textarea
                     v-if="(mode && mode === 'add')"
