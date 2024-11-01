@@ -26,12 +26,12 @@ class PlaylistPolicy
     public function update(User $user, Playlist $playlist)
     {
         LogHelper::debug('Debug playlist policy: ', [$user->id, $playlist->user_id]);
-        return $user->id === $playlist->user_id;
+        return (int) $user->id === (int) $playlist->user_id;
     }
 
     public function delete(User $user, Playlist $playlist)
     {
         LogHelper::debug('Debug playlist policy: ', [$user->id, $playlist->user_id]);
-        return $user->id === $playlist->user_id;
+        return (int) $user->id === (int) $playlist->user_id;
     }
 }
