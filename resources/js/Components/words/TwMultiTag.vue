@@ -15,9 +15,6 @@ const props = withDefaults(defineProps<Props>(), {
     isVisible: false,
 });
 
-console.log('====================> TAGS: ', props.tags);
-console.log('======================================> TEST');
-
 const { addTag, searchTags, tagSuggestions, getTagName } = useMultiTag(props.tags);
 const filterStore = useFilterStore();
 
@@ -38,7 +35,7 @@ const applyTag = (wId: number) => {
 }
 
 const addNewTag = (e: any) => {
-    console.log('=====> Add new tag: ', e.value)
+    console.log('-- 002 -> Add new tag: ', e.value)
 }
 </script>
 

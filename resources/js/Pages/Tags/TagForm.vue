@@ -51,7 +51,6 @@ const handleSubmit = () => {
         if (tagList.length > 0) {
             form.tags = [...tagList];
         }
-        console.log('======> F', form.tags)
         form.post(route('tag.store'), {
             onSuccess: () => {
                 console.log('Tags added successfully!');

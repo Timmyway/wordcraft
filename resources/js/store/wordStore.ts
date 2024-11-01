@@ -10,8 +10,8 @@ import useTagOperation from "@/composable/useTagOperation";
 export const useWordStore = defineStore('word', () => {
     // Sync the setting object with localStorage using useLocalStorage
     const setting = useLocalStorage('word-settings', {
-        listMode: 'normal', // Default value if nothing is in localStorage
-        irregularVerbListMode: 'normal',
+        listMode: 'popular', // Default value if nothing is in localStorage
+        irregularVerbListMode: 'popular',
         perPage: 100,
     });
 
@@ -55,7 +55,6 @@ export const useWordStore = defineStore('word', () => {
         wordIds.forEach(wId => {
             addToSelection(wId);
         });
-        console.log('=============> Selection: ', selection.value);
     }
 
     const hasSelection = computed(() => {

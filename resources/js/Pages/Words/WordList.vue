@@ -92,6 +92,12 @@ const addWordsToPlaylist = (wordsId: number[]) => {
     playlistStore.addWords(wordsId);
     wordStore.refresh();
 }
+
+const onFilterByWordChange = () => {
+    if (!filterStore.hasFilter) {
+        wordStore.refresh();
+    }
+}
 </script>
 <template>
 <Layout>
@@ -112,9 +118,14 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                     <i class="fas fa-home text-sm text-white"></i>
                 </button>
                 <tw-multi-state-switch
-                    :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
+                    :items="[{icon: 'fas fa-list', value: 'popular'}, {icon: 'fas fa-random', value: 'shuffle'}, {icon: 'fas fa-history', value: 'history'}]"
                     v-model="wordStore.setting.listMode"
                     @switch="wordStore.refresh"
+                    v-tooltip="`Popular: Shows the most popular words first.
+
+Shuffle: Randomizes the order of words.
+
+History: Displays the most recently added words first.`"
                 ></tw-multi-state-switch>
                 <Link
                     v-if="isAuth"
@@ -137,6 +148,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                     placeholder="Filter by word"
                     v-model="filterStore.filters.search"
                     @keyup.enter="filterStore.applyFilters()"
+                    @change.prevent="onFilterByWordChange"
                 >
                 <tw-multi-select
                     class="flex-1 w-fit"

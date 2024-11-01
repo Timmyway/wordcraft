@@ -13,7 +13,6 @@ export default function useDeleteConfirm(routeName: string, name='item') {
                 header: 'Supprimer',
                 icon: 'fas fa-exclamation-triangle',
                 accept: () => {
-                    console.log('========> Delete ', name, routeName);
                     router.delete(route(routeName, id), {preserveScroll: true});
                     resolve();
                 }
@@ -29,7 +28,6 @@ export default function useDeleteConfirm(routeName: string, name='item') {
                 header: 'Supprimer',
                 icon: 'fas fa-exclamation-triangle',
                 accept: () => {
-                    console.log('========> Delete ', name, routeName);
                     callback(id);
                     resolve();
                 }

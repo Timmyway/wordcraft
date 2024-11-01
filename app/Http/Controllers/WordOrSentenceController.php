@@ -25,7 +25,7 @@ class WordOrSentenceController extends Controller
         // Get filter parameters from the request
         $search = $request->post('search'); // For filtering by name
         $tagIds = $request->post('tags', []); // For filtering by tag
-        $listMode = $request->input('listMode', 'normal'); // New parameter to check if words should be shuffled
+        $listMode = $request->input('listMode', 'popular'); // New parameter to check if words should be shuffled
         $letter = $request->input('letter');
         $itemsPerPage = min($request->input('perPage', 25), 100);
 
@@ -49,11 +49,19 @@ class WordOrSentenceController extends Controller
             }, '=', count($tagIds)); // Ensure all selected tags are present
         }
 
-        // Shuffle words if requested
-        if ($listMode === 'shuffle') {
-            $query->inRandomOrder();
-        } else {
-            $query->orderBy('count', 'desc');
+        switch ($listMode) {
+            case 'shuffle':
+                $query->inRandomOrder();
+                break;
+            case 'popular':
+                $query->orderBy('count', 'desc');
+                break;
+            case 'history':
+                $query->orderBy('created_at', 'desc');
+                break;
+            default:
+                $query->orderBy('count', 'desc');
+                break;
         }
 
         // Paginate results

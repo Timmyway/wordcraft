@@ -43,7 +43,6 @@ export const usePlaylistStore = defineStore('playlist', () => {
                 words_or_sentences: wordsId,
             }
             const { data } = await playlistApi.addWords(selected.value, payload);
-            console.log('==========> Data', data);
         }
     }
 
