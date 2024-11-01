@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Helpers\General\LogHelper;
 use App\Models\Playlist;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -24,11 +25,13 @@ class PlaylistPolicy
 
     public function update(User $user, Playlist $playlist)
     {
+        LogHelper::debug('Debug playlist policy: ', [$user->id, $playlist->user_id]);
         return $user->id === $playlist->user_id;
     }
 
     public function delete(User $user, Playlist $playlist)
     {
+        LogHelper::debug('Debug playlist policy: ', [$user->id, $playlist->user_id]);
         return $user->id === $playlist->user_id;
     }
 }
