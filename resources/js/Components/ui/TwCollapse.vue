@@ -76,7 +76,7 @@ const setTriggerText = (section: string) => {
     <div class="tw-collapse" v-bind="$attrs">
         <div class="flex py-1 px-2">
             <h3
-                class="cursor-pointer"
+                class="cursor-pointer dark:text-white"
                 :class="[titleClass]"
                 :style="{ fontSize: titleSize }"
                 @click.stop.prevent="toggleCollapse(sections[0])"

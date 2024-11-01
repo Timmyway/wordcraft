@@ -18,7 +18,10 @@
         font-size: 1rem;
     }
     p {
-        padding: 10px 0;
+        padding: 10px 0.7px;
+    }
+    p, span {
+        font-size: 1.1rem;
     }
     strong {
         font-weight: bold;
@@ -28,7 +31,7 @@
         li {
             padding: 7px 0;
             margin-left: 7px;
-            list-style-type: square;
+            list-style-type: disc;
         }
     }
     blockquote {

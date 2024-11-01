@@ -100,7 +100,7 @@ const handleSubmit = () => {
                 <div class="flex my-4 gap-4">
                 <button
                     type="submit"
-                    class="btn bg-primary text-light flex items-center gap-4"
+                    class="btn bg-primary text-light flex items-center gap-4 dark:bg-yellow-400 dark:text-gray-700"
                     tabindex="6"
                     :disabled="isProcessing"
                 >

@@ -93,12 +93,12 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
         <div
             v-for="(word, i) in words.data"
             :key="`poster-${word.id}`"
-            :class="['tw-markdown-content tw-word-gallery-card', bgColor]"
+            :class="['tw-word-gallery-card', bgColor]"
         >
             <tw-collapse
                 :sections="['content', 'comment']"
                 :title="word.word_or_sentence"
-                :class="[isLocked(word) ? 'bg-gray-100 dark:bg-gray-900' : 'bg-gradient-to-tr from-yellow-100 to-lime-300 dark:from-yellow-700 dark:to-lime-900', wordStore.isSelected(word.id) ? 'tw-word--selected': '', 'hover:cursor-crosshair']"
+                :class="[isLocked(word) ? 'bg-gray-100 dark:bg-gray-900' : 'bg-gradient-to-tr from-yellow-100 to-lime-300 dark:from-pink-700 dark:to-rose-900', wordStore.isSelected(word.id) ? 'tw-word--selected': '', 'hover:cursor-crosshair']"
                 :title-color="isLocked(word) ? '#777777' : ''"
                 :is-open="{ content: false, comment: false }"
                 :view-section="{ content: true, comment: word.comments.length > 0 }"
@@ -131,7 +131,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                             <div class="flex items-center gap-2 border border-solid border-gray-200 px-2 py-1 rounded">
                                 <Link
                                     v-if="isAuth"
-                                    class="btn btn-icon--xs btn-icon--flat bg-yellow-400 dark:bg-yellow-800"
+                                    class="btn btn-icon--xs btn-icon--flat bg-yellow-400 dark:text-gray-700"
                                     :href="route('word.detail', { word: word.id, mode: 'edit' })">
                                         <i class="fas fa-edit"></i>
                                 </Link>
@@ -188,7 +188,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                 <template #head>
                                     <button
                                         v-if="canTagWord(word.user.id)"
-                                        class="btn bg-red-300 flex items-center gap-1 shadow-none py-0 px-2 rounded-lg"
+                                        class="btn bg-red-300 flex items-center gap-1 shadow-none py-1 px-2 rounded-lg text-gray-700"
                                         @click.prevent="applyRemoveTag(word.id)"
                                     >
                                         <span class="text-xs">clear</span>
@@ -220,7 +220,7 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                     </div>
                 </template>
                 <template #content>
-                    <div @click.stop class="flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center hover:cursor-default dark:text-gray-700">
+                    <div @click.stop class="tw-markdown-content flex flex-col bg-yellow-100 px-3 py-1 gap-4 items-center justify-center hover:cursor-default dark:text-gray-700">
                         <template v-if="word.about">
                             <p class="px-2 text-sm" v-html="toHtml(word.about ?? '')"></p>
                         </template>
@@ -245,7 +245,10 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 4px;
-    padding: 20px;
+    padding: 3px;
+    @media (min-width: 768px) {
+        padding: 20px;
+    }
     &__badge {
         position: absolute;
         top: 0; right: 3px;
@@ -272,5 +275,12 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
     transition: border .1s;
     border: 2px solid rgb(253, 166, 4);
     background-color: hsl(39, 100%, 94%);
+}
+
+@media (prefers-color-scheme: dark) {
+    .tw-word--selected {
+        border: 2px solid rgb(253, 166, 4);
+        background-color: hsl(276, 100%, 15%);
+    }
 }
 </style>

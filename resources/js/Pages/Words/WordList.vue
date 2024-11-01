@@ -95,7 +95,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
 </script>
 <template>
 <Layout>
-    <section class="p-4 bg-cover word-list bg-primary bg-blend-multiply">
+    <section class="bg-cover word-list bg-primary bg-blend-multiply lg:p-4">
         <div
             class="sticky top-0 bg-primary z-20 mb-2 flex py-2 px-2 rounded gap-5 items-center flex-wrap"
             style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
@@ -109,7 +109,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
             </div>
             <div class="flex items-center gap-4 justify-center">
                 <button @click.prevent="wordStore.refresh">
-                    <i class="fas fa-home text-sm"></i>
+                    <i class="fas fa-home text-sm text-white"></i>
                 </button>
                 <tw-multi-state-switch
                     :items="[{icon: 'fas fa-list', value: 'normal'}, {icon: 'fas fa-random', value: 'shuffle'}]"
@@ -118,15 +118,18 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                 ></tw-multi-state-switch>
                 <Link
                     v-if="isAuth"
-                    class="btn btn-xs text-base py-1 bg-yellow-400 space-x-2 dark:bg-yellow-800"
+                    class="btn btn-xs text-base py-1 bg-yellow-400 space-x-2 dark:text-gray-700"
                     :href="route('word.add')"
                 >
                     <i class="fas fa-plus-circle"></i>
                     <span>Add</span>
                 </Link>
+                <button class="btn btn-xs items-center justify-center w-8 h-8 text-white" @click.prevent="filterStore.toogleView">
+                    <i :class="filterStore.visibilityIcon"></i>
+                </button>
             </div>
 
-            <div v-if="isAuth" class="flex items-center flex-wrap flex-1 gap-4 border border-solid border-gray-400 px-2 py-1 rounded">
+            <div v-show="isAuth && filterStore.isVisible" class="flex items-center w-full flex-wrap flex-1 gap-4 border border-solid border-gray-400 px-2 py-1 rounded">
                 <!-- Search by word -->
                 <input
                     type="text"
@@ -155,7 +158,7 @@ const addWordsToPlaylist = (wordsId: number[]) => {
                     </button>
                     <button
                         v-show="filterStore.hasFilter"
-                        class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:bg-yellow-800"
+                        class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:text-gray-700"
                         @click.prevent="filterStore.applyFilters()"
                     >
                         <span>Filter</span>

@@ -73,9 +73,13 @@ const handleSubmit = async () => {
                 </h1>
             </div>
         </div>
-        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md dark:bg-gray-600">
+        <div class="max-w-7xl min-w-xs mx-auto overflow-y-auto h-[80dvh] px-4 py-8 bg-white shadow-lg rounded-md dark:bg-gray-800">
             <form class="space-y-4 lg:space-y-8" @submit.prevent="handleSubmit">
-                <tw-text-input v-model="form.name" placeholder="Name of the playlist"></tw-text-input>
+                <tw-text-input
+                    class="dark:bg-gray-950"
+                    v-model="form.name"
+                    placeholder="Name of the playlist"
+                ></tw-text-input>
 
                 <!--<tw-multi-select
                     class="flex-1"
@@ -88,7 +92,7 @@ const handleSubmit = async () => {
                 <div class="flex my-4 gap-4">
                 <button
                     type="submit"
-                    class="btn bg-primary text-light flex items-center gap-4"
+                    class="btn bg-primary text-light flex items-center gap-4 dark:bg-yellow-400 dark:text-gray-700"
                     :disabled="isProcessing"
                 >
                     <i class="fa fa-plus"></i>

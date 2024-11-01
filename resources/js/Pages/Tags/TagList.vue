@@ -72,7 +72,7 @@ const appStore = useAppStore();
                 </Link>
                 <Link
                     v-if="can.tagModify"
-                    class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:bg-yellow-800"
+                    class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:text-gray-700"
                     :href="route('tag.add')"
                 >
                     <i class="fas fa-plus-circle"></i>

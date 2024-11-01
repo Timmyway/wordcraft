@@ -80,7 +80,7 @@ refresh();
     >
         <div v-for="foundVerb in verbStore.foundVerbs">
             <tw-collapse
-                class="bg-yellow-200 dark:bg-yellow-800"
+                class="bg-pink-800 dark:text-gray-700"
                 :sections="['about']"
                 :title="foundVerb.word_or_sentence"
                 :is-open="{ about: false }"

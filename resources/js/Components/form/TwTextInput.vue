@@ -10,7 +10,7 @@
         @keydown.prevent.enter=""
         @input="updateValue"
     >
-    <div class="bg-gray-200 h-full p-1 rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg hover:bg-red-400">
+    <div class="bg-gray-400 h-full p-1 rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg hover:bg-red-400">
         <button @click.prevent="$emit('update:modelValue', '')">
             <i class="fas fa-times opacity-50 hover:opacity-100"></i>
         </button>

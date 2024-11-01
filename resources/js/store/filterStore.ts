@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { router } from "@inertiajs/vue3";
 import { TagModel } from "@/types/models/models.types";
+import { useVisibility } from "@/composable/useVisibility";
 
 export const useFilterStore = defineStore('filter', () => {
     const filters = ref<{ search: string, tags: TagModel[], letter: string }>({
@@ -9,6 +10,8 @@ export const useFilterStore = defineStore('filter', () => {
         tags: [],
         letter: '',
     });
+
+    const { isVisible, visibilityIcon, toogleView } = useVisibility(true);
 
     const applyFilters = (urlOrRouteName = 'word.filter') => {
         const payload = {
@@ -56,5 +59,5 @@ export const useFilterStore = defineStore('filter', () => {
         applyFilters();
     }
 
-    return { filters, hasFilter, applyFilters, resetFilters, filterByLetter }
+    return { filters, hasFilter, isVisible, visibilityIcon, applyFilters, resetFilters, filterByLetter, toogleView }
 });

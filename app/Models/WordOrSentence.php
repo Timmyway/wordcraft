@@ -10,6 +10,9 @@ class WordOrSentence extends Model
     use HasFactory;
 
     protected $table = 'word_or_sentences';
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
 
     protected $fillable = [
         'word_or_sentence',
