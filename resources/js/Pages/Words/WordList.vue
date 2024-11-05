@@ -61,7 +61,6 @@ const onChangePage = (url: string) => {
 }
 
 const handleOutsideClick = () => {
-    console.log('====> CLicked outside');
     wordStore.clearSelection();
 }
 

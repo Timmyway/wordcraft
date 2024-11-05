@@ -1,3 +1,4 @@
+import { useWordStore } from "@/store/wordStore";
 import { usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 
@@ -9,11 +10,16 @@ interface MwRoute {
 }
 
 export default function useMwRoutes() {
+    const wordStore = useWordStore();
+    const wordListOptions = {
+        listMode: wordStore.setting.listMode,
+        perPage: wordStore.setting.perPage,
+    }
     const items = ref<MwRoute[]>([
         {
             label: 'Words',
             icon: 'fa fa-book',
-            urls: [route('word.index'), route('word.add')],
+            urls: [route('word.index', wordListOptions), route('word.add')],
             private: true
         },
         {

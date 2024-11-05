@@ -49,6 +49,7 @@ class WordOrSentenceController extends Controller
             }, '=', count($tagIds)); // Ensure all selected tags are present
         }
 
+        // dd($listMode);
         switch ($listMode) {
             case 'shuffle':
                 $query->inRandomOrder();
