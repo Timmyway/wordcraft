@@ -17,6 +17,7 @@ import { ListMode } from '@/types/words/word.types';
 import TwSelect from '@/Components/ui/TwSelect.vue';
 import TwChips from '@/Components/ui/TwChips.vue';
 import { usePlaylistStore } from '@/store/playlistStore';
+import { useWordTagsStore } from '@/store/useWordTagsStore';
 
 const props = defineProps<{
     words: PaginatedWords,
@@ -32,6 +33,7 @@ const isAuth = computed(() => {
 const notifStore = useNotifStore();
 const filterStore = useFilterStore();
 const wordStore = useWordStore();
+const wordTagsStore = useWordTagsStore();
 
 const listMode = computed<ListMode>((): ListMode => {
     // Access the query param using this.$page.props
@@ -51,7 +53,7 @@ onMounted(() => {
 
 const onChangePage = (url: string) => {
     if (filterStore.hasFilter) {
-        filterStore.applyFilters(url);
+        handleApplyFilter(url);
     } else {
         router.get(url, {
             listMode: wordStore.setting.listMode,
@@ -93,9 +95,24 @@ const addWordsToPlaylist = (wordsId: number[]) => {
 }
 
 const onFilterByWordChange = () => {
+    console.log('=============> FBWC')
     if (!filterStore.hasFilter) {
         wordStore.refresh();
     }
+}
+
+const handleApplyFilter = (url = 'word.filter') => {
+    filterStore.applyFilters(url);
+    setTimeout(() => {
+        handleSyncWordTags();
+    }, 2000);
+}
+
+const handleSyncWordTags = () => {
+    props.words.data.forEach(w => {
+        console.log('==================> sync tags', w)
+        wordTagsStore.initTagState(w.id, w.tags);
+    });
 }
 </script>
 <template>
@@ -146,7 +163,7 @@ History: Displays the most recently added words first.`"
                     class="border rounded p-2 max-w-xs dark:bg-gray-950"
                     placeholder="Filter by word"
                     v-model="filterStore.filters.search"
-                    @keyup.enter="filterStore.applyFilters()"
+                    @keyup.enter="handleApplyFilter()"
                     @change.prevent="onFilterByWordChange"
                 >
                 <tw-multi-select
@@ -170,7 +187,7 @@ History: Displays the most recently added words first.`"
                     <button
                         v-show="filterStore.hasFilter"
                         class="btn btn-xs text-base bg-yellow-400 space-x-2 dark:text-gray-700"
-                        @click.prevent="filterStore.applyFilters()"
+                        @click.prevent="handleApplyFilter()"
                     >
                         <span>Filter</span>
                     </button>
@@ -214,7 +231,6 @@ History: Displays the most recently added words first.`"
                             <span class="text-gray-700 dark:text-white">Playlist</span>
                         </label>
                         <tw-select
-
                             v-show="wordStore.hasSelection"
                             :items="playlistStore.playlists"
                             option-value="id"

@@ -31,6 +31,7 @@ export const useFilterStore = defineStore('filter', () => {
         }
 
         router.post(url, payload, { preserveState: true, preserveScroll: true });
+        console.log('=========> AFte apply')
     }
 
     const hasFilter = computed(() => {

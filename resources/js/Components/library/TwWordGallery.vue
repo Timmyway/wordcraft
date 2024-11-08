@@ -14,6 +14,7 @@ import { useWordStore } from '@/store/wordStore';
 import { computed, ref } from 'vue';
 import useMultiTag, { Tags } from '@/composable/useMultiTag';
 import { useLongPress } from '@/composable/mobile/useLongPress';
+import { useWordTagsStore } from '@/store/useWordTagsStore';
 
 interface Props {
     words: PaginatedWords;
@@ -28,13 +29,10 @@ const page = usePage();
 
 const audioStore = useAudioStore();
 const wordStore = useWordStore();
-
-const wordTags = ref<Tags>({});
-
-const { initTagState, getTagName, removeTag } = useMultiTag(wordTags.value);
+const wordTagsStore = useWordTagsStore();
 
 props.words.data.forEach(w => {
-    initTagState(w.id, w.tags);
+    wordTagsStore.initTagState(w.id, w.tags);
 });
 
 const { toHtml } = useMarkdownParser();
@@ -42,7 +40,7 @@ const { toHtml } = useMarkdownParser();
 const applyRemoveTag = (wordId: number, tagsId: number[] = []) => {
     const ok = confirm('Confirm that you do want remove the tag from this word.');
     if (ok) {
-        removeTag(wordId, tagsId);
+        wordTagsStore.removeTag(wordId, tagsId);
         router.visit(route('word.index'), {
             only: ['words'],
             preserveScroll: true
@@ -169,11 +167,11 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                     <i class="fas fa-image text-xs"></i>
                                 </button>
                             </div>
-                            <template v-if="canTagWord(word.user.id) && wordTags?.[getTagName(word.id)]">
+                            <template v-if="canTagWord(word.user.id) && wordTagsStore.getWordTag(word.id)">
                                 <tw-checkbox
                                     label="Tags"
                                     has-border
-                                    v-model="wordTags[getTagName(word.id)].isVisible"
+                                    v-model="wordTagsStore.getWordTag(word.id).isVisible"
                                 ></tw-checkbox>
                             </template>
                         </div>
@@ -211,8 +209,8 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                         </div>
                         <div @click.stop>
                             <tw-multi-tag
-                                :is-visible="wordTags[getTagName(word.id)]?.isVisible"
-                                :tags="wordTags"
+                                :is-visible="wordTagsStore.getWordTag(word.id)?.isVisible"
+                                :tags="wordTagsStore.wordTags"
                                 :wordId="word.id"
                                 @add-tag="addTag"
                             ></tw-multi-tag>
