@@ -5,6 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TwGoogleButton from '@/Components/form/TwGoogleButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps<{
@@ -104,6 +105,16 @@ const submit = () => {
                 >
                     Don't have an account? Create one here easily.
                 </Link>
+            </div>
+
+            <div class="mx-auto" style="max-width: 80%;">
+                <div class="text-center mt-6 mb-4">
+                    <p class="py-2 text-sm text-gray-700">OR</p>
+                    <hr>
+                </div>
+                <div class="flex justify-center items-center gap-2">
+                    <tw-google-button class="text-black" :auth-url="$route('google.auth')"></tw-google-button>
+                </div>
             </div>
         </form>
     </GuestLayout>

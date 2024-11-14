@@ -21,7 +21,7 @@ class PlaylistController extends Controller
         $itemsPerPage = 100;
 
         // Build the query
-        $playlists = Playlist::orderBy('id', 'desc')
+        $playlists = Playlist::with('user')->orderBy('id', 'desc')
             ->paginate($itemsPerPage);
 
         // Pass filter parameters to the view

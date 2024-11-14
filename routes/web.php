@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\IrregularVerbController;
 use App\Http\Controllers\MindwallController;
@@ -71,5 +72,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('help', [HelpController::class, 'index'])->name('help');
 });
+
+Route::get('auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('google.auth');
+Route::get('auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
 require __DIR__.'/auth.php';

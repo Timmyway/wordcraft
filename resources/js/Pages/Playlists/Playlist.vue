@@ -67,11 +67,15 @@ onMounted(() => {
                 class="scrollbar-thin"
                 :items="playlists.data"
                 :columns="[
-                    { id: 1, name: 'id', label: 'ID', type: 'string', width: 'auto' },
+                    { id: 1, name: 'id', label: 'ID', type: 'string', width: '100px' },
                     { id: 2, name: 'name', label: 'Name', type: 'string' },
-                    { id: 3, name: 'action', label: 'action', type: 'custom', width: '120px' }
+                    { id: 3, name: 'user', label: 'Contributor', type: 'custom' },
+                    { id: 4, name: 'action', label: 'action', type: 'custom', width: '120px' }
                 ]"
             >
+                <template #user="defaultProps">
+                    <span>{{ defaultProps.item.user?.name }}</span>
+                </template>
                 <template #action="defaultProps">
                     <div class="flex items-center justify-around gap-4">
                         <Link
