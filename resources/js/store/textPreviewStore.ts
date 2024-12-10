@@ -7,6 +7,7 @@ export const useTextPreviewStore = defineStore('textPreview', () => {
     const isPreviewMode = ref<boolean>(false)
 
     const preview = (mdString: string) => {
+        if (mdString === '') return;
         isPreviewMode.value = true;
         mdToHtml(mdString);
     }

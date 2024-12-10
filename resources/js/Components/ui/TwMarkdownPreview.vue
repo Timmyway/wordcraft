@@ -40,6 +40,7 @@ const textPreviewStore = useTextPreviewStore();
     z-index: 999;
 }
 .markdown-preview-overlay__content {
+    scrollbar-width: thin;
     background-color: white;
     padding: 15px 40px;
     max-width: 960px;

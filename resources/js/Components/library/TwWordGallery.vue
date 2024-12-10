@@ -12,9 +12,9 @@ import { openGoogleSearch } from '@/helpers/utils';
 import { isLocked } from '@/helpers/wordcraftHelper';
 import { useWordStore } from '@/store/wordStore';
 import { computed, ref } from 'vue';
-import useMultiTag, { Tags } from '@/composable/useMultiTag';
 import { useLongPress } from '@/composable/mobile/useLongPress';
 import { useWordTagsStore } from '@/store/useWordTagsStore';
+import { useTextPreviewStore } from '@/store/textPreviewStore';
 
 interface Props {
     words: PaginatedWords;
@@ -30,6 +30,7 @@ const page = usePage();
 const audioStore = useAudioStore();
 const wordStore = useWordStore();
 const wordTagsStore = useWordTagsStore();
+const textPreviewStore = useTextPreviewStore();
 
 props.words.data.forEach(w => {
     wordTagsStore.initTagState(w.id, w.tags);
@@ -160,6 +161,13 @@ const { handleTouchStart, handleTouchEnd, handleTouchMove } = useLongPress<numbe
                                     <i class="fas fa-bullhorn text-pink-700 text-xs"></i>
                                 </button>
                                 -->
+                                <button
+                                    v-if="word.about"
+                                    @click.prevent="textPreviewStore.preview(word.about ?? '')"
+                                    class="btn btn-icon--xs btn-icon--flat btn-icon p-3"
+                                >
+                                    <i class="fas fa-eye text-xs"></i>
+                                </button>
                                 <button
                                     @click.prevent="openGoogleSearch(word.word_or_sentence)"
                                     class="btn btn-icon--xs btn-icon--flat btn-icon p-3"

@@ -18,6 +18,7 @@ import TwSelect from '@/Components/ui/TwSelect.vue';
 import TwChips from '@/Components/ui/TwChips.vue';
 import { usePlaylistStore } from '@/store/playlistStore';
 import { useWordTagsStore } from '@/store/useWordTagsStore';
+import TwMarkdownPreview from '@/Components/ui/TwMarkdownPreview.vue';
 
 const props = defineProps<{
     words: PaginatedWords,
@@ -117,6 +118,7 @@ const handleSyncWordTags = () => {
 </script>
 <template>
 <Layout>
+    <tw-markdown-preview></tw-markdown-preview>
     <section class="bg-cover word-list bg-primary bg-blend-multiply lg:p-4">
         <div
             class="sticky top-0 bg-primary z-20 mb-2 flex py-2 px-2 rounded gap-5 items-center flex-wrap"
