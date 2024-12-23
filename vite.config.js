@@ -9,7 +9,11 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: 'resources/js/app.ts',
+            input: [
+                'resources/js/app.ts',
+                'resources/sass/appBlog.scss',
+                'resources/js/blog/appBlog.ts',
+            ],
             refresh: true,
         }),
         vue({

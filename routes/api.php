@@ -7,7 +7,6 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ImageBankController;
 use App\Http\Controllers\IrregularVerbController;
 use App\Http\Controllers\PlaylistController;
-use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

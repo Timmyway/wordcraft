@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromptController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThematicController;
+use App\Http\Controllers\WordCraftController;
 use App\Http\Controllers\WordOrSentenceController;
 use App\Models\IrregularVerb;
 use App\Models\Tag;
@@ -23,6 +24,14 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
     ]);
 })->name('home');
+
+Route::prefix('/blog')->name('blog.')->group(function() {
+    Route::get('/', [WordCraftController::class, 'blogIndex'])->name('index');
+    Route::get('/{postId}', [WordCraftController::class, 'blogShow'])->name('post');
+});
+
+Route::get('/a-propos', [WordCraftController::class, 'about'])->name('site.about');
+Route::get('/contact', [WordCraftController::class, 'contact'])->name('site.contact');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
