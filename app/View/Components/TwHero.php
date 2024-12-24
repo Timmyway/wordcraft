@@ -10,12 +10,18 @@ class TwHero extends Component
 {
     public $content;
     public $bgUrl;
+    public $bgSize;
+    public $height;
+    public $overlayOpacity;
     /**
      * Create a new component instance.
      */
-    public function __construct(string $bgUrl = '')
+    public function __construct(string $height = '480px', string $bgUrl = '', string $bgSize = 'cover', int $overlayOpacity = 50)
     {
         $this->bgUrl = $bgUrl;
+        $this->bgSize = $bgSize;
+        $this->height = $height;
+        $this->overlayOpacity = $overlayOpacity;
     }
 
     /**

@@ -1,16 +1,21 @@
 <div class="border-2 rounded-md border-slate-100 border-solid grid grid-cols-1 gap-4 lg:grid-cols-12">
-    <div class="lg:col-span-4">
-        <div>
-            <a href="/blog/{{ $post['id'] }}">
-                <img src="{{ $post['featured_image'] }}"
-                    class="w-full h-60 object-cover"
-                    alt={{ $post['featured_image_caption'] }}
-                >
-            </a>
+    @if (!empty($post['featured_image']))
+        <div class="lg:col-span-4">
+            <div>
+                <a href="/blog/{{ $post['id'] }}">
+                    <img src="{{ $post['featured_image'] }}"
+                        class="w-full h-60 object-cover"
+                        alt="{{ $post['featured_image_caption'] }}"
+                    >
+                </a>
+            </div>
         </div>
-    </div>
+    @else
+        <!-- If there's no image, adjust the grid to make content full width -->
+        <div class="lg:col-span-12"></div>
+    @endif
 
-    <div class="lg:col-span-8 p-4 lg:p-8">
+    <div class="{{ empty($post['featured_image']) ? 'lg:col-span-12' : 'lg:col-span-8' }} p-4 lg:p-8">
         <div>
             <div class="flex items-center gap-2 lg:gap-4">
                 {{-- <div>
@@ -36,10 +41,10 @@
         </div>
         <div class="pt-6">
             <a
-                class="py-4 px-4 font-bold text-xl rounded-full flex items-center gap-3 w-fit max-w-xs mr-0 ml-auto opacity-95 uppercase hover:opacity-100"
+                class="bg-indigo-900 text-white py-4 px-4 font-bold text-lg rounded-full flex items-center gap-2 w-fit max-w-xs mr-0 ml-auto opacity-95 hover:opacity-100"
                 href="/blog/{{ $post['slug'] }}"
             >
-                <span class="underline">{{ $ctaText }}</span>
+                <span>{{ $ctaText }}</span>
                 <i class="fas fa-chevron-right"></i>
             </a>
         </div>

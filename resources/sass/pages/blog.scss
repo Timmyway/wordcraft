@@ -1,24 +1,52 @@
 .tw-blog-detail {
     &__body {
+        color: #666666;
         h2 {
             font-weight: bold;
-            font-size: 1.4rem;
-            padding: 15px 0;
+            font-size: 2.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
             @include mq('lg') {
                 font-size: 1.7rem;
-                padding: 20px 0;
+                margin-top: 3rem;
+                margin-bottom: 1rem;
             }
         }
         h3 {
             font-weight: bold;
             font-size: 1.2rem;
-            padding: 15px 0;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
             line-height: 1.7;
             @include mq('lg') {
                 font-size: 1.4rem;
+                margin-top: 2rem;
+                margin-bottom: 1rem;
             }
         }
-        color: #666666;
+        h4 {
+            font-size: 1.4rem;
+            margin-top: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 900;
+            color: #3c0b8b;
+            @include mq('lg') {
+                margin-top: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+        }
+
+        h5 {
+            font-size: 1.2rem;
+            margin-top: 0.6rem;
+            margin-bottom: 0.6rem;
+            font-weight: 900;
+            color: #2E294E;
+            @include mq('lg') {
+                margin-top: 1rem;
+                margin-bottom: 0.6rem;
+            }
+        }
         strong {
             font-weight: bold;
         }
@@ -36,14 +64,14 @@
                 padding: 15px 0;
             }
         }
-        ul {
+        ul, ol {
             li {
                 font-size: 1.2rem;
-                padding: 10px 0;
+                padding: 5px 0;
                 text-align: justify;
                 list-style-type: square;
                 @include mq('lg') {
-                    padding: 15px 0;
+                    padding: 7px 0;
                 }
             }
         }
@@ -54,6 +82,14 @@
                 box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
                 border-radius: 6px;
             }
+        }
+        .tiptap__image {
+            // The blog image is too large, so we need to set a max-width
+            max-width: 32rem;
+            margin: 0 auto;
+            display: block;
+            margin: 1rem 0;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
         }
     }
 }

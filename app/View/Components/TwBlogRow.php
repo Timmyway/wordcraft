@@ -25,9 +25,10 @@ class TwBlogRow extends Component
     {
         // Liste des CTA optimisés
         $ctaOptions = [
-            "En savoir plus",
-            "Lire la suite",
-            "Explorez"
+            "Read more",
+            "Continue reading",
+            "Learn more",
+            "Read the full article",
         ];
 
         // Sélectionner un CTA aléatoire de la liste

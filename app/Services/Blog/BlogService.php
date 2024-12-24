@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Blog;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -20,10 +21,36 @@ class BlogService
      *
      * @return array|null
      */
-    public function getPosts(int $perPage = 10): ?Collection
+    public function getPosts(int $perPage = 10): ?LengthAwarePaginator
     {
         $response = $this->makeRequest('GET', "posts?per_page={$perPage}");
-        return collect($response);
+
+        // Ensure $response contains 'data', then filter and process it
+        $posts = collect($response['data'] ?? []);
+
+        // Filter out unpublished posts
+        $filteredPosts = $posts->filter(function ($post) {
+            return $post['published'] ?? false;
+        });
+
+        // Format 'published_at' date and other necessary fields
+        $formattedPosts = $filteredPosts->map(function ($post) {
+            $post['published_at'] = tim_to_pretty_date($post['published_at']);
+            return $post;
+        });
+
+        // Create a LengthAwarePaginator to maintain pagination structure
+        $paginatedPosts = new LengthAwarePaginator(
+            $formattedPosts, // Items for the current page
+            $response['total'], // Total number of items
+            $response['per_page'], // Items per page
+            $response['current_page'], // Current page number
+            [
+                'path' => LengthAwarePaginator::resolveCurrentPath() // URL for pagination links
+            ]
+        );
+
+        return $paginatedPosts;
     }
 
     /**
@@ -35,6 +62,13 @@ class BlogService
     public function getPost(string $postId): ?Collection
     {
         $response = $this->makeRequest('GET', "posts/{$postId}");
+        // Return only post if it is published
+        if (!$response['published']) {
+            return null;
+        }
+        // Format published date and all necessary fields
+        $response['published_at'] = tim_to_pretty_date($response['published_at']);
+
         return collect($response);
     }
 

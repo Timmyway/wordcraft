@@ -64,7 +64,7 @@
 
                 <ul
                     x-show="isDesktop || showMenu"
-                    class="pt-5 bg-yellow-200 font-bold fixed top-0 bottom-0 right-0 z-40
+                    class="pt-5 bg-white font-bold fixed top-0 bottom-0 right-0 z-40
                         w-full max-w-80 h-screen px-8 shadow-lg
                         lg:shadow-none lg:static lg:pt-0 lg:px-4 lg:py-1 lg:h-auto lg:w-full lg:max-w-full lg:flex lg:items-center lg:justify-center lg:gap-8"
                 >
