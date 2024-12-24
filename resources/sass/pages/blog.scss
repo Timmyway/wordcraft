@@ -85,11 +85,16 @@
         }
         .tiptap__image {
             // The blog image is too large, so we need to set a max-width
-            max-width: 32rem;
             margin: 0 auto;
             display: block;
             margin: 1rem 0;
             box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+            border-radius: 6px;
+            max-width: 32rem;
+            width: 100%;
+            @include mq('lg') {
+                max-width: 60%;
+            }
         }
     }
 }

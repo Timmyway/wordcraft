@@ -27,7 +27,7 @@
         @endforelse
     </section>
 
-    <section class="py-4 lg:py-8 mx-auto w-full max-w-4xl">
+    <section class="py-4 mx-auto w-full max-w-4xl lg:py-4">
         @if($posts->isEmpty())
             <p>No posts available.</p> <!-- Message when there are no posts -->
         @else

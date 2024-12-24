@@ -51,6 +51,11 @@ const { items, isActive } = useMwRoutes();
                 </template>
                 <template #end>
                     <div class="flex items-center gap-2">
+                        <a
+                            :href="route('blog.index')"
+                            class="btn bg-slate-900 px-3 py-0 text-white"
+                        >Blog
+                        </a>
                         <Link
                             v-if="!$page.props.auth.user"
                             :href="route('login')"
