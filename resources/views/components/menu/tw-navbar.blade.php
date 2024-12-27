@@ -64,16 +64,15 @@
 
                 <ul
                     x-show="isDesktop || showMenu"
-                    class="pt-5 bg-white font-bold fixed top-0 bottom-0 right-0 z-40
+                    class="pt-5 bg-white fixed top-0 bottom-0 right-0 z-40
                         w-full max-w-80 h-screen px-8 shadow-lg
-                        lg:shadow-none lg:static lg:pt-0 lg:px-4 lg:py-1 lg:h-auto lg:w-full lg:max-w-full lg:flex lg:items-center lg:justify-center lg:gap-8"
+                        lg:shadow-none lg:static lg:pt-0 lg:px-4 lg:py-1 lg:h-auto lg:max-h-12 lg:w-full lg:max-w-full lg:flex lg:items-center lg:justify-center lg:gap-8"
                 >
                     <a href="{{ route('home') }}" class="py-8 lg:ml-0 lg:mr-auto">
-                        <img class="max-w-16" src="{{ asset('images/wordcraft.svg') }}" alt="">
+                        <img class="max-w-32" src="{{ asset('images/wordcraft.svg') }}" alt="">
                     </a>
-                    <li class="text-dark py-4 md:py-2 @isActive('home')"><a href="{{ route('home') }}">Accueil</a></li>
-                    <li class="text-dark py-4 md:py-2 @isActive('site.about')"><a href="{{ route('site.about')}}">A propos</a></li>
-                    <li class="text-dark py-4 md:py-2 @isActive('site.contact')"><a href="{{ route('site.contact')}}">Contact</a></li>
+                    <li class="text-dark py-4 md:py-2"><a href="{{ route('home') }}">Wordcraft</a></li>
+                    {{-- <li class="text-dark py-4 md:py-2 @isActive('site.about')"><a href="{{ route('site.about')}}">A propos</a></li> --}}
                     <li class="text-dark py-4 md:py-2 @isActive('blog.index')"><a href="{{ route('blog.index')}}">Blog</a></li>
                 </ul>
                 <button

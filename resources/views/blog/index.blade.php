@@ -10,9 +10,11 @@
         overlay-opacity="0"
     >
         <x-slot:content>
-            <div>
+            <div class="bg-gradient-to-tr from-red-50 to-blue-100 bg-opacity-80 p-4 rounded-lg shadow-lg lg:p-8">
                 <h1 class="text-2xl font-bold lg:text-4xl lg:font-extrabold xl:text-5xl">
-                    Welcome to the <span class="bg-gradient-to-r from-indigo-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">Wordcraft</span> Blog
+                    <span> Blog </span>
+                    <i class="fas fa-flag-usa"></i>
+                    <span class="bg-gradient-to-r from-indigo-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">Wordcraft</span>
                 </h1>
             </div>
         </x-slot>
