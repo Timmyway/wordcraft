@@ -1,6 +1,10 @@
 .tw-blog-detail {
     &__body {
         color: #666666;
+        // Dark mode adjustments
+        @media (prefers-color-scheme: dark) {
+            color: #FFF; // Light text for dark mode
+        }
         h2 {
             font-weight: bold;
             font-size: 2.1rem;
@@ -33,6 +37,11 @@
             @include mq('lg') {
                 margin-top: 1.5rem;
                 margin-bottom: 0.8rem;
+            }
+
+            // Dark mode adjustments
+            @media (prefers-color-scheme: dark) {
+                color: hsl(263, 85%, 79%);
             }
         }
 

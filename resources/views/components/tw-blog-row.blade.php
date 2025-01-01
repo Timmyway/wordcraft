@@ -1,4 +1,4 @@
-<div class="border-2 rounded-md border-slate-100 border-solid grid grid-cols-1 gap-4 lg:grid-cols-12">
+<div class="border-2 rounded-md border-slate-100 border-solid grid grid-cols-1 gap-4 lg:grid-cols-12 dark:text-gray-200">
     @if (!empty($post['featured_image']))
         <div class="lg:col-span-4">
             <div>
@@ -23,7 +23,7 @@
                 </div> --}}
                 <div class="flex flex-col">
                     <span>{{ $post['author']['name'] }}</span>
-                    <span class="text-md text-gray-600">Publié le : {{ $post['published_at'] }}</span>
+                    <span class="text-md text-gray-600 dark:text-gray-400">Publié le : {{ $post['published_at'] }}</span>
                 </div>
             </div>
             <a href="/blog/{{ $post['slug'] }}">
