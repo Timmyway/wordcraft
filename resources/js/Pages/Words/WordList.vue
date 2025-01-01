@@ -96,7 +96,6 @@ const addWordsToPlaylist = (wordsId: number[]) => {
 }
 
 const onFilterByWordChange = () => {
-    console.log('=============> FBWC')
     if (!filterStore.hasFilter) {
         wordStore.refresh();
     }
@@ -111,7 +110,6 @@ const handleApplyFilter = (url = 'word.filter') => {
 
 const handleSyncWordTags = () => {
     props.words.data.forEach(w => {
-        console.log('==================> sync tags', w)
         wordTagsStore.initTagState(w.id, w.tags);
     });
 }

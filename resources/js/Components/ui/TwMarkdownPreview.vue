@@ -32,6 +32,12 @@ const textPreviewStore = useTextPreviewStore();
 </transition>
 </template>
 <style lang="scss">
+$dark-background: #2a2a2a;
+$light-background: white;
+$text-color-dark: white;
+$text-color-light: black;
+$blockquote-background-dark: #3a3a3a;
+
 .markdown-preview-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -97,6 +103,38 @@ const textPreviewStore = useTextPreviewStore();
         max-width: 70%;
         border-radius: 0 15px 0 15px;
         margin: 20px 0;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown-preview-overlay__content {
+        background-color: $dark-background;
+        color: $text-color-dark;
+
+        h1, h2, h3, h4, h5, h6 {
+            color: $text-color-dark;
+        }
+
+        blockquote {
+            background: $blockquote-background-dark;
+            color: $text-color-dark;
+        }
+
+        hr {
+            background: linear-gradient(to right, #ff7e5f, #F6AE2D);
+        }
+
+        strong {
+            color: $text-color-dark;
+        }
+
+        ul li {
+            color: $text-color-dark;
+        }
+
+        a {
+            color: #F6AE2D;
+        }
     }
 }
 </style>
