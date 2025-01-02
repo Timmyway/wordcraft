@@ -18,7 +18,8 @@ class WordCraftController extends Controller
     public function blogIndex(Request $request)
     {
         $page = $request->page ?? 1;
-        $posts = $this->blogService->getPosts(1, $page);
+        // Load 10 posts per page, starting from the specified page
+        $posts = $this->blogService->getPosts(10, $page);
 
         return view('blog.index', [
             'posts' => $posts,

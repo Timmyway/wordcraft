@@ -4,15 +4,15 @@
 		<!-- Metas -->
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="@yield('description', 'WordCraft is your ultimate English learning tool for building a rich vocabulary. Explore a growing list of words and sentences, categorized by tags for easy retrieval. Enhance your language skills with a dedicated page for irregular verbs. Perfect for learners aiming to improve their English proficiency through focused vocabulary training.')">
-		<meta property="og:title" content="@yield('title', 'Master English Vocabulary and Irregular Verbs | Learn Words & Sentences Easily')" />
+        <meta name="description" content="@yield('description', 'Dive into the Wordcraft Blog for practical tips, grammar guides, vocabulary building, and creative ways to master English effortlessly. Perfect for learners of all levels!')">
+		<meta property="og:title" content="@yield('title', 'Explore English Tips & Language Insights | Wordcraft Blog')" />
 		<meta property="og:url" content="" />
 		<meta property="og:image" content="@yield('featured_image', '')" />
-		<meta property="og:description" content="@yield('description', 'WordCraft is your ultimate English learning tool for building a rich vocabulary. Explore a growing list of words and sentences, categorized by tags for easy retrieval. Enhance your language skills with a dedicated page for irregular verbs. Perfect for learners aiming to improve their English proficiency through focused vocabulary training.')" />
+		<meta property="og:description" content="@yield('description', 'Dive into the Wordcraft Blog for practical tips, grammar guides, vocabulary building, and creative ways to master English effortlessly. Perfect for learners of all levels!')" />
 
-		<title>@yield('title', 'Grand jeu concours')</title>
+		<title>@yield('title', 'Explore English Tips & Language Insights | Wordcraft Blog')</title>
 
-		<link rel="icon" type="icon" sizes="32x32" href="{{ asset('images/favicon-48x48.png') }}">
+		<link rel="icon" type="image/x-icon" sizes="32x32" href="{{ asset('images/favicon-wordcraft.ico') }}">
         <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
 		<!-- Google Fonts-->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
