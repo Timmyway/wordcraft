@@ -21,9 +21,9 @@ class BlogService
      *
      * @return array|null
      */
-    public function getPosts(int $perPage = 10): ?LengthAwarePaginator
+    public function getPosts(int $perPage = 10, int $page = 1): ?LengthAwarePaginator
     {
-        $response = $this->makeRequest('GET', "posts?per_page={$perPage}");
+        $response = $this->makeRequest('GET', "posts?per_page={$perPage}&page={$page}");
 
         // Ensure $response contains 'data', then filter and process it
         $posts = collect($response['data'] ?? []);

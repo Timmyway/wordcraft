@@ -9,17 +9,24 @@ if (!function_exists('tim_to_pretty_date')) {
             return null;
         }
 
-        // Check if the date format contains a 'Z' or microseconds, and handle it accordingly
         try {
-            if (strpos($mysqlDateTime, 'Z') !== false) {
-                // Assuming the format is ISO 8601 with 'Z' (UTC)
-                $userFriendlyDate = Carbon::createFromFormat('Y-m-d\TH:i:s.u\Z', $mysqlDateTime)->isoFormat($format);
+            // Preprocess to handle localized format
+            $cleanedDateTime = str_replace(' à ', ' ', $mysqlDateTime);
+
+            // Attempt to parse as a standard format
+            if (preg_match('/^\d{2} \w+ \d{4} \d{2}:\d{2}$/', $cleanedDateTime)) {
+                // Expected format: '25 December 2024 06:24'
+                $userFriendlyDate = Carbon::createFromFormat('d F Y H:i', $cleanedDateTime)->isoFormat($format);
+            } elseif (strpos($cleanedDateTime, 'T') !== false) {
+                // Handle ISO 8601 format
+                $userFriendlyDate = Carbon::parse($cleanedDateTime)->isoFormat($format);
             } else {
-                // Handle other possible formats, like without microseconds or timezone
-                $userFriendlyDate = Carbon::createFromFormat('Y-m-d H:i:s', $mysqlDateTime)->isoFormat($format);
+                // Fallback: Let Carbon handle it
+                $userFriendlyDate = Carbon::parse($cleanedDateTime)->isoFormat($format);
             }
         } catch (\Exception $e) {
-            return "Invalid Date Format";
+            // Return error for debugging or logging
+            return 'Error parsing date: ' . $e->getMessage();
         }
 
         return $userFriendlyDate;

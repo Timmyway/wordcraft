@@ -4,17 +4,12 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\IrregularVerbController;
-use App\Http\Controllers\MindwallController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PromptController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\ThematicController;
 use App\Http\Controllers\WordCraftController;
 use App\Http\Controllers\WordOrSentenceController;
-use App\Models\IrregularVerb;
-use App\Models\Tag;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,6 +23,12 @@ Route::get('/', function () {
 Route::prefix('/blog')->name('blog.')->group(function() {
     Route::get('/', [WordCraftController::class, 'blogIndex'])->name('index');
     Route::get('/{postId}', [WordCraftController::class, 'blogShow'])->name('post');
+});
+
+Route::prefix('/legal')->name('legal.')->group(function() {
+    Route::get('/general-terms', [LegalController::class, 'generalTerm'])->name('general-terms');
+    Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
+    Route::get('/cookies', [LegalController::class, 'cookies'])->name('cookies');
 });
 
 Route::get('/a-propos', [WordCraftController::class, 'about'])->name('site.about');

@@ -10,8 +10,8 @@
         overlay-opacity="0"
     >
         <x-slot:content>
-            <div class="bg-gradient-to-tr from-red-50 to-blue-100 bg-opacity-80 p-4 rounded-lg shadow-lg lg:p-8">
-                <h1 class="text-2xl font-bold lg:text-4xl lg:font-extrabold xl:text-5xl">
+            <div class="bg-gradient-to-tr from-red-50 to-blue-100 bg-opacity-80 p-2 rounded-lg shadow-lg lg:p-4">
+                <h1 class="text-2xl font-bold lg:text-xl lg:font-extrabold xl:text-3xl">
                     <span> Blog </span>
                     <i class="fas fa-flag-usa"></i>
                     <span class="bg-gradient-to-r from-indigo-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">Wordcraft</span>
@@ -20,7 +20,7 @@
         </x-slot>
     </x-tw-hero>
 
-    <section class="space-y-6 mx-auto w-full max-w-4xl py-6 lg:py-12 xl:py-20">
+    <section class="space-y-6 mx-auto w-full max-w-4xl py-6 px-4 lg:py-12 xl:py-20">
         <h2 class="text-xl font-bold lg:text-2xl lg:font-extrabold xl:text-3xl">Last articles</h2>
         @forelse($posts->items() as $post)
             <x-tw-blog-row :post="$post"></x-tw-blog-row>

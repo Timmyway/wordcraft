@@ -15,9 +15,10 @@ class WordCraftController extends Controller
         $this->blogService = $blogService;
     }
 
-    public function blogIndex()
+    public function blogIndex(Request $request)
     {
-        $posts = $this->blogService->getPosts();
+        $page = $request->page ?? 1;
+        $posts = $this->blogService->getPosts(1, $page);
 
         return view('blog.index', [
             'posts' => $posts,

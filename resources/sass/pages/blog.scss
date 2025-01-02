@@ -1,63 +1,55 @@
+$headingColor: #3c0b8b;
+$darkHeadingColor: hsl(263, 85%, 79%);
+
+// Mixin for heading styles
+@mixin headingStyles($fontSize, $marginTop, $marginBottom, $fontWeight: bold, $color: $headingColor, $darkColor: $darkHeadingColor) {
+    font-size: $fontSize;
+    margin-top: $marginTop;
+    margin-bottom: $marginBottom;
+    font-weight: $fontWeight;
+    color: $color;
+
+    @include mq('lg') {
+        font-size: $fontSize * 1; // Adjust size on large screens
+        margin-top: $marginTop * 1.5; // Adjust margins for larger screens
+        margin-bottom: $marginBottom * 1;
+    }
+
+    // Dark mode adjustments
+    @media (prefers-color-scheme: dark) {
+        color: $darkColor; // Light text for dark mode
+    }
+}
+
 .tw-blog-detail {
     &__body {
-        color: #666666;
+        color: #333333;
         // Dark mode adjustments
         @media (prefers-color-scheme: dark) {
-            color: #FFF; // Light text for dark mode
+            color: #DDDDDD; // Light text for dark mode
         }
         h2 {
-            font-weight: bold;
-            font-size: 2.1rem;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-            @include mq('lg') {
-                font-size: 1.7rem;
-                margin-top: 3rem;
-                margin-bottom: 1rem;
-            }
+            @include headingStyles(2.1rem, 1.5rem, 2rem);
         }
         h3 {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            line-height: 1.7;
-            @include mq('lg') {
-                font-size: 1.4rem;
-                margin-top: 2rem;
-                margin-bottom: 1rem;
-            }
+            @include headingStyles(1.7rem, 1rem, 1rem, bold, #111111, #FFF);
         }
         h4 {
-            font-size: 1.4rem;
-            margin-top: 0.8rem;
-            margin-bottom: 0.8rem;
-            font-weight: 900;
-            color: #3c0b8b;
-            @include mq('lg') {
-                margin-top: 1.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            // Dark mode adjustments
-            @media (prefers-color-scheme: dark) {
-                color: hsl(263, 85%, 79%);
-            }
+            @include headingStyles(1.4rem, 1rem, 0.8rem, 900, #111111, #FFF);
         }
 
         h5 {
-            font-size: 1.2rem;
-            margin-top: 0.6rem;
-            margin-bottom: 0.6rem;
-            font-weight: 900;
-            color: #2E294E;
-            @include mq('lg') {
-                margin-top: 1rem;
-                margin-bottom: 0.6rem;
-            }
+            @include headingStyles(1.2rem, 1rem, 0.6rem, 900, #111111, #FFF);
+        }
+        h6 {
+            @include headingStyles(1rem, 1rem, 0.5rem, 900, #111111, #FFF);
         }
         strong {
             font-weight: bold;
+            color: hsl(34, 75%, 33%);
+            @media (prefers-color-scheme: dark) {
+                color: #ffd166;
+            }
         }
         a {
             color: #333333;
@@ -66,24 +58,74 @@
         }
         p {
             line-height: 2;
-            font-size: 1.2rem;
-            padding: 10px 0;
-            text-align: justify;
+            font-size: 1rem;
+            padding: 5px 0;
             @include mq('lg') {
-                padding: 15px 0;
+                padding: 7px 0;
             }
         }
         ul, ol {
             li {
                 font-size: 1.2rem;
                 padding: 5px 0;
-                text-align: justify;
-                list-style-type: square;
+                position: relative; // To position the custom bullet
+                // Remove default list-style
+                list-style: none;
+
+                p {
+                   padding: 0;
+                }
+
                 @include mq('lg') {
                     padding: 7px 0;
                 }
             }
         }
+        ul {
+            li {
+                // Custom Bullet using ::before
+                &::before {
+                    content: '➤'; // You can use Unicode symbols or custom text here
+                    color: $headingColor; // Custom color for the bullet
+                    font-size: 1rem; // Adjust size
+                    position: absolute;
+                    left: -2.5rem; // Adjust positioning
+                    top: .9rem; // Align with text
+                    @media (prefers-color-scheme: dark) {
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+
+        ol {
+            counter-reset: list-counter; // Reset the counter at the start of each ol
+
+            li {
+                counter-increment: list-counter; // Increment the counter for each list item
+
+                &::before {
+                    content: counter(list-counter) '. '; // Display the current counter value followed by a period
+                    color: $headingColor; // Custom color for the number
+                    font-size: 1rem; // Adjust size
+                    position: absolute;
+                    left: -2.5rem; // Adjust positioning
+                    top: .9rem; // Align with text
+                    @media (prefers-color-scheme: dark) {
+                        color: #ffd166;
+                    }
+                }
+            }
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ccc; /* Neutral gray */
+            margin: 1.5rem 0;
+            opacity: 0.8 ; /* Slightly muted */
+        }
+
         .inline_html {
             display: flex;
             justify-content: center;
