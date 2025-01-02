@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('base_api_url', $baseApiUrl);
 
         // Create a directive that check if a route is active on a blade template
-        Blade::directive('isActive', function ($routeName, $activeClass = 'navlink--active') {
-            return "<?php echo (request()->routeIs($routeName)) ? '$activeClass' : ''; ?>";
+        Blade::directive('isActive', function ($routeName, $activeClass = "'navlink--active'") {
+            return "<?php echo (request()->routeIs({$routeName} . '*')) ? {$activeClass} : ''; ?>";
         });
     }
 }

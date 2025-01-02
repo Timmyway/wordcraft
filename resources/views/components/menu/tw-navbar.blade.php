@@ -73,7 +73,9 @@
                     </a>
                     <li class="text-dark py-4 md:py-2"><a href="{{ route('home') }}">Wordcraft</a></li>
                     {{-- <li class="text-dark py-4 md:py-2 @isActive('site.about')"><a href="{{ route('site.about')}}">A propos</a></li> --}}
-                    <li class="text-dark py-4 md:py-2 @isActive('blog.index')"><a href="{{ route('blog.index')}}">Blog</a></li>
+                    <li class="text-dark py-4 md:py-2 @isActive('blog')">
+                        <a href="{{ route('blog.index')}}">Blog</a>
+                    </li>
                 </ul>
                 <button
                     x-show="isMobile"

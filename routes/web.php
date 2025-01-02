@@ -27,8 +27,8 @@ Route::prefix('/blog')->name('blog.')->group(function() {
 
 Route::prefix('/legal')->name('legal.')->group(function() {
     Route::get('/general-terms', [LegalController::class, 'generalTerm'])->name('general-terms');
-    Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
-    Route::get('/cookies', [LegalController::class, 'cookies'])->name('cookies');
+    Route::get('/privacy-policy', [LegalController::class, 'privacy'])->name('privacy-policy');
+    Route::get('/cookies-policy', [LegalController::class, 'cookies'])->name('cookies-policy');
 });
 
 Route::get('/a-propos', [WordCraftController::class, 'about'])->name('site.about');

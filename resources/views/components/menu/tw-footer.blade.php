@@ -39,10 +39,10 @@
                     <a href="{{ route('legal.general-terms') }}" class="font-bold text-xs">Terms and Conditions of Use</a>
                 </li>
                 <li class="ml-4 pl-4 border-solid border-l border-gray-500">
-                    <a href="{{ route('legal.cookies') }}" class="font-bold text-xs">Cookie Policy</a>
+                    <a href="{{ route('legal.cookies-policy') }}" class="font-bold text-xs">Cookie Policy</a>
                 </li>
                 <li class="ml-4 pl-4 border-solid border-l border-gray-500">
-                    <a href="{{ route('legal.privacy') }}" class="font-bold text-xs">Privacy Policy</a>
+                    <a href="{{ route('legal.privacy-policy') }}" class="font-bold text-xs">Privacy Policy</a>
                 </li>
                 {{-- <li class="ml-4 pl-4 border-solid border-l-2 border-gray-200"><a href="{{ route('legal.mention') }}" class="font-bold text-xs" target="blank">Mentions légales</a></li> --}}
             </ul>

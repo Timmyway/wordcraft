@@ -13,11 +13,11 @@ class LegalController extends Controller
 
     public function privacy()
     {
-        return view('legal.privacy');
+        return view('legal.privacy-policy');
     }
 
     public function cookies()
     {
-        return view('legal.cookies');
+        return view('legal.cookies-policy');
     }
 }
