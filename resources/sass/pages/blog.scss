@@ -32,21 +32,21 @@ $darkHeadingColor: hsl(263, 85%, 79%);
             @include headingStyles(2.1rem, 1.5rem, 2rem);
         }
         h3 {
-            @include headingStyles(1.7rem, 1rem, 1rem, bold, #111111, #FFF);
+            @include headingStyles(1.8rem, 1rem, 1rem, bold, #111111, #FFF);
         }
         h4 {
-            @include headingStyles(1.4rem, 1rem, 0.8rem, 900, #111111, #FFF);
+            @include headingStyles(1.6rem, 1rem, 0.8rem, 900, #111111, #FFF);
         }
 
         h5 {
-            @include headingStyles(1.2rem, 1rem, 0.6rem, 900, #111111, #FFF);
+            @include headingStyles(1.4rem, 1rem, 0.6rem, 900, #111111, #FFF);
         }
         h6 {
-            @include headingStyles(1rem, 1rem, 0.5rem, 900, #111111, #FFF);
+            @include headingStyles(1.2rem, 1rem, 0.5rem, 900, #111111, #FFF);
         }
         strong {
             font-weight: bold;
-            color: hsl(34, 75%, 33%);
+            color: hsl(271, 75%, 33%);
             @media (prefers-color-scheme: dark) {
                 color: #ffd166;
             }

@@ -1,4 +1,4 @@
-<div class="border-2 rounded-md border-slate-100 border-solid grid grid-cols-1 gap-4 lg:grid-cols-12 dark:text-gray-200">
+<div class="border-2 rounded-md border-slate-400 border-solid grid grid-cols-1 gap-4 lg:grid-cols-12 dark:text-gray-200">
     @if (!empty($post['featured_image']))
         <div class="lg:col-span-4">
             <div>
