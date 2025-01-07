@@ -1,12 +1,27 @@
 @extends('layouts.blog')
 
+@section('custom_style')
+    <style>
+        .tw-hero-bg {
+            background-position: left;
+            min-height: 600px;
+            background-image: url({{ asset('images/blog/banner-mobile.WebP') }});
+        }
+        @media (min-width: 768px) {
+            .tw-hero-bg {
+                background-position: top;
+                background-size: cover;
+                min-height: 600px;
+                background-image: url({{ asset('images/blog/banner.WebP') }});
+            }
+        }
+    </style>
+@endsection
+
 @section('content')
 <main>
     <x-tw-hero
-        class="bg-center"
-        bg-url="{{ asset('images/blog/banner.WebP') }}"
-        bg-size="cover"
-        height="36rem"
+        class="tw-hero-bg"
         overlay-opacity="0"
     >
         <x-slot:content>

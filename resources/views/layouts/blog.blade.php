@@ -23,6 +23,8 @@
 		@section('css_page')
 		@vite(['resources/sass/appBlog.scss', 'resources/js/blog/appBlog.ts'])
 		@show
+        @section('custom_style')
+        @show
 	</head>
 
 	<body>

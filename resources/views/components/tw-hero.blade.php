@@ -1,6 +1,10 @@
 <section
     {{ $attributes->merge(['class' => "relative py-4 lg:py-8 bg-no-repeat bg-{$bgSize} bg-gray-100"]) }}
-    style="background-image: url('{{ $bgUrl }}'); height: {{ $height }};"
+    @if (!empty($bgUrl))
+        style="background-image: url('{{ $bgUrl }}'); height: {{ $height }};"
+    @else
+        style="height: {{ $height }};"
+    @endif
 >
     @if ($bgUrl)
     <!-- Overlay -->
