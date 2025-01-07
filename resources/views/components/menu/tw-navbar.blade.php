@@ -61,25 +61,40 @@
     <div class="w-full flex justify-between flex-wrap">
         <div @click.outside="hideMenu" class="lg:w-full lg:max-w-128">
             <div>
-
+                {{-- Display in desktop mode by default, hide in mobile mode unless showMenu is true. --}}
                 <ul
                     x-show="isDesktop || showMenu"
                     class="pt-5 bg-white fixed top-0 bottom-0 right-0 z-40
                         w-full max-w-80 h-screen px-8 shadow-lg
-                        lg:shadow-none lg:static lg:pt-0 lg:px-4 lg:py-1 lg:h-auto lg:max-h-12 lg:w-full lg:max-w-full lg:flex lg:items-center lg:justify-center lg:gap-8"
+                        lg:flex lg:items-center lg:justify-center lg:gap-8
+                        lg:shadow-none lg:static lg:pt-0 lg:px-4 lg:py-1 lg:h-auto
+                        lg:max-h-12 lg:w-full lg:max-w-full"
                 >
-                    <a href="{{ route('home') }}" class="py-8 lg:ml-0 lg:mr-auto">
-                        <img class="max-w-32" src="{{ asset('images/wordcraft.svg') }}" alt="">
-                    </a>
-                    <li class="text-dark py-4 md:py-2"><a href="{{ route('home') }}">Wordcraft</a></li>
+                    <div class="mb-4 lg:mb-0 lg:ml-0 lg:mr-auto">
+                        <a href="{{ route('home') }}" class="py-2 lg:ml-0 lg:mr-auto">
+                            <img class="max-w-32" src="{{ asset('images/wordcraft.svg') }}" alt="">
+                        </a>
+                    </div>
+                    <li class="text-dark py-2"><a href="{{ route('home') }}">Wordcraft</a></li>
                     {{-- <li class="text-dark py-4 md:py-2 @isActive('site.about')"><a href="{{ route('site.about')}}">A propos</a></li> --}}
-                    <li class="text-dark py-4 md:py-2 @isActive('blog')">
+                    <li class="text-dark py-2 @isActive('blog')">
                         <a href="{{ route('blog.index')}}">Blog</a>
                     </li>
+                    @auth
+                    {{-- Display an avatar with the first letter of the user's name --}}
+                    <li class="py-2" x-show="!isExtraSmallMobile">
+                        <div class="flex items-center px-2">
+                            <div class="flex items-center justify-center w-8 h-8 bg-yellow-500 dark:bg-yellow-300 text-white dark:text-gray-800 rounded-full font-semibold text-sm">
+                                <!-- Displaying the first letter of the first name and last name -->
+                                <span>{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}{{ strtoupper(substr(explode(' ', Auth::user()->name)[1] ?? '', 0, 1)) }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    @endauth
                 </ul>
                 <button
                     x-show="isMobile"
-                    :class="['ds-btn ds-btn-circle top-5 right-1 z-50', showMenu ? 'fixed' : 'absolute']"
+                    :class="['w-8 h-8 rounded-full p-1 flex items-center justify-center cursor-pointer top-2 right-1 z-50', showMenu ? 'fixed' : 'absolute']"
                     @click="toogleMenu()"
                 >
                     <i x-show="showMenu" class="fas fa-times text-red-600 w-4"></i>
@@ -87,14 +102,5 @@
                 </button>
             </div>
         </div>
-        <ul :class="['flex justify-between gap-2.5 me-8 lg:me-0 z-50', showMenu ? 'fixed right-6' : 'static']">
-            @auth
-            <li class="py-4 md:py-8" x-show="!isExtraSmallMobile">
-                <div class="flex items-center px-2">
-                    <span class="text-yellow">{{ Auth::user()->name }}</span>
-                </div>
-            </li>
-            @endauth
-        </ul>
     </div>
 </nav>

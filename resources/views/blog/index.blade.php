@@ -7,7 +7,7 @@
             min-height: 600px;
             background-image: url({{ asset('images/blog/banner-mobile.WebP') }});
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
             .tw-hero-bg {
                 background-position: top;
                 background-size: cover;
@@ -25,7 +25,9 @@
         overlay-opacity="0"
     >
         <x-slot:content>
-            <div class="bg-gradient-to-tr from-red-50 to-blue-100 bg-opacity-80 p-2 rounded-lg shadow-lg lg:p-4">
+            <div class="hidden w-fit bg-gradient-to-tr from-red-50 to-blue-100 bg-opacity-80 px-4 py-2
+                lg:flex rounded-lg shadow-lg lg:px-4 lg:py-4"
+            >
                 <h1 class="text-2xl font-bold lg:text-xl lg:font-extrabold xl:text-3xl">
                     <span> Blog </span>
                     <i class="fas fa-flag-usa"></i>
