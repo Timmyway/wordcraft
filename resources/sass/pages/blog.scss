@@ -28,21 +28,22 @@ $darkHeadingColor: hsl(263, 85%, 79%);
         @media (prefers-color-scheme: dark) {
             color: #DDDDDD; // Light text for dark mode
         }
+        // fontSize, marginTop, marginBottom, fontWeight, color, darkColor
         h2 {
-            @include headingStyles(2.1rem, 1.5rem, 2rem);
+            @include headingStyles(2.1rem, 1.5rem, 2rem, 900);
         }
         h3 {
             @include headingStyles(1.8rem, 1rem, 1rem, bold, #111111, #FFF);
         }
         h4 {
-            @include headingStyles(1.6rem, 1rem, 0.8rem, 900, #111111, #FFF);
+            @include headingStyles(1.4rem, 1rem, 0.8rem, bold, #111111, #FFF);
         }
 
         h5 {
-            @include headingStyles(1.4rem, 1rem, 0.6rem, 900, #111111, #FFF);
+            @include headingStyles(1.2rem, 1rem, 0.6rem, bold, #111111, #FFF);
         }
         h6 {
-            @include headingStyles(1.2rem, 1rem, 0.5rem, 900, #111111, #FFF);
+            @include headingStyles(1.1rem, 1rem, 0.5rem, bold, #111111, #FFF);
         }
         strong {
             font-weight: bold;
@@ -67,7 +68,7 @@ $darkHeadingColor: hsl(263, 85%, 79%);
         ul, ol {
             li {
                 font-size: 1.2rem;
-                padding: 5px 0;
+                padding: 6px 0;
                 position: relative; // To position the custom bullet
                 // Remove default list-style
                 list-style: none;
@@ -77,22 +78,26 @@ $darkHeadingColor: hsl(263, 85%, 79%);
                 }
 
                 @include mq('lg') {
-                    padding: 7px 0;
+                    padding: 8px 0;
                 }
             }
         }
         ul {
             li {
+                display: flex; // Use flexbox for alignment
+                align-items: start; // Center items vertically
                 // Custom Bullet using ::before
                 &::before {
-                    content: '➤'; // You can use Unicode symbols or custom text here
+                    content: '○'; // You can use Unicode symbols or custom text here
                     color: $headingColor; // Custom color for the bullet
                     font-size: 1rem; // Adjust size
-                    position: absolute;
-                    left: -2.5rem; // Adjust positioning
-                    top: .9rem; // Align with text
+                    margin-top: 2px;
+                    margin-right: 0.7rem; // Space between bullet and text
                     @media (prefers-color-scheme: dark) {
                         color: #FFFFFF;
+                    }
+                    @include mq('lg') {
+                        margin-top: 3px;
                     }
                 }
             }
