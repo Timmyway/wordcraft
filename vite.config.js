@@ -28,5 +28,23 @@ export default defineConfig({
     ],
     resolve: {
         extensions: ['.js', '.ts', '.vue']
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                entryFileNames: '[name].[hash].js',
+                chunkFileNames: '[name].[hash].js',
+                assetFileNames: '[name].[hash].[ext]',
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        if (id.includes('primevue')) {
+                            return 'primevue';
+                        }
+                        // Create a separate chunk for node_modules (vendor)
+                        return 'vendor';
+                    }
+                }
+            }
+        }
     }
 });
