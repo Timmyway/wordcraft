@@ -24,13 +24,13 @@
                 </div> --}}
                 <div class="flex flex-col">
                     <span class="text-xs">{{ $post['author']['name'] }}</span>
-                    <span class="text-xs text-gray-600 dark:text-gray-400">Publié le : {{ $post['published_at'] }}</span>
+                    <span class="text-xs text-gray-600 dark:text-gray-400">Pusblished at : {{ $post['published_at'] }}</span>
                 </div>
             </div>
             <a href="/blog/{{ $post['slug'] }}">
-                <h5 class="font-bold py-4 text-3xl">{{ $post['title'] }}</h5>
+                <h5 class="font-bold py-4 leading-8 text-3xl">{{ $post['title'] }}</h5>
                 @if (!empty($post['excerpt']))
-                    <p class="text-gray-600 dark:text-gray-400">
+                    <p class="text-gray-600 leading-relaxed dark:text-gray-400">
                         {!! Str::limit(strip_tags($post['excerpt']), 200) !!}
                     </p>
                 @else
