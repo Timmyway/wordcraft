@@ -99,18 +99,25 @@ const { items, isActive } = useMwRoutes();
                 <h6 class="mb-2 text-lg text-dark font-bold">Connect with Me</h6>
                 <ul class="mx-auto flex gap-4 items-center max-w-xs">
                     <li>
-                        <a href="https://github.com/Timmyway" target="_blank">
+                        <a href="https://github.com/Timmyway" target="_blank" aria-label="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.linkedin.com/in/timmyway" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.linkedin.com/in/timmyway" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
                     </li>
-                    <!--
                     <li>
-                        <a href="" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.youtube.com/@Wordcraft-way?sub_confirmation=1" target="_blank" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </li>
-                    -->
+                    <li>
+                        <a href="https://www.tiktok.com/@wordcraftway" target="_blank" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </footer>

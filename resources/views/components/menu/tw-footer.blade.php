@@ -15,11 +15,15 @@
         <div class="text-center w-full py-2 flex flex-col gap-2 lg:text-left lg:flex-row lg:gap-6">
             <div class="flex flex-col gap-2">
                 <p class="text-lg text-dark font-bold">Suivez-nous</p>
-                <ul class="mx-auto flex justify-between flex-wrap max-w-xs gap-4 md:ml-0">
-                    {{-- <li><a href=""><img src="{{ asset('images/icons/facebook.svg')}}" alt="FB"></a></li> --}}
+                <ul class="mx-auto flex justify-between items-center flex-wrap max-w-xs gap-4 md:ml-0">
                     <li>
-                        <a href="https://www.youtube.com/channel/UC1fnj9QkuDp186pLPHPlKuA" target="_blank">
-                            <img src="{{ asset('images/icons/youtube.svg')}}" class="w-6 block" alt="Youtube">
+                        <a href="https://www.youtube.com/@Wordcraft-way?sub_confirmation=1" target="_blank" title="Subscribe to Wordcraft on YouTube" aria-label="Subscribe to Wordcraft YouTube channel">
+                            <img src="{{ asset('images/icons/youtube.svg') }}" class="w-8 block" alt="YouTube Logo - Wordcraft Channel">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.tiktok.com/@wordcraftway" target="_blank" title="Follow Wordcraft on TikTok" aria-label="Follow Wordcraft TikTok channel">
+                            <img src="{{ asset('images/icons/tik-tok.WebP') }}" class="w-8 block" alt="TikTok Logo - Wordcraft Channel">
                         </a>
                     </li>
                 </ul>
@@ -27,7 +31,11 @@
             <div class="flex flex-col">
                 <p class="text-lg text-dark font-bold">Site</p>
                 <ul class="mx-auto flex flex-wrap max-w-xs gap-4">
-                    <li class="mt-2"><a href="{{ route('home')}}">Wordcraft</a></li>
+                    <li class="mt-2">
+                        <a href="{{ route('home')}}">
+                            <img src="{{ asset('images/logo-wordcraft-square.WebP') }}" class="w-8 block" alt="Wordcraft Web site">
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
