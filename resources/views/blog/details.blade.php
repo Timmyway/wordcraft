@@ -1,7 +1,7 @@
 @extends('layouts.blog')
-@section('title', $post['title'])
-@section('description', $post['meta']['description'])
-@section('featured_image', $post['featured_image'])
+@section('title', $post['title'] ?? '')
+@section('description', $post['meta']['description'] ?? '')
+@section('featured_image', $post['featured_image'] ?? '')
 
 @section('content')
 <section class="relative">
@@ -42,6 +42,8 @@
             </div>
         </article>
     </div>
+
+    {{$post}}
 </section>
 
 <section class="mt-1">
